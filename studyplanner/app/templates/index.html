@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Planner</title>
+</head>
+<body>
+    <div>
+    {% if user_list %}
+    <ul>
+        {% for user in user_list %}
+        <li>{{ user.email }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No users are available.</p>
+    {% endif %}
+    </div>
+</body>
+</html>
