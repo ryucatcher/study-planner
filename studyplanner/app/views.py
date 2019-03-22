@@ -14,3 +14,6 @@ def index(request):
 
 def createTask(request):
     return render(request, 'createTask.html')
+
+def dashboard(request):
+    return HttpResponse("Hello")
