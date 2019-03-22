@@ -11,3 +11,6 @@ def index(request):
         'user_list': user_list
     }
     return render(request, 'index.html', context)
+
+def createTask(request):
+    return render(request, 'createTask.html')
