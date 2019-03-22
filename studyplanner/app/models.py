@@ -16,7 +16,7 @@ class SemesterStudyProfile(models.Model):
 
 class UserSemesterTable(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    semester = models.ForeignKey(SemesterStudyProfile, on_delete=models.CASCADE)
+    semester = models.ForeignKey(SemesterStudyProfile, on_delete=models.CASCADE, unique=True)
 
 class Module(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -39,7 +39,7 @@ class Assessment(models.Model):
 
 class ModuleAssessmentTable(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
-    assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
+    assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE, unique=True)
 
 class StudyTask(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -68,7 +68,7 @@ class Note(models.Model):
 
 class AssessmentTaskTable(models.Model):
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-    task = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
+    task = models.ForeignKey(StudyTask, on_delete=models.CASCADE, unique=True)
 
 class TaskRequiresTaskTable(models.Model):
     task = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
@@ -80,11 +80,11 @@ class TaskActivityTable(models.Model):
 
 class TaskNoteTable(models.Model):
     task = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, unique=True)
 
 class ActivityNoteTable(models.Model):
     activity = models.ForeignKey(StudyActivity, on_delete=models.CASCADE)
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, unique=True)
 
 class Milestone(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -96,4 +96,4 @@ class MilestoneRequiresTaskTable(models.Model):
 
 class AssessmentMilestoneTable(models.Model):
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-    milestone = models.ForeignKey(Milestone, on_delete=models.CASCADE)
+    milestone = models.ForeignKey(Milestone, on_delete=models.CASCADE, unique=True)
