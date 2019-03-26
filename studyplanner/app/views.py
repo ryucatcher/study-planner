@@ -5,6 +5,15 @@ from django.template import loader
 # Create your views here.
 from .models import User
 
+navigation_list = [
+    {'icon': 'img/icon_deadlines.png', 'title': 'Deadlines', 'url': '/deadlines'},
+    {'icon': 'img/icon_modules.png', 'title': 'Modules', 'url': '/modules'},
+    {'icon': 'img/icon_gantt.png', 'title': 'Gantt Chart', 'url': '/ganttchart'},
+    {'icon': 'img/icon_add.png', 'title': 'Add Task', 'url': '/addtask'},
+    {'icon': 'img/icon_logout.png', 'title': 'Logout', 'url': '/logout'}
+]
+
+
 def index(request):
     user_list = User.objects.all()
     context = {
@@ -12,5 +21,9 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+
 def dashboard(request):
-    return HttpResponse("Hello")
+    context = {
+        'navigation': navigation_list
+    }
+    return render(request, 'dashboardtest.html', context)
