@@ -24,6 +24,7 @@ def index(request):
 
 def dashboard(request):
     context = {
-        'navigation': navigation_list
+        'navigation': navigation_list,
+        'active': 'Deadlines'
     }
     return render(request, 'dashboardtest.html', context)

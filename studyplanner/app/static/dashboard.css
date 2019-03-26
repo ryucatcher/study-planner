@@ -1,9 +1,9 @@
 .dashboard-container{
     background: rgb(57, 61, 72);
     color: whitesmoke;
-    max-width: 512px;
-    min-width: 200px;
-    width: 15%;
+    max-width: 320px;
+    min-width: 250px;
+    width: 16%;
     height: 100vh;
 }
 
@@ -13,7 +13,9 @@
 
 .user-panel{
     background: rgba(120, 120, 120, 0.1);
-    text-align: center;
+    padding: 2em;
+    display: flex;
+    align-items: center;
 }
 
 .user-picture-container{
@@ -23,7 +25,7 @@
 
 .user-picture-container img{
     display: inline-block;
-    width: 84px;
+    width: 64px;
     height: auto;
     border-radius: 100%;
 }
@@ -31,4 +33,54 @@
 .user-info-container{
     display: inline-block;
     width: 40%;
+}
+
+.user-name{
+    font-size: 14px;
+}
+
+.user-email{
+    font-size: 12px;
+}
+
+.dashboard-nav ul{
+    list-style-type: none;
+}
+
+.dashboard-nav li{
+    display: block;
+}
+
+.dashboard-nav a{
+    display: inline-flex;
+    width: 100%;
+    color: whitesmoke;
+    font-weight: normal;
+    text-decoration: none;
+    align-items: center;
+    padding: 1em;
+    transition: 0.1s;
+    border-left: 8px solid transparent;
+}
+
+.dashboard-nav a:hover{
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.active{
+    border-left-color: #0279b8 !important;
+    background-color: rgba(30, 30, 30, 0.1);
+}
+
+.dashboard-nav img{
+    display: inline-block;
+    height: 80%;
+    width: auto;
+}
+
+.dashboard-nav h2{
+    font-weight: normal;
+    display: inline-block;
+    font-size: 1.2em;
+    padding-left: 0.5em;
 }
