@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
     {% load static %}
     <title>Deadlines</title>
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
@@ -10,88 +9,17 @@
 </head>
 <body>
     {% include "dashboard.html" %}
-=======
     <title>Deadlines</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            font-size: 14px;
-        }
-
-        .sidepanel {
-            width: 20%;
-            float: left;
-            background-color: rgb(57, 61, 72);
-            color: white;
-            height: 100vh
-        }
-
-        .dashboard-content {
-            width: auto;
-            background-color: rgb(230, 230, 230);
-            overflow: hidden;
-            min-height: 100vh;
-        }
-
-        .deadlines-container-all {
-            width: 90%;
-            min-width: 700px;
-            height: 92vh;
-            border: 1px solid orange;
-            margin: auto;
-            margin-top: 30px;
-            margin-left: 5%;
-        }
-
-        .deadlines-grid-unit {
-            background-color: rgba(250, 250, 250, 0.95);
-            width: 48%;
-            height: 48%;
-        }
-
-        .dgu-1, .dgu-3 {
-            float: left;
-            margin-right: 4%;
-        }
-
-        .dgu-2, .dgu-4 {
-            overflow: hidden;
-        }
-
-        .dgu-1, .dgu-2 {
-            margin-bottom: 4%;
-        }
-
-        .deadlines-title {
-            width: 75%;
-            padding: 12px;
-            margin: auto;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: black;
-            border-bottom: 1px solid black;
-        }
-
-        .deadlines-entry {
-            padding: 10px 15px 10px 15px;
-        }
-
-            .deadlines-entry:hover {
-                background-color: rgba(0,0,0, 0.1);
-            }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "deadlines.css" %}" />
 </head>
 <body>
-    <div class="sidepanel">
-        Sidepanel
-    </div>
->>>>>>> started deadlinesView
+    {% include "dashboard.html" %}
     <div class="dashboard-content">
         <div class="deadlines-container-all">
             <div class="deadlines-grid-unit dgu-1">
                 <div class="deadlines-title">
-<<<<<<< HEAD
                 Upcoming Deadlines
                 </div>
                 <div class="deadlines-separator"></div>
@@ -107,20 +35,10 @@
                         </div>
                     </div>
                 {% endfor %}
-=======
-                    Upcoming Deadlines
-                </div>
-                <div class="deadlines-entry">
-                    A dreadful deadline
-                    <div class="deadlines-entry-date">
-                        23/10/2019
-                    </div>
->>>>>>> started deadlinesView
                 </div>
             </div>
             <div class="deadlines-grid-unit dgu-2">
                 <div class="deadlines-title">
-<<<<<<< HEAD
                 Deadlines in Progress
                 </div>
                 <div class="deadlines-separator"></div>
@@ -136,14 +54,10 @@
                         </div>
                     </div>
                 {% endfor %}
-=======
-                    Deadlines in Progress
->>>>>>> started deadlinesView
                 </div>
             </div>
             <div class="deadlines-grid-unit dgu-3">
                 <div class="deadlines-title">
-<<<<<<< HEAD
                 Missed Deadlines
                 </div>
                 <div class="deadlines-separator"></div>
@@ -159,14 +73,10 @@
                         </div>
                      </div>
                  {% endfor %}
-=======
-                    Missed Deadlines
->>>>>>> started deadlinesView
                 </div>
             </div>
             <div class="deadlines-grid-unit dgu-4">
                 <div class="deadlines-title">
-<<<<<<< HEAD
                 Completed Deadlines
                 </div>
                 <div class="deadlines-separator"></div>
@@ -182,9 +92,6 @@
                         </div>
                     </div>
                 {% endfor %}
-=======
-                    Completed Deadlines
->>>>>>> started deadlinesView
                 </div>
             </div>
         </div>

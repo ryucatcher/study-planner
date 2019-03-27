@@ -24,7 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index),
     path('dashboard/', views.dashboard),
-<<<<<<< HEAD
     path('deadlines/',views.deadlines),
     path('assessment/',views.assessment),
     path('task/',views.task),
@@ -36,7 +35,4 @@ urlpatterns = [
     # API urls
     path('api/updatedeadlinename', api.updateDeadlineName),
     path('api/updatetaskprogress', api.updateTaskProgress)
-=======
-	path('deadlines/',views.deadlines)
->>>>>>> started deadlinesView
 ]
