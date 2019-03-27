@@ -317,3 +317,6 @@ def activity(request):
         'activity' : activity
     }
     return render(request, 'activity.html', context)
+
+def module(request):
+    return HttpResponse("This is the modules page")
