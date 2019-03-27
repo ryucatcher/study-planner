@@ -1,0 +1,71 @@
+.dashboard-content {
+    width: auto;
+    background-color: rgb(230, 230, 230);
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+.deadlines-container-all {
+    width: 90%;
+    min-width: 700px;
+    height: 92vh;
+    border: 1px solid orange;
+    margin: auto;
+    margin-top: 30px;
+    margin-left: 5%;
+}
+
+.deadlines-grid-unit {
+    background-color: rgba(250, 250, 250, 0.95);
+    width: 48%;
+    height: 48%;
+}
+
+.dgu-1, .dgu-3 {
+    float: left;
+    margin-right: 4%;
+}
+
+.dgu-2, .dgu-4 {
+    overflow: hidden;
+}
+
+.dgu-1, .dgu-2 {
+    margin-bottom: 4%;
+}
+
+.deadlines-title {
+    width: 75%;
+    padding: 12px;
+    margin: auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    border-bottom: 1px solid black;
+}
+
+.deadlines-entry {
+    padding: 10px 15px 10px 15px;
+}
+
+    .deadlines-entry:hover {
+        background-color: rgba(0,0,0, 0.1);
+    }
+
+.deadlines-date-progress-container {
+    padding: 4px 15px 0px 25px;
+}
+
+.progress-bar {
+    width: 100px;
+    height: 15px;
+    background-color: #a6a6a6;
+    float: right;
+}
+
+.progress-bar-fill {
+    width: 0;
+    height: 15px;
+    background-color: rgb(24, 32, 71);
+}

@@ -36,4 +36,8 @@ def uploadHubFile(request):
 
     return redirect('/dashboard')
 def deadlines(request):
-	return render(request, 'deadlines.html')
+	context = {
+		'navigation': navigation_list,
+		'active': 'Deadlines'
+	}
+	return render(request, 'deadlines.html', context)
