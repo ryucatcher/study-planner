@@ -319,4 +319,8 @@ def activity(request):
     return render(request, 'activity.html', context)
 
 def module(request):
-    return HttpResponse("This is the modules page")
+    context = {
+        'navigation' : navigation_list,
+        'active' : 'Modules'
+    }
+    return render(request, 'module.html', context)
