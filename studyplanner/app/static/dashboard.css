@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    float: left;
 }
 
 .dashboard-sub{
@@ -92,4 +93,26 @@
     margin-top: auto;
     display: flex;
     justify-content: flex-end;
+}
+
+.dashboard-control-container ul{
+    list-style-type: none;
+}
+
+.dashboard-control-list{
+    padding: 0 4px;
+}
+
+.dashboard-control-list button{
+    background: transparent;
+    border-radius: 8px;
+    border: none;
+}
+
+.dashboard-control-list button:hover{
+    border: 1px solid white;
+}
+
+.dashboard-control-list img{
+    height: 32px;
 }
