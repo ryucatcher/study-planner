@@ -21,9 +21,6 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index),
-<<<<<<< HEAD
-    path('createTask',views.createTask)
-=======
+    path('createTask',views.createTask),
     path('dashboard/', views.dashboard)
->>>>>>> master
 ]
