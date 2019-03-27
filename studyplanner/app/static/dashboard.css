@@ -5,6 +5,9 @@
     min-width: 250px;
     width: 16%;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .dashboard-sub{
@@ -83,4 +86,10 @@
     display: inline-block;
     font-size: 1.2em;
     padding-left: 0.5em;
+}
+
+.dashboard-control{
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
 }
