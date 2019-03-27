@@ -33,8 +33,9 @@ def dashboard(request):
     return render(request, 'dashboardtest.html', context)
 
 def uploadHubFile(request):
-
     return redirect('/dashboard')
+
+
 def deadlines(request):
     upcoming = [
         {'name':'Software Engineering coursework 2', 'date':'15/04/2019','progress':30},
