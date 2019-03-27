@@ -319,8 +319,12 @@ def activity(request):
     return render(request, 'activity.html', context)
 
 def module(request):
+
     context = {
-        'navigation' : navigation_list,
-        'active' : 'Modules'
+        'navigation': navigation_list,
+        'active': 'Modules',
+        'modules': ['Software Engineering 1', 'Programming 2', 'Graphics 1', 'Information Retrieval', 'Data Structures and Algorithms'],
+        'description': ['Software Engineering 1 description', 'Programming 2 description', 'Graphics 1 description', 
+            'Information Retrieval description', 'Data Structures and Algorithms description']
     }
     return render(request, 'module.html', context)

@@ -4,12 +4,28 @@
     <head>
         <title>Modules</title>
         {% include "common_head.html" %}
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static "module.css" %}" />
     </head>
 
     <body>
-        {% include "dashboard.html" %}
+        {% include "dashboard.html" %} <!-- Includes the side panel within the modules page -->
 
-        <button type="button">Software Engineering 1</button>
+        <!-- <div class="card-deck"> -->
+            <!-- Iterates through the modules list in views.py and creates a card for each one -->
+            {% for module in modules %}
+                    <div class="card">
+                        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{module}}</h5>
+                            <p class="card-text">Module Description goes here</p>
+                            <a href="#" class="btn btn-primary button">More Information</a>
+                        </div>
+                    </div>
+                
+            {% endfor %}
+        <!-- </div> -->
     </body>
 </html>
 

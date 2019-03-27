@@ -1,0 +1,33 @@
+.card-deck {
+    border-color: green;
+    border-style: solid;
+    /* align-self: center; */
+    justify-content: center;
+
+}
+
+.card {
+    display: inline-block;
+    text-align: center;
+    align-content: center;
+    background-color: rgb(57, 61, 72);
+    color: white;
+    width: 20rem;
+    margin-left: 10px;
+    height: 100%;
+
+    border-color: yellow;
+    border-style: solid;
+}
+
+.card-body {
+}
+
+.card-title {
+}
+
+.card-text {
+}
+
+.btn btn-primary button {
+}
