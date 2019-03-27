@@ -35,3 +35,5 @@ def dashboard(request):
 def uploadHubFile(request):
 
     return redirect('/dashboard')
+def deadlines(request):
+	return render(request, 'deadlines.html')
