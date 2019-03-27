@@ -28,3 +28,6 @@ def dashboard(request):
         'active': 'Deadlines'
     }
     return render(request, 'dashboardtest.html', context)
+
+def deadlines(request):
+	return render(request, 'deadlines.html')
