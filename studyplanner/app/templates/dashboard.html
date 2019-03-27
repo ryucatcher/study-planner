@@ -1,3 +1,36 @@
-<div id="dashboard-container">
-    
+{% load static %}
+<link rel="stylesheet" href="{% static "dashboard.css" %}" />
+<div class="dashboard-container">
+    <div class="user-panel dashboard-sub">
+        <div class="user-picture-container">
+            <img src="{% static "/img/display.png" %}" alt="User Profile Picture" />
+        </div>
+        <div class="user-info-container">
+            <p class="user-name">{{ user.name|default:"Your Name" }}</p>
+            <p class="user-email">{{ user.email|default:"email@domain.com" }}</p>
+        </div>
+    </div>
+    <div class="dashboard-nav dashboard-sub">
+        <ul>
+            {% for nav in navigation %}
+            <li>
+                <a href="{{ nav.url }}" {% if active == nav.title %} class="active" {% endif %}>
+                    <img src="{% static nav.icon %}" alt="Icon">
+                    <h2>{{ nav.title }}</h2>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="dashboard-sub dashboard-control">
+        <div class="dashboard-control-container">
+            <ul>
+                <li class="dashboard-control-list">
+                    <button>
+                        <img src="{% static "/img/icon_open.png" %}" alt="Open File" />
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
