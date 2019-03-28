@@ -247,16 +247,18 @@
     font-size: 14px; 
     color: black;
     margin-top:5px;
+    overflow: auto;
     /*border: 1px solid blue;*/
 }
 .assessment-ib-label{
     width: 120px;
-    float:left;
+    /*float:left;*/
 }
 .assessment-ib-text{
-    min-width: 150px;
+    min-height: 15px;
     display: flex;
     align-items:center;
+    /*border: 1px solid blue;*/
 }
 .pb-infobox{
     margin-right: 10px;
@@ -284,6 +286,9 @@
     font-weight: normal;
     width: fit-content;
 }
+.add-button:hover{
+    background-color: rgb(57, 61, 72);
+}
 .add-icon{
     height: 24px;
     padding-right: 10px;
@@ -297,12 +302,64 @@
     border-style: hidden hidden solid hidden;
     border-width: 1px;
     border-color: #a6a6a6;
+    font-size: 14px;
 }
-
 .assessment-table-entry:hover{
     background-color: rgb(100, 100, 100,0.1);
 }
-/* Deadlines View */
+.mibt-item{
+    padding-bottom:4px;
+}
+.ul-hover:hover{
+    text-decoration: underline;
+}
+
+/* Task View */
+.title-wrap{
+    display: flex;
+    justify-content:space-between;
+    align-items: flex-start;
+}
+.delete-button{
+    font-size: 14px;
+    color: white;
+    background-color: rgba(166, 166, 166,0.5);
+    padding: 5px 10px 5px 10px;
+    border-radius: 3px;
+}
+.delete-button:hover{
+    background-color: rgba(166, 166, 166,1.0);
+}
+.delete-icon{
+    height: 12px;
+    margin-left: 5px;
+    opacity: 0.5;
+}
+.delete-icon:hover{
+    opacity: 1.0;
+}
+.notes-content{
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content:space-between;*/
+    margin-right: -10px;
+}
+.note-entry{
+    border: 1px solid #a6a6a6;
+    font-size: 14px;
+    background-color: rgb(255, 255, 255,0.8);
+    padding: 10px;
+    /*flex: 1 0 225px;*/
+    width: 226px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.note-header{
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom: 5px;
+}/* Deadlines View */
 .assessment-container{
     width:80%;
     min-width:500px;
