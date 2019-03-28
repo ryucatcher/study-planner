@@ -87,3 +87,40 @@ def assessment(request):
         'assessment' : assessment
     }
     return render(request, 'assessment.html', context)
+
+def task(request):
+    activities = [
+        {'name' : 'activity 1', 'progress' : 100, 'type' : 'Programming'},
+        {'name' : 'activity 2', 'progress' : 50, 'type' : 'Studying' },
+        {'name' : 'activity 3', 'progress' : 15, 'type' : 'Writing' }
+    ]
+    numActivs = len(activities)
+    progress = 0
+    for a in activities:
+        progress += a["progress"]/numActivs
+    progress = int(progress)
+    notes = [
+        {'note' : 'note 1', 'date' : '13/03/2019' },
+        {'note' : '2 note 2 furious', 'date' : '14/03/2019' },
+        {'note' : 'A longer note, with a lot of text, so much text, a lot of things', 'date' : '16/03/2019' },
+        {'note' : 'note 4', 'date' : '17/03/2019' }
+    ]
+    requiredTasks = [
+        {'name' : 'Another task 1'}, {'name' : 'Another task 2'},
+    ]
+    task = {
+        'name' : 'Some task name',
+        'assessment' : 'Software Engineering 1 Coursework',
+        'duration' : '5 days',
+        'description' : '',
+        'progress' : progress,
+        'activities' : activities,
+        'notes' : notes,
+        'tasks' : requiredTasks,
+    }
+    context = {
+        'navigation': navigation_list,
+        'active': 'Deadlines',
+        'task' : task
+    }
+    return render(request, 'task.html', context)
