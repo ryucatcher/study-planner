@@ -2,7 +2,7 @@
 <html>
 <head>
     {% load static %}
-    <title>Deadlines</title>
+    <title>Assessment: {{ assessment.name }}</title>
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
     <link rel="stylesheet" href="{% static "common.css" %}" />
     <link rel="stylesheet" href="{% static "deadlines.css" %}" />
@@ -15,7 +15,7 @@
             <div class="assessment-type" style="margin-bottom: 20px;">{{ assessment.type }}</div>
             <div class="assessment-infobox">
                 <div class="assessment-ib-label">Module:</div>
-                <div class="assessment-ib-text">{{ assessment.module }}</div>
+                <div class="assessment-ib-text ul-hover">{{ assessment.module }}</div>
             </div>
             <div class="assessment-infobox">
                 <div class="assessment-ib-label">Start Date:</div>

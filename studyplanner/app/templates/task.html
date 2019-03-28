@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Task: {{ task.name }}</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+</head>
+<body>
+    {% include "dashboard.html" %}
+    <div class="dashboard-content">
+        <div class="assessment-container">
+            <div class="title-wrap">
+                <div class="assessment-title">{{ task.name }}</div>
+                <div class="delete-button">Delete</div>
+            </div>
+            <div class="assessment-type" style="margin-bottom: 20px;">Task</div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Assessment:</div>
+                <div class="assessment-ib-text ul-hover">{{ task.assessment }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Description:</div>
+                <div class="assessment-ib-text">{{ task.description }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Duration:</div>
+                <div class="assessment-ib-text">{{ task.duration }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Progress:</div>
+                <div class="assessment-ib-text">
+                    <div class="progress-bar pb-infobox">
+                    <div class="progress-bar-fill" style="width:{{ task.progress }}%;"></div>
+                    </div>
+                    {{ task.progress }}%
+                </div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Duration:</div>
+                <div class="multiple-ib-text">
+                    {% for reqtask in task.tasks %}
+                    <div class="assessment-ib-text mibt-item">
+                        <span class="ul-hover">{{ reqtask.name }}</span>
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                    </div>
+                    {% endfor %}
+                    <div class="assessment-ib-text mibt-item ul-hover" style="font-size:12px">(+) Add a required task</div>
+                    
+                </div>
+            </div>
+            <div class="label-bar">
+                Activities
+                <div class="add-button">
+                    <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                    Add new activity
+                </div>
+            </div>
+            {% for activity in task.activities %}
+            <div class="assessment-table-entry">
+                {{ activity.name }}
+                <div class="assessment-type" style="margin-left: 5px;">{{ activity.type }}</div>
+                <div style="flex: 1 1 auto;"></div>
+                <div class="progress-bar pb-infobox">
+                <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="add-button" style="margin-top:10px;">
+                <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                Add new activity
+            </div>
+            <div class="label-bar">
+                Notes
+                <div class="add-button">
+                    <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                    Add new note
+                </div>
+            </div>
+            <div class="notes-content">
+                {% for note in task.notes %}
+                <div class="note-entry"">
+                    <div class="note-header">
+                        <div>{{ note.date }}</div>
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                    </div>
+                    <div>{{ note.note }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="add-button" style="margin-top:10px;">
+                <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                Add new notes
+            </div>
+        </div>
+    </div>
+</body>
+</html>
