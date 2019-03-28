@@ -26,9 +26,12 @@
         <div class="dashboard-control-container">
             <ul>
                 <li class="dashboard-control-list">
-                    <button>
-                        <img src="{% static "/img/icon_open.png" %}" alt="Open File" />
-                    </button>
+                    <form id="upload-hubfile-form">
+                        <input type="file" name="hubfile-input" id="hubfile-input" class="nodisplay" />
+                        <button type="button" onclick="uploadHubfile()">
+                            <img src="{% static "/img/icon_open.png" %}" alt="Open File" />
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
