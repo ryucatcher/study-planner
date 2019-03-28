@@ -360,3 +360,8 @@
     align-items:center;
     margin-bottom: 5px;
 }
+.progress-bar-fill{
+    width:0;
+    height:15px;
+    background-color:rgb(24, 32, 71);
+}
