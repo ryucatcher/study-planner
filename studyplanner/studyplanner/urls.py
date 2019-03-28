@@ -26,5 +26,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard),
 
     # API urls
-    path('api/updatedeadlinename', api.updateDeadlineName)
+    path('api/updatedeadlinename', api.updateDeadlineName),
+    path('api/updatetaskprogress', api.updateTaskProgress)
 ]

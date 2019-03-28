@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.middleware import csrf
 
 # Create your views here.
 from .models import User
@@ -25,6 +26,7 @@ def index(request):
 def dashboard(request):
     context = {
         'navigation': navigation_list,
-        'active': 'Deadlines'
+        'active': 'Deadlines',
+        'csrf': csrf.get_token(request)
     }
     return render(request, 'dashboardtest.html', context)
