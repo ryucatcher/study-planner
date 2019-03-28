@@ -24,5 +24,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard),
     path('deadlines/',views.deadlines),
     path('assessment/',views.assessment),
-    path('task/',views.task)
+    path('task/',views.task),
+    path('activity/',views.activity)
 ]
