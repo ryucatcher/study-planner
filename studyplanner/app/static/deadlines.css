@@ -162,7 +162,7 @@
     background-color: rgb(100, 100, 100,0.1);
 }
 .mibt-item{
-    padding-bottom:4px;
+    margin-bottom:4px;
 }
 .ul-hover:hover{
     text-decoration: underline;

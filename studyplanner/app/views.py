@@ -130,3 +130,31 @@ def task(request):
         'task' : task
     }
     return render(request, 'task.html', context)
+
+def activity(request):
+    notes = [
+        {'note' : 'note 1', 'date' : '13/03/2019' },
+        {'note' : '2 note 2 furious', 'date' : '14/03/2019' },
+        {'note' : 'A longer note, with a lot of text, so much text, a lot of things', 'date' : '16/03/2019' },
+        {'note' : 'note 4', 'date' : '17/03/2019' }
+    ]
+    tasks = [
+        {'name' : 'Another task 1'}, {'name' : 'Another task 2'},
+    ]
+    activity = {
+        'name' : 'Some activity name',
+        'assessment' : 'Software Engineering 1 Coursework',
+        'type' : 'Programming',
+        'progress' : 80,
+        'completed' : 8,
+        'target' : 10,
+        'units' : 'requirements',
+        'notes' : notes,
+        'tasks' : tasks,
+    }
+    context = {
+        'navigation': navigation_list,
+        'active': 'Deadlines',
+        'activity' : activity
+    }
+    return render(request, 'activity.html', context)

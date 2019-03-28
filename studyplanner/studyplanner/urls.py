@@ -27,6 +27,7 @@ urlpatterns = [
     path('deadlines/',views.deadlines),
     path('assessment/',views.assessment),
     path('task/',views.task),
+    path('activity/',views.activity),
 
     # Forms
     path('uploadhubfile', views.uploadHubFile),
