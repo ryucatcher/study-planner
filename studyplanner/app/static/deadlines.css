@@ -247,6 +247,88 @@
     font-size: 14px; 
     color: black;
     margin-top:5px;
+    /*border: 1px solid blue;*/
+}
+.assessment-ib-label{
+    width: 120px;
+    float:left;
+}
+.assessment-ib-text{
+    min-width: 150px;
+    display: flex;
+    align-items:center;
+}
+.pb-infobox{
+    margin-right: 10px;
+}
+.label-bar{
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #a6a6a6;
+    font-size: 18px; 
+    color: black;
+    font-weight: bold;
+    overflow: auto;
+}
+.add-button{
+    display: flex; 
+    align-items:center; 
+    background-color: #737373;
+    padding: 5px 10px 5px 10px;
+    margin-right: 10px;
+    font-size: 14px; 
+    color: white;
+    font-weight: normal;
+    width: fit-content;
+}
+.add-icon{
+    height: 24px;
+    padding-right: 10px;
+}
+.assessment-table-entry{
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 10px;
+    background-color: rgb(255, 255, 255,0.8);
+    border-style: hidden hidden solid hidden;
+    border-width: 1px;
+    border-color: #a6a6a6;
+}
+
+.assessment-table-entry:hover{
+    background-color: rgb(100, 100, 100,0.1);
+}
+/* Deadlines View */
+.assessment-container{
+    width:80%;
+    min-width:500px;
+    max-width:700px;
+    margin: 30px 40px 30px 40px;
+    /*border: 1px solid orange;*/
+}
+.assessment-title{
+    font-size: 24px; 
+    font-weight: bold;
+    color: black;
+}
+.assessment-type{
+    padding: 0px 4px 0px 4px;
+    width:fit-content;
+    font-size: 12px; 
+    color: #0066cc;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid #cccccc;
+}
+.assessment-infobox{
+    font-size: 14px; 
+    color: black;
+    margin-top:5px;
     overflow: auto;
     /*border: 1px solid blue;*/
 }
