@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Deadlines</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+</head>
+<body>
+    {% include "dashboard.html" %}
+    <div class="dashboard-content">
+        <div class="assessment-container">
+            <div class="assessment-title">{{ assessment.name }}</div>
+            <div class="assessment-type" style="margin-bottom: 20px;">{{ assessment.type }}</div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Module:</div>
+                <div class="assessment-ib-text">{{ assessment.module }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Start Date:</div>
+                <div class="assessment-ib-text">{{ assessment.startdate }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Deadline:</div>
+                <div class="assessment-ib-text">{{ assessment.deadline }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Weight:</div>
+                <div class="assessment-ib-text">{{ assessment.weight }}%</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Description:</div>
+                <div class="assessment-ib-text">{{ assessment.description }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Progress:</div>
+                <div class="assessment-ib-text">
+                    <div class="progress-bar pb-infobox">
+                    <div class="progress-bar-fill" style="width:{{ assessment.progress }}%;"></div>
+                    </div>
+                    {{ assessment.progress }}%
+                </div>
+            </div>
+            <div class="label-bar">
+                Tasks
+                <div class="add-button">
+                    <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                    Add new task
+                </div>
+            </div>
+            {% for task in assessment.tasks %}
+            <div class="assessment-table-entry">
+                {{ task.name }}
+                <div class="progress-bar pb-infobox">
+                <div class="progress-bar-fill" style="width:{{ task.progress }}%;"></div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="add-button" style="margin-top:10px;">
+                <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                Add new task
+            </div>
+        </div>
+    </div>
+</body>
+</html>
