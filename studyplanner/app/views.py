@@ -63,5 +63,33 @@ def deadlines(request):
         'missed' : missed,
         'completed' : completed
     }
-    deadlines = { 'upcoming':upcoming,'inprogress':inprogress,'missed':missed,'completed':completed}
     return render(request, 'deadlines.html', context)
+
+def assessment(request):
+    tasks = [
+        {'name' : 'task 1', 'progress' : 80 },
+        {'name' : 'task 2', 'progress' : 60 },
+        {'name' : 'task 3', 'progress' : 30 }
+    ]
+    numTasks = len(tasks)
+    progress = 0
+    for t in tasks:
+        progress += t["progress"]/numTasks
+    progress = int(progress)
+    assessment = {
+        'name' : 'Software Engineering 1 Coursework',
+        'type' : 'Coursework',
+        'module' : 'Software Engineering',
+        'startdate' : '15/01/2019',
+        'deadline' : '13/03/2019',
+        'weight' : 40,
+        'description' : 'Assessment description',
+        'progress' : progress,
+        'tasks' : tasks
+    }
+    context = {
+        'navigation': navigation_list,
+        'active': 'Deadlines',
+        'assessment' : assessment
+    }
+    return render(request, 'assessment.html', context)
