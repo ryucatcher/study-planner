@@ -1,6 +1,3 @@
-window.onload = function(){
-
-}
 
 function makeRequest(csrf){
     axios.post('/api/updatedeadlinename', {
