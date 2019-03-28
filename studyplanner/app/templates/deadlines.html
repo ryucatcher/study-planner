@@ -13,42 +13,78 @@
         <div class="deadlines-container-all">
             <div class="deadlines-grid-unit dgu-1">
                 <div class="deadlines-title">
-                    Upcoming Deadlines
+                Upcoming Deadlines
                 </div>
-                <div class="deadlines-entry">
-                    A dreadful deadline
-                    <div class="deadlines-date-progress-container">
-                        23/10/2019
-                        <div class="progress-bar">
-                            <div class="progress-bar-fill" style="width:35%">
+                <div class="deadlines-separator"></div>
+                <div class="dgu-content">
+                {% for deadline in upcoming %}
+                    <div class="deadlines-entry">
+                    {{ deadline.name }}
+                        <div class="deadlines-date-progress-container">
+                        {{ deadline.date }}
+                            <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width:{{ deadline.progress }}%"></div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="deadlines-entry">
-                    A dreadful deadline
-                    <div class="deadlines-date-progress-container">
-                        23/10/2019
-                        <div class="progress-bar">
-                            <div class="progress-bar-fill" style="width:65%">
-                            </div>
-                        </div>
-                    </div>
+                {% endfor %}
                 </div>
             </div>
             <div class="deadlines-grid-unit dgu-2">
                 <div class="deadlines-title">
-                    Deadlines in Progress
+                Deadlines in Progress
+                </div>
+                <div class="deadlines-separator"></div>
+                <div class="dgu-content">
+                {% for deadline in inprogress %}
+                    <div class="deadlines-entry">
+                    {{ deadline.name }}
+                        <div class="deadlines-date-progress-container">
+                        {{ deadline.date }}
+                            <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width:{{ deadline.progress }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
                 </div>
             </div>
             <div class="deadlines-grid-unit dgu-3">
                 <div class="deadlines-title">
-                    Missed Deadlines
+                Missed Deadlines
+                </div>
+                <div class="deadlines-separator"></div>
+                <div class="dgu-content">
+                {% for deadline in missed %}
+                    <div class="deadlines-entry">
+                    {{ deadline.name }}
+                        <div class="deadlines-date-progress-container">
+                        {{ deadline.date }}
+                            <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width:{{ deadline.progress }}%"></div>
+                            </div>
+                        </div>
+                     </div>
+                 {% endfor %}
                 </div>
             </div>
             <div class="deadlines-grid-unit dgu-4">
                 <div class="deadlines-title">
-                    Completed Deadlines
+                Completed Deadlines
+                </div>
+                <div class="deadlines-separator"></div>
+                <div class="dgu-content">
+                {% for deadline in completed %}
+                    <div class="deadlines-entry">
+                    {{ deadline.name }}
+                        <div class="deadlines-date-progress-container">
+                        {{ deadline.date }}
+                            <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width:{{ deadline.progress }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
                 </div>
             </div>
         </div>
