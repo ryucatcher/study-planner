@@ -7,9 +7,9 @@
 }
 
 .loginContainer{
-    
     display: inline-block;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
     width:35%;
     height:35%;
     border:1px solid black;
@@ -22,8 +22,12 @@
 }
 
 .userBox{
+    height:40px;
+    width:500px;
     
-    width:50%;
-    margin-top: 30px;
+    display: flex;
+}
 
+.userBox-input{
+    align-items: stretch;
 }
