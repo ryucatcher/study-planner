@@ -16,7 +16,8 @@
 		<div class="vertically-center">
 		<div class ="loginContainer">
 			<h1>Study Planner</h1>
-			<form action="/processlogin" method="POST">
+			<form action="/processlogin/" method="POST">
+				{% csrf_token %}
 				<div class = "userBox"> 
 					<input type = "text" placeholder="Email" name="email">
 				</div>
