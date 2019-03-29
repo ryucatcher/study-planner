@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+        {% load static %}
     <title>Study Planner</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "createTask.css" %}" />
 </head>
 <body>
-    <div id = "forms" >
+    {% include "dashboard.html" %}
+    <div class = "background" >
+        <div id= "forms">
         <form>
             Task name:<br>
             <input type="text" name="taskName"><br>
@@ -12,6 +19,15 @@
             <input type="text" name="duration">
             
           </form>
+          <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+            </div>
+          </div>
+        </div>
     </div>
 </body>
 </html>
