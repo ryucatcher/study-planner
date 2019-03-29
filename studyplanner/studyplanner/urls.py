@@ -25,6 +25,9 @@ urlpatterns = [
     path('index/', views.index),
     path('dashboard/', views.dashboard),
 
+    # Forms
+    path('uploadhubfile', views.uploadHubFile),
+
     # API urls
     path('api/updatedeadlinename', api.updateDeadlineName),
     path('api/updatetaskprogress', api.updateTaskProgress)

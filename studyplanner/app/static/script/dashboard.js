@@ -17,6 +17,7 @@ function uploadHubfile(){
             setTimeout(()=>{$('#hubinput-button').tooltip('hide');}, 5000);
         }else{
             $('#hubinput-button').tooltip('hide');
+            $('#upload-hubfile-form').submit();
         }
     });
     fileinput.click();
