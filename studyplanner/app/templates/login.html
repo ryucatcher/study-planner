@@ -15,20 +15,21 @@
 	<body>
 		<div class="vertically-center">
 		<div class ="loginContainer">
-        	<h1>Study Planner</h1>
-        	<div class = "userBox"> 
-        		<input type = "text" placeholder="Email" name="email">
-        	</div>
-            <div class = "passwordBox">
-            	<input type = "text" placeholder="Password" name="password">
-        	</div>
-        	<div class = "rememberMe">
-            	<input type= "checkbox">Remember Me
-            </div>
-            <div class = "submitBtn">
-                <input type = "button" name="" value="logIn">
-            </div>
-
+			<h1>Study Planner</h1>
+			<form action="/processlogin" method="POST">
+				<div class = "userBox"> 
+					<input type = "text" placeholder="Email" name="email">
+				</div>
+				<div class = "passwordBox">
+					<input type = "text" placeholder="Password" name="password">
+				</div>
+				<div class = "rememberMe">
+					<input type= "checkbox">Remember Me
+				</div>
+				<div class = "submitBtn">
+					<input type = "submit" name="" value="logIn">
+				</div>
+			</form>
         </div>
 			</div>
 
