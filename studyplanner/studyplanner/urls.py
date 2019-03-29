@@ -17,9 +17,18 @@ from django.contrib import admin
 from django.urls import path
 
 from app import views
+from app import api
 
 urlpatterns = [
+    # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
-    path('dashboard/', views.dashboard)
+    path('dashboard/', views.dashboard),
+
+    # Forms
+    path('uploadhubfile', views.uploadHubFile),
+
+    # API urls
+    path('api/updatedeadlinename', api.updateDeadlineName),
+    path('api/updatetaskprogress', api.updateTaskProgress)
 ]

@@ -39,6 +39,10 @@
     width: 40%;
 }
 
+.user-info-container p{
+    margin: 0;
+}
+
 .user-name{
     font-size: 14px;
 }
@@ -107,6 +111,7 @@
     background: transparent;
     border-radius: 8px;
     border: none;
+    transition: 0.1s;
 }
 
 .dashboard-control-list button:hover{
