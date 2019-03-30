@@ -18,6 +18,10 @@ navigation_list = [
     {'icon': 'img/icon_logout.png', 'title': 'Logout', 'url': '/logout'}
 ]
 
+def isLoggedIn(request):
+    if 'userid' in request.COOKIES:
+        return True
+    return False
 
 def index(request):
     user_list = User.objects.all()
@@ -29,7 +33,7 @@ def index(request):
 
 def login(request):
     # If user already logged in
-    if 'userid' in request.COOKIES:
+    if isLoggedIn(request):
         return redirect('/dashboard')
     
     # error context
@@ -76,6 +80,8 @@ def processLogin(request):
     return response
 
 def createAccount(request):
+    if isLoggedIn(request):
+        return redirect('/dashboard')
     return render(request, 'createaccount.html')
 
 def processCreateAccount(request):
