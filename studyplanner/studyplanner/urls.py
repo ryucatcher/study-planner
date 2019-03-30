@@ -23,7 +23,9 @@ urlpatterns = [
     # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
-    path('',views.login),
+    path('', views.login),
+    path('login/', views.login),
+    path('createaccount/', views.createAccount),
     path('dashboard/', views.dashboard),
     path('deadlines/',views.deadlines),
     path('assessment/',views.assessment),

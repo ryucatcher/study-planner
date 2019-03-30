@@ -74,6 +74,13 @@ def processLogin(request):
     response.set_cookie('userid', user.userid)
 
     return response
+
+def createAccount(request):
+    return render(request, 'createaccount.html')
+
+def processCreateAccount(request):
+    return redirect('/')
+
 def dashboard(request):
     context = {
         'navigation': navigation_list,
