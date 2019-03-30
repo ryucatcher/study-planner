@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Activity: {{ activity.name }}</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+</head>
+<body>
+    {% include "dashboard.html" %}
+    <div class="dashboard-content">
+        <div class="assessment-container">
+            <div class="title-wrap">
+                <div class="assessment-title">{{ activity.name }}</div>
+                <div class="delete-button">Delete</div>
+            </div>
+            <div class="assessment-type" style="margin-bottom: 20px;">{{ activity.type }} Activity</div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Assessment:</div>
+                <div class="assessment-ib-text ul-hover">{{ activity.assessment }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Type:</div>
+                <div class="assessment-ib-text">{{ activity.type }}</div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Progress:</div>
+                <div class="multiple-ib-text">
+                    <div class="assessment-ib-text mibt-item">
+                        <div class="progress-bar pb-infobox">
+                        <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
+                        </div>
+                        {{ activity.progress }}%
+                    </div>
+                    <div class="assessment-ib-text mibt-item">
+                        <span id="completed">{{ activity.completed }}</span>&nbsp;/&nbsp; 
+                        <span id="target">{{ activity.target }}</span>&nbsp;{{ activity.units }}
+                    </div>
+                </div>
+            </div>
+            <div class="assessment-infobox">
+                <div class="assessment-ib-label">Tasks:</div>
+                <div class="multiple-ib-text">
+                    {% for task in activity.tasks %}
+                    <div class="assessment-ib-text mibt-item">
+                        <span class="ul-hover">{{ task.name }}</span>
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                    </div>
+                    {% endfor %}
+                    <div class="assessment-ib-text mibt-item ul-hover" style="font-size:12px">(+) Add a required task</div>
+                    
+                </div>
+            </div>
+            <div class="label-bar">
+                Notes
+                <div class="add-button">
+                    <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                    Add new note
+                </div>
+            </div>
+            <div class="notes-content">
+                {% for note in activity.notes %}
+                <div class="note-entry"">
+                    <div class="note-header">
+                        <div>{{ note.date }}</div>
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                    </div>
+                    <div>{{ note.note }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="add-button" style="margin-top:10px;">
+                <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                Add new notes
+            </div>
+        </div>
+    </div>
+</body>
+</html>

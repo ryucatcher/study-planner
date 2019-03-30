@@ -25,6 +25,10 @@ urlpatterns = [
     path('index/', views.index),
     path('',views.login),
     path('dashboard/', views.dashboard),
+    path('deadlines/',views.deadlines),
+    path('assessment/',views.assessment),
+    path('task/',views.task),
+    path('activity/',views.activity),
     path('processlogin/', views.processLogin)
 
     # Forms
