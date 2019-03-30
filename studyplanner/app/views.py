@@ -5,7 +5,7 @@ from django.middleware import csrf
 from django.shortcuts import redirect
 
 # Create your views here.
-from .models import User
+from .models import *
 
 navigation_list = [
     {'icon': 'img/icon_deadlines.png', 'title': 'Deadlines', 'url': '/deadlines'},
@@ -37,7 +37,14 @@ def uploadHubFile(request):
 
 
 def deadlines(request):
-    upcoming = [
+    deadlines = Assessment.objects.all()
+    upcoming = list()
+    for dl in deadlines:
+        p = int(dl.progress()*100)
+        print(p)
+        item = {'name':dl.name,'date':dl.deadline,'progress':p}
+        upcoming.append(item)
+    upcoming2 = [
         {'name':'Software Engineering coursework 2', 'date':'15/04/2019','progress':30},
         {'name':'Graphics Coursework', 'date':'26/04/2019','progress':0},
         {'name':'Programming coursework 2', 'date':'01/05/2019','progress':90}
