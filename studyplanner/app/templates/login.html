@@ -16,6 +16,7 @@
 		<div class="vertically-center">
 		<div class ="loginContainer">
 			<h1>Study Planner</h1>
+			<p class="text-danger">{{ error }}</p>
 			<form action="/processlogin/" method="POST">
 				{% csrf_token %}
 				<div class = "userBox"> 

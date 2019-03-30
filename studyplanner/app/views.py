@@ -17,7 +17,16 @@ def index(request):
 
 
 def login(request):
-    return render(request,'login.html')
+    # If user already logged in
+    if 'userid' in request.COOKIES:
+        return redirect('/dashboard')
+    
+    # error context
+    context = {}
+    if 'error' in request.GET:
+        context['error'] = request.GET['error']
+
+    return render(request,'login.html', context)
 
 def dashboard(request):
     return HttpResponse("Hello")
@@ -33,7 +42,7 @@ def processLogin(request):
     email = request.POST['email']
     if not isValidEmail(email):
         print('Invalid email.')
-        return redirect('/')
+        return redirect('/error=Invalid Email')
     
     user = User.objects.filter(email=email)
 
@@ -52,5 +61,8 @@ def processLogin(request):
     # User login should be verified now
     print('Login success!')
 
+    # Set logged in cookie
+    response = redirect('/')
+    response.set_cookie('userid', user.userid)
 
-    return redirect('/dashboard')
+    return response
