@@ -12,7 +12,10 @@
     <div class="form-align-center">
         <div class="form-container">
             <h1 class="display-4">Create your account</h1>
-            <form action="/processacount" method="POST">
+            <p class="text-danger">{{ error }}</p>
+            <form action="/processaccount/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="createaccount" />
                 <div class="form-group">
                     <label for="input-email">Email</label>
                     <input type="email" class="form-control" name="email" id="input-email" placeholder="Email" />

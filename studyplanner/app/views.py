@@ -23,6 +23,19 @@ def isLoggedIn(request):
         return True
     return False
 
+def isValidEmail(email):
+    try:
+        validate_email(email)
+        return True
+    except ValidationError:
+        return False
+
+def isValidPassword(password):
+    return len(password) > 7
+
+def loginUser(response, userid):
+    response.set_cookie('userid', userid)
+
 def index(request):
     user_list = User.objects.all()
     context = {
@@ -42,13 +55,6 @@ def login(request):
         context['error'] = request.GET['error']
 
     return render(request,'login.html', context)
-
-def isValidEmail(email):
-    try:
-        validate_email(email)
-        return True
-    except ValidationError:
-        return False
 
 def processLogin(request):
     email = request.POST['email']
@@ -75,17 +81,45 @@ def processLogin(request):
 
     # Set logged in cookie
     response = redirect('/')
-    response.set_cookie('userid', user.userid)
+    loginUser(response, user.userid)
 
     return response
 
 def createAccount(request):
     if isLoggedIn(request):
         return redirect('/dashboard')
-    return render(request, 'createaccount.html')
+    context = {}
+    if 'error' in request.GET:
+        context['error'] = request.GET['error']
+    return render(request, 'createaccount.html', context)
 
-def processCreateAccount(request):
-    return redirect('/')
+def processAccount(request):
+    post = request.POST
+    response = redirect('/')
+    if post['action'] == 'createaccount':
+        email = post['email']
+        if not isValidEmail(email):
+            return redirect('/createaccount?error=Invalid email')
+
+        fname = post['fname']
+        lname = post['lname']
+        if len(fname) == 0 or len(lname) == 0:
+            return redirect('/createaccount?error=Names must not be empty')
+
+        password = post['password']
+        if not isValidPassword(password):
+            return redirect('/createaccount?error=Password must be at least 8 characters long')
+        
+        # User data is valid so create account
+        user = User(email=email, firstname=fname, lastname=lname, password=password)
+        response = redirect('/')
+        try:
+            user.save()
+            loginUser(response, user.userid)
+        except Exception as e:
+            return redirect('/createaccount?error=' + e)
+
+    return response
 
 def dashboard(request):
     context = {

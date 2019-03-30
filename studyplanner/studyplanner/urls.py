@@ -32,6 +32,7 @@ urlpatterns = [
     path('task/',views.task),
     path('activity/',views.activity),
     path('processlogin/', views.processLogin),
+    path('processaccount/', views.processAccount),
 
     # Forms
     path('uploadhubfile', views.uploadHubFile),
