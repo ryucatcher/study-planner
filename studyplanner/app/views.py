@@ -4,9 +4,20 @@ from django.template import loader
 from django.shortcuts import redirect
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.middleware import csrf
+from django.shortcuts import redirect
 
 # Create your views here.
 from .models import User
+
+navigation_list = [
+    {'icon': 'img/icon_deadlines.png', 'title': 'Deadlines', 'url': '/deadlines'},
+    {'icon': 'img/icon_modules.png', 'title': 'Modules', 'url': '/modules'},
+    {'icon': 'img/icon_gantt.png', 'title': 'Gantt Chart', 'url': '/ganttchart'},
+    {'icon': 'img/icon_add.png', 'title': 'Add Task', 'url': '/addtask'},
+    {'icon': 'img/icon_logout.png', 'title': 'Logout', 'url': '/logout'}
+]
+
 
 def index(request):
     user_list = User.objects.all()
@@ -27,9 +38,6 @@ def login(request):
         context['error'] = request.GET['error']
 
     return render(request,'login.html', context)
-
-def dashboard(request):
-    return HttpResponse("Hello")
 
 def isValidEmail(email):
     try:
@@ -66,3 +74,14 @@ def processLogin(request):
     response.set_cookie('userid', user.userid)
 
     return response
+def dashboard(request):
+    context = {
+        'navigation': navigation_list,
+        'active': 'Deadlines',
+        'csrf': csrf.get_token(request)
+    }
+    return render(request, 'dashboardtest.html', context)
+
+def uploadHubFile(request):
+
+    return redirect('/dashboard')
