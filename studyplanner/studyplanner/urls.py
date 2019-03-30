@@ -23,11 +23,16 @@ urlpatterns = [
     # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
+    path('',views.login),
     path('dashboard/', views.dashboard),
+<<<<<<< HEAD
     path('deadlines/',views.deadlines),
     path('assessment/',views.assessment),
     path('task/',views.task),
     path('activity/',views.activity),
+=======
+    path('processlogin/', views.processLogin)
+>>>>>>> master
 
     # Forms
     path('uploadhubfile', views.uploadHubFile),
