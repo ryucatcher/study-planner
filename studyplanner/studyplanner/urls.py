@@ -29,7 +29,7 @@ urlpatterns = [
     path('assessment/',views.assessment),
     path('task/',views.task),
     path('activity/',views.activity),
-    path('processlogin/', views.processLogin)
+    path('processlogin/', views.processLogin),
 
     # Forms
     path('uploadhubfile', views.uploadHubFile),
