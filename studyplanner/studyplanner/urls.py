@@ -31,11 +31,11 @@ urlpatterns = [
     path('assessment/',views.assessment),
     path('task/',views.task),
     path('activity/',views.activity),
+
+    # Forms
     path('processlogin/', views.processLogin),
     path('processaccount/', views.processAccount),
     path('logout/', views.logout),
-
-    # Forms
     path('uploadhubfile', views.uploadHubFile),
 
     # API urls
