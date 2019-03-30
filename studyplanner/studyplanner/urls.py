@@ -33,6 +33,7 @@ urlpatterns = [
     path('activity/',views.activity),
     path('processlogin/', views.processLogin),
     path('processaccount/', views.processAccount),
+    path('logout/', views.logout),
 
     # Forms
     path('uploadhubfile', views.uploadHubFile),

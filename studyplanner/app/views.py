@@ -121,6 +121,11 @@ def processAccount(request):
 
     return response
 
+def logout(request):
+    response = redirect('/')
+    response.delete_cookie('userid')
+    return response
+
 def dashboard(request):
     context = {
         'navigation': navigation_list,
