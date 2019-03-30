@@ -1,0 +1,33 @@
+.vertically-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 100vh;
+}
+
+.loginContainer{
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    width:35%;
+    height:35%;
+    border:1px solid black;
+    padding:50px 60px;
+    position: relative;
+    top: -8em;
+    -webkit-box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
+}
+
+.userBox{
+    height:40px;
+    width:500px;
+    
+    display: flex;
+}
+
+.userBox-input{
+    align-items: stretch;
+}

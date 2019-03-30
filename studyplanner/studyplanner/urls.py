@@ -23,7 +23,9 @@ urlpatterns = [
     # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
+    path('',views.login),
     path('dashboard/', views.dashboard),
+    path('processlogin/', views.processLogin)
 
     # Forms
     path('uploadhubfile', views.uploadHubFile),
