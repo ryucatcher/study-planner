@@ -7,6 +7,9 @@ from django.core.exceptions import ValidationError
 from django.middleware import csrf
 from django.shortcuts import redirect
 
+import json
+from datetime import datetime
+
 # Create your views here.
 from .models import *
 
@@ -134,7 +137,39 @@ def dashboard(request):
     }
     return render(request, 'dashboardtest.html', context)
 
+def _createSemesterStudyProfile(request, content, userid):
+    user = User.objects.get(userid=userid)
+    profile = SemesterStudyProfile(year=content['Year'], semester=content['Semester'], user=user)
+    profile.save()
+    # Add modules to study profile
+    for m in content['Modules']:
+        module = Module(name=m['Name'], code=m['Code'], description=m['Description'], semester=profile)
+        module.save()
+        # Add assessments to modules
+        DTFORMAT = '%d-%m-%Y'
+        for a in m['Assessments']:
+            assessmentType = AssessmentType.CW if a['Type'] == 'cw' else AssessmentType.EX
+            if assessmentType == AssessmentType.CW:    
+                startdate = datetime.strptime(a['startdate'], DTFORMAT).date()
+                enddate = datetime.strptime(a['enddate'], DTFORMAT).date()
+                assessment = Assessment(weight=a['weight'], startdate=startdate, deadline=enddate, assessmentType=assessmentType, module=module)
+            else:
+                date = datetime.strptime(a['date'], DTFORMAT).date()
+                assessment = Assessment(weight=a['weight'], startdate=date, deadline=date, assessmentType=assessmentType, module=module)
+            assessment.save()
+            
 def uploadHubFile(request):
+    # If user is not logged in, redirect to login page
+    if not isLoggedIn(request):
+        return redirect('/')
+    
+    userid = request.COOKIES['userid']
+    if request.method == 'POST':
+        file = request.FILES['hubfile']
+        contentString = file.read()
+        contentJSON = json.loads(contentString)
+        _createSemesterStudyProfile(request, contentJSON, userid)
+
     return redirect('/dashboard')
 
 

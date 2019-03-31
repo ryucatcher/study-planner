@@ -36,7 +36,7 @@ urlpatterns = [
     path('processlogin/', views.processLogin),
     path('processaccount/', views.processAccount),
     path('logout/', views.logout),
-    path('uploadhubfile', views.uploadHubFile),
+    path('uploadhubfile/', views.uploadHubFile),
 
     # API urls
     path('api/updatedeadlinename', api.updateDeadlineName),
