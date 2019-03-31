@@ -152,10 +152,10 @@ def _createSemesterStudyProfile(request, content, userid):
             if assessmentType == AssessmentType.CW:    
                 startdate = datetime.strptime(a['startdate'], DTFORMAT).date()
                 enddate = datetime.strptime(a['enddate'], DTFORMAT).date()
-                assessment = Assessment(weight=a['weight'], startdate=startdate, deadline=enddate, assessmentType=assessmentType, module=module)
+                assessment = Assessment(weight=a['weight'], startDate=startdate, deadline=enddate, assessmentType=assessmentType, module=module)
             else:
                 date = datetime.strptime(a['date'], DTFORMAT).date()
-                assessment = Assessment(weight=a['weight'], startdate=date, deadline=date, assessmentType=assessmentType, module=module)
+                assessment = Assessment(weight=a['weight'], startDate=date, deadline=date, assessmentType=assessmentType, module=module)
             assessment.save()
             
 def uploadHubFile(request):
