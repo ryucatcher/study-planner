@@ -139,6 +139,10 @@ def dashboard(request):
 
 def _createSemesterStudyProfile(request, content, userid):
     user = User.objects.get(userid=userid)
+
+    # Delete existing profile with the same year
+    SemesterStudyProfile.objects.filter(user=user, year=content['Year']).delete()
+    
     profile = SemesterStudyProfile(year=content['Year'], semester=content['Semester'], user=user)
     profile.save()
     # Add modules to study profile
