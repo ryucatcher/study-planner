@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.middleware import csrf
+from django.shortcuts import redirect
 
 # Create your views here.
 from .models import User
@@ -33,7 +35,13 @@ def createTask(request):
 def dashboard(request):
     context = {
         'navigation': navigation_list,
-        'active': 'Deadlines'
+        'active': 'Deadlines',
+        'csrf': csrf.get_token(request)
     }
     return render(request, 'dashboardtest.html', context)
+
+
+def uploadHubFile(request):
+
+    return redirect('/dashboard')
 

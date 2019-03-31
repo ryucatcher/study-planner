@@ -3,30 +3,58 @@
 <head>
         {% load static %}
     <title>Study Planner</title>
-    
+    {% include "common_head.html" %}
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="{% static "common.css" %}" />
+    
     <link rel="stylesheet" href="{% static "createTask.css" %}" />
+    <script src="{% static "script/createTask.js" %}"></script>
 </head>
 <body>
     {% include "dashboard.html" %}
     <div class = "background" >
         <div id= "forms">
-        <form>
-            Task name:<br>
-            <input type="text" name="taskName"><br>
-            Duration:<br>
-            <input type="text" name="duration">
+        <form action="processtask" method="POST">
+            <div class="textfield">
+                <label for id ="name">Task name:</label> 
+                <input type="text" class="form-control" name="taskName" id= "name">
+            </div>
+            <div class="textfield">
+                <label for id ="duration">Duration:</label> 
+                <input type="text" class="form-control" name="duration" id ="duration">
+            </div>
+
+
+            <div class="dropdown">
+                <label for="module">Module</label>
+                <select id="module" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <label for="assessment">Assessment</label>
+                <select id="assessment" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div><br>
+
+            <div class="dropdown">
+                <label for="dependances">Dependances</label>
+                <select id="dependances" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+
+            <div class="textfield">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
             
           </form>
-          <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-            <div id="myDropdown" class="dropdown-content">
-              <a href="#">Link 1</a>
-              <a href="#">Link 2</a>
-              <a href="#">Link 3</a>
-            </div>
-          </div>
+          
         </div>
     </div>
 </body>
