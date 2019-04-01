@@ -173,25 +173,20 @@ def deadlines(request):
 
 def assessment(request, id=None):
     assessment=Assessment.objects.get(pk=id)
-    tasks = [
-        {'name' : 'task 1', 'progress' : 80 },
-        {'name' : 'task 2', 'progress' : 60 },
-        {'name' : 'task 3', 'progress' : 30 }
-    ]
-    numTasks = len(tasks)
-    progress = 0
-    for t in tasks:
-        progress += t["progress"]/numTasks
-    progress = int(progress)
-    atype = assessment.assessmentType
+    tasks = list()
+    for t in assessment.studytask_set.all():
+        p = int(t.progress()*100)
+        item = {'name' : t.name, 'progress' : p }
+        tasks.append(item)
+    progress = int(assessment.progress()*100)
     assessment = {
         'name' : assessment.name,
-        'type' : atype,
-        'module' : 'Software Engineering',
-        'startdate' : '15/01/2019',
-        'deadline' : '13/03/2019',
-        'weight' : 40,
-        'description' : 'Assessment description',
+        'type' : assessment.get_type_a_display(),
+        'module' : assessment.module.name,
+        'startdate' : assessment.startDate,
+        'deadline' : assessment.deadline,
+        'weight' : assessment.weight,
+        'description' : assessment.description,
         'progress' : progress,
         'tasks' : tasks
     }
