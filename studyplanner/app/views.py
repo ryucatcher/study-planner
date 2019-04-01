@@ -50,7 +50,7 @@ def index(request):
 
 def login(request):
     # If user already logged in
-    if 'userid' in request.COOKIES:
+    if isLoggedIn(request):
         return redirect('/dashboard')
     
     # error context
@@ -62,7 +62,7 @@ def login(request):
 
 def processLogin(request):
     email = request.POST['email']
-    if isLoggedIn(request):
+    if not isValidEmail(email):
         print('Invalid email.')
         return redirect('/error=Invalid Email')
     
@@ -235,6 +235,7 @@ def assessment(request, id=None):
         'name' : assessment.name,
         'type' : assessment.get_type_a_display(),
         'module' : assessment.module.name,
+        'module_id' : assessment.module.uid,
         'startdate' : assessment.startDate,
         'deadline' : assessment.deadline,
         'weight' : assessment.weight,
@@ -251,30 +252,28 @@ def assessment(request, id=None):
 
 def task(request, id=None):
     task=StudyTask.objects.get(pk=id)
-    activities = [
-        {'name' : 'activity 1', 'progress' : 100, 'type' : 'Programming'},
-        {'name' : 'activity 2', 'progress' : 50, 'type' : 'Studying' },
-        {'name' : 'activity 3', 'progress' : 15, 'type' : 'Writing' }
-    ]
-    numActivs = len(activities)
-    progress = 0
-    for a in activities:
-        progress += a["progress"]/numActivs
-    progress = int(progress)
-    notes = [
-        {'note' : 'note 1', 'date' : '13/03/2019' },
-        {'note' : '2 note 2 furious', 'date' : '14/03/2019' },
-        {'note' : 'A longer note, with a lot of text, so much text, a lot of things', 'date' : '16/03/2019' },
-        {'note' : 'note 4', 'date' : '17/03/2019' }
-    ]
-    requiredTasks = [
-        {'name' : 'Another task 1'}, {'name' : 'Another task 2'},
-    ]
+    activities = list()
+    notes = list()
+    requiredTasks = list()
+    for a in task.studyactivity_set.all():
+        p = int(a.progress()*100)
+        item = {'name' : a.name, 'type' : a.get_type_act_display(),
+            'progress' : p, 'id' : a.uid
+        }
+        activities.append(item)
+    for n in task.note_set.all():
+        p = int(a.progress()*100)
+        item = {'note' : n.notes, 'date' : n.date, 'id' : n.uid }
+        notes.append(item)
+    for t in task.requiredTasks.all():
+        item = {'name' : t.name, 'id' : t.uid }
+        requiredTasks.append(item)
+    progress = int(task.progress()*100)
     task = {
         'name' : task.name,
-        'assessment' : 'Software Engineering 1 Coursework',
-        'duration' : '5 days',
-        'description' : '',
+        'assessment' : task.assessment,
+        'duration' : task.duration.days,
+        'description' : task.description,
         'progress' : progress,
         'activities' : activities,
         'notes' : notes,

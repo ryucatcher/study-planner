@@ -64,7 +64,6 @@ class Assessment(models.Model):
         progress = 0.0
         for t in tasks:
             progress += t.progress()/size
-            print(progress)
         return progress
     def __str__(self):
         return self.name
@@ -82,7 +81,6 @@ class StudyTask(models.Model):
         progress = 0.0
         for a in activities:
             progress += a.progress()/size
-            print(progress)
         return progress
     def __str__(self):
         return self.name
