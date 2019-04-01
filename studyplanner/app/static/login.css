@@ -1,4 +1,6 @@
 .vertically-center{
+    
+    background-color: #191819;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,27 +9,48 @@
 }
 
 .loginContainer{
+    background-color: #323232;
+    border-radius: 10px;
     display: inline-block;
     align-items: center;
     justify-content: center;
     width:35%;
-    height:35%;
+    height:70%;
     border:1px solid black;
     padding:50px 60px;
     position: relative;
-    top: -8em;
+    top: -1em;
     -webkit-box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
 }
 
 .userBox{
-    height:40px;
-    width:500px;
+   
     
-    display: flex;
+    display: inline-block;
+}
+h1{
+    color:whitesmoke;
+}
+form{
+
+    margin-top:20px;
 }
 
-.userBox-input{
-    align-items: stretch;
+.form-group{
+    color:whitesmoke;
+    margin-top:30px;
+}
+
+.btn-success{
+    margin-left: 37.5%;
+}
+
+a{
+    color:whitesmoke;
+    position: relative;
+    top:1em;
+    margin-left: 40%;
+    font-size: 15px;
 }
