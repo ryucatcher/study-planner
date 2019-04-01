@@ -60,7 +60,7 @@
                 <div class="deadlines-separator"></div>
                 <div class="dgu-content">
                 {% for deadline in missed %}
-                     a href="{% url 'assessment' id=deadline.id %}">
+                    <a href="{% url 'assessment' id=deadline.id %}">
                     <div class="deadlines-entry">
                     {{ deadline.name }}
                         <div class="deadlines-date-progress-container">

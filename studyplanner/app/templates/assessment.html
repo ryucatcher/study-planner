@@ -50,12 +50,14 @@
                 </div>
             </div>
             {% for task in assessment.tasks %}
+            <a href="{% url 'task' id=task.id %}">
             <div class="assessment-table-entry">
                 {{ task.name }}
                 <div class="progress-bar pb-infobox">
                 <div class="progress-bar-fill" style="width:{{ task.progress }}%;"></div>
                 </div>
             </div>
+            </a>
             {% endfor %}
             <div class="add-button" style="margin-top:10px;">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
