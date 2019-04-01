@@ -191,7 +191,7 @@ def assessment(request, id=None):
         item = {'name' : t.name, 'progress' : p, 'id' : t.uid }
         tasks.append(item)
     progress = int(assessment.progress()*100)
-    assessment = {
+    assessment_info = {
         'name' : assessment.name,
         'type' : assessment.get_type_a_display(),
         'module' : assessment.module.name,
@@ -206,7 +206,7 @@ def assessment(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
-        'assessment' : assessment
+        'assessment' : assessment_info
     }
     return render(request, 'assessment.html', context)
 
@@ -222,16 +222,16 @@ def task(request, id=None):
         }
         activities.append(item)
     for n in task.note_set.all():
-        p = int(a.progress()*100)
         item = {'note' : n.notes, 'date' : n.date, 'id' : n.uid }
         notes.append(item)
     for t in task.requiredTasks.all():
         item = {'name' : t.name, 'id' : t.uid }
         requiredTasks.append(item)
     progress = int(task.progress()*100)
-    task = {
+    task_info = {
         'name' : task.name,
         'assessment' : task.assessment,
+        'assessment_id' : task.assessment.uid,
         'duration' : task.duration.days,
         'description' : task.description,
         'progress' : progress,
@@ -242,34 +242,37 @@ def task(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
-        'task' : task
+        'task' : task_info
     }
     return render(request, 'task.html', context)
 
-def activity(request):
-    notes = [
-        {'note' : 'note 1', 'date' : '13/03/2019' },
-        {'note' : '2 note 2 furious', 'date' : '14/03/2019' },
-        {'note' : 'A longer note, with a lot of text, so much text, a lot of things', 'date' : '16/03/2019' },
-        {'note' : 'note 4', 'date' : '17/03/2019' }
-    ]
-    tasks = [
-        {'name' : 'Another task 1'}, {'name' : 'Another task 2'},
-    ]
-    activity = {
-        'name' : 'Some activity name',
-        'assessment' : 'Software Engineering 1 Coursework',
-        'type' : 'Programming',
-        'progress' : 80,
-        'completed' : 8,
-        'target' : 10,
-        'units' : 'requirements',
+def activity(request, id=None):
+    activity=StudyActivity.objects.get(pk=id)
+    notes = list()
+    tasks = list()
+    for n in activity.note_set.all():
+        item = {'note' : n.notes, 'date' : n.date, 'id' : n.uid }
+        notes.append(item)
+    for t in activity.tasks.all():
+        item = {'name' : t.name, 'id' : t.uid }
+        tasks.append(item)
+    progress = int(activity.progress()*100)
+    assessment = activity.tasks.all()[0].assessment
+    activity_info = {
+        'name' : activity.name,
+        'assessment' : assessment.name,
+        'assessment_id' : assessment.uid,
+        'type' : activity.get_type_act_display(),
+        'progress' : progress,
+        'completed' : activity.completed,
+        'target' : activity.target,
+        'units' : 'requirements', #change this later
         'notes' : notes,
         'tasks' : tasks,
     }
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
-        'activity' : activity
+        'activity' : activity_info
     }
     return render(request, 'activity.html', context)
