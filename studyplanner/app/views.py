@@ -130,6 +130,8 @@ def logout(request):
     return response
 
 def dashboard(request):
+    if not isLoggedIn(request):
+        return redirect('/')
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
