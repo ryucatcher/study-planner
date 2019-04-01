@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 
 # Create your views here.
 from .models import *
+from datetime import date,timedelta
 
 navigation_list = [
     {'icon': 'img/icon_deadlines.png', 'title': 'Deadlines', 'url': '/deadlines'},
@@ -87,32 +88,40 @@ def uploadHubFile(request):
 
 
 def deadlines(request):
-    deadlines = Assessment.objects.all()
+    today = date.today()
+    u = User.objects.all()[0]
+    s = u.activeSemester
+    deadlines = s.allAssessments().order_by('deadline')
+    # deadlines.order_by('deadline')
     upcoming = list()
+    inprogress = list()
+    missed = list()
+    completed = list()
     for dl in deadlines:
-        p = int(dl.progress()*100)
-        print(p)
-        item = {'name':dl.name,'date':dl.deadline,'progress':p}
-        upcoming.append(item)
-    upcoming2 = [
-        {'name':'Software Engineering coursework 2', 'date':'15/04/2019','progress':30},
-        {'name':'Graphics Coursework', 'date':'26/04/2019','progress':0},
-        {'name':'Programming coursework 2', 'date':'01/05/2019','progress':90}
-    ]
-    inprogress = [
-        {'name':'Software Engineering coursework 2', 'date':'15/04/2019','progress':30},
-        {'name':'Programming coursework 2', 'date':'01/05/2019','progress':90}
-    ]
-    missed = [
-        {'name':'Database Structures and Algorithms coursework', 'date':'20/03/2019','progress':80}
-    ]
-    completed = [
-        {'name':'Software Engineering coursework 1', 'date':'15/03/2019','progress':100},
-        {'name':'Programming coursework 1', 'date':'26/02/2019','progress':100},
-        {'name':'Programming coursework 1', 'date':'26/02/2019','progress':100},
-        {'name':'Programming coursework 1', 'date':'26/02/2019','progress':100},
-        {'name':'Programming coursework 1', 'date':'26/02/2019','progress':100}
-    ]
+        deadline = dl.deadline
+        progress = dl.progress()
+        p = int(progress*100)
+        item = {'name':dl.name,'date':deadline,'progress':p}
+
+        diff_date = deadline - today
+        diff_days = diff_date.days
+        # Deadline has passed and has not been completed yet -> missed
+        if deadline < today and progress<1.0:
+            missed.append(item)
+        # Progress is 100% -> completed
+        if progress==1.0:
+            completed.append(item)
+        # Progress is more than 0%, but less than 100% -> in progress
+        if progress>0.0 and progress<1.0:
+            inprogress.append(item)
+        # Deadline hasn't passed yet -> upcoming
+        if not(deadline < today):
+            # If deadline is in less than a month it will always be added to upcoming
+            # If it is further away, it will be added is there are less than 4 deadlines
+            # so far on the list (to avoid overwhelming)
+            if diff_days<31 or len(upcoming)<4:
+                upcoming.append(item)
+    completed.reverse()
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
