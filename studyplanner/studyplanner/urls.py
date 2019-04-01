@@ -31,7 +31,7 @@ urlpatterns = [
     path('deadlines/',views.deadlines),
     url(r'^assessment/(?P<id>[-@\w]+)/$', views.assessment,name='assessment'),
     url(r'^task/(?P<id>[-@\w]+)/$', views.task,name='task'),
-    path('activity/',views.activity),
+    url(r'^activity/(?P<id>[-@\w]+)/$', views.activity,name='activity'),
 
     # Forms
     path('processlogin/', views.processLogin),

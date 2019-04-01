@@ -18,7 +18,9 @@
             <div class="assessment-type" style="margin-bottom: 20px;">{{ activity.type }} Activity</div>
             <div class="assessment-infobox">
                 <div class="assessment-ib-label">Assessment:</div>
+                <a href="{% url 'assessment' id=activity.assessment_id %}">
                 <div class="assessment-ib-text ul-hover">{{ activity.assessment }}</div>
+                </a>
             </div>
             <div class="assessment-infobox">
                 <div class="assessment-ib-label">Type:</div>
@@ -44,7 +46,9 @@
                 <div class="multiple-ib-text">
                     {% for task in activity.tasks %}
                     <div class="assessment-ib-text mibt-item">
+                        <a href="{% url 'task' id=task.id %}">
                         <span class="ul-hover">{{ task.name }}</span>
+                        </a>
                         <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
                     </div>
                     {% endfor %}

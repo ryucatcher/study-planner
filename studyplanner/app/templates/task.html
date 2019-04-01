@@ -18,7 +18,9 @@
             <div class="assessment-type" style="margin-bottom: 20px;">Task</div>
             <div class="assessment-infobox">
                 <div class="assessment-ib-label">Assessment:</div>
+                <a href="{% url 'assessment' id=task.assessment_id %}">
                 <div class="assessment-ib-text ul-hover">{{ task.assessment }}</div>
+                </a>
             </div>
             <div class="assessment-infobox">
                 <div class="assessment-ib-label">Description:</div>
@@ -38,7 +40,9 @@
                 <div class="multiple-ib-text">
                     {% for reqtask in task.tasks %}
                     <div class="assessment-ib-text mibt-item">
+                        <a href="{% url 'task' id=reqtask.id %}">
                         <span class="ul-hover">{{ reqtask.name }}</span>
+                        </a>
                         <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
                     </div>
                     {% endfor %}
@@ -54,6 +58,7 @@
                 </div>
             </div>
             {% for activity in task.activities %}
+            <a href="{% url 'activity' id=activity.id %}">
             <div class="assessment-table-entry">
                 {{ activity.name }}
                 <div class="assessment-type" style="margin-left: 5px;">{{ activity.type }}</div>
@@ -62,6 +67,7 @@
                 <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
                 </div>
             </div>
+            </a>
             {% endfor %}
             <div class="add-button" style="margin-top:10px;">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
