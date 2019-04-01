@@ -37,18 +37,23 @@ class Module(models.Model):
     def __str__(self):
         return self.name
 
-class AssessmentType(Enum):
-    EX = "Exam"
-    CW = "Coursework"
+#class AssessmentType(Enum):
+#    EX = "Exam"
+#    CW = "Coursework"
 
 class Assessment(models.Model):
+    ASSESSMENT_TYPES = (
+        ('EX', 'Exam'),
+        ('CW', 'Coursework')
+    )
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=320)
     description = models.CharField(max_length=1000)
     weight = models.IntegerField()
     startDate = models.DateField()
     deadline = models.DateField()
-    assessmentType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in AssessmentType])
+    #assessmentType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in AssessmentType])
+    type_a = models.CharField(max_length=11, choices=ASSESSMENT_TYPES)
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     def progress(self):
         #tasks = StudyTask.objects.filter(assessment=self)
@@ -80,18 +85,24 @@ class StudyTask(models.Model):
     def __str__(self):
         return self.name
 
-class Type(Enum):
-    RE = "Reading"
-    WR = "Writing"
-    ST = "Studying"
-    PR = "Programming"
+#class Type(Enum):
+#    RE = "Reading"
+#    WR = "Writing"
+#    ST = "Studying"
+#    PR = "Programming"
 
 class StudyActivity(models.Model):
+    ACTIVITY_TYPES = (
+        ('RE', 'Reading'),
+        ('WR', 'Writing'),
+        ('ST', 'Studying'),
+        ('PR', 'Programming')
+    )
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=320)
     target = models.IntegerField()
     completed = models.IntegerField(default=0)
-    actType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in Type])
+    type_act = models.CharField(max_length=11, choices=ACTIVITY_TYPES)
     tasks = models.ManyToManyField(StudyTask)
     def progress(self):
         return self.completed/float(self.target)
