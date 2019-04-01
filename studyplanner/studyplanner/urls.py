@@ -40,5 +40,6 @@ urlpatterns = [
 
     # API urls
     path('api/updatedeadlinename', api.updateDeadlineName),
-    path('api/updatetaskprogress', api.updateTaskProgress)
+    path('api/updatetaskprogress', api.updateTaskProgress),
+    path('api/getstudyprofile', api.getUserStudyProfile)
 ]

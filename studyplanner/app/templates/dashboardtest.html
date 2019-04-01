@@ -11,7 +11,10 @@
         {% include "dashboard.html" %}
         <div class="center-content">
             <h1>Center content</h1>
-            <button onclick="makeRequest('{{ csrf }}')">MAKE REQUEST</button>
+            <button onclick="getUserProfile('{{ csrf }}')">GET USER PROFILE</button>
+            <div id="user-profile-content">
+
+            </div>
         </div>
     </div>
 </body>
