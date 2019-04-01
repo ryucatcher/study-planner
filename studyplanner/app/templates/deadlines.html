@@ -18,6 +18,7 @@
                 <div class="deadlines-separator"></div>
                 <div class="dgu-content">
                 {% for deadline in upcoming %}
+                    <a href="{% url 'assessment' id=deadline.id %}">
                     <div class="deadlines-entry">
                     {{ deadline.name }}
                         <div class="deadlines-date-progress-container">
@@ -27,6 +28,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 {% endfor %}
                 </div>
             </div>
@@ -37,6 +39,7 @@
                 <div class="deadlines-separator"></div>
                 <div class="dgu-content">
                 {% for deadline in inprogress %}
+                    <a href="{% url 'assessment' id=deadline.id %}">
                     <div class="deadlines-entry">
                     {{ deadline.name }}
                         <div class="deadlines-date-progress-container">
@@ -46,6 +49,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 {% endfor %}
                 </div>
             </div>
@@ -56,6 +60,7 @@
                 <div class="deadlines-separator"></div>
                 <div class="dgu-content">
                 {% for deadline in missed %}
+                     a href="{% url 'assessment' id=deadline.id %}">
                     <div class="deadlines-entry">
                     {{ deadline.name }}
                         <div class="deadlines-date-progress-container">
@@ -64,7 +69,8 @@
                             <div class="progress-bar-fill" style="width:{{ deadline.progress }}%"></div>
                             </div>
                         </div>
-                     </div>
+                    </div>
+                    </a>
                  {% endfor %}
                 </div>
             </div>
@@ -75,6 +81,7 @@
                 <div class="deadlines-separator"></div>
                 <div class="dgu-content">
                 {% for deadline in completed %}
+                    <a href="{% url 'assessment' id=deadline.id %}">
                     <div class="deadlines-entry">
                     {{ deadline.name }}
                         <div class="deadlines-date-progress-container">
@@ -84,6 +91,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 {% endfor %}
                 </div>
             </div>

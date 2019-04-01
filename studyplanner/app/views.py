@@ -19,23 +19,6 @@ navigation_list = [
     {'icon': 'img/icon_logout.png', 'title': 'Logout', 'url': '/logout'}
 ]
 
-def isLoggedIn(request):
-    if 'userid' in request.COOKIES:
-        return True
-    return False
-
-def isValidEmail(email):
-    try:
-        validate_email(email)
-        return True
-    except ValidationError:
-        return False
-
-def isValidPassword(password):
-    return len(password) > 7
-
-def loginUser(response, userid):
-    response.set_cookie('userid', userid)
 
 def index(request):
     user_list = User.objects.all()
@@ -47,7 +30,7 @@ def index(request):
 
 def login(request):
     # If user already logged in
-    if isLoggedIn(request):
+    if 'userid' in request.COOKIES:
         return redirect('/dashboard')
     
     # error context
@@ -56,6 +39,13 @@ def login(request):
         context['error'] = request.GET['error']
 
     return render(request,'login.html', context)
+
+def isValidEmail(email):
+    try:
+        validate_email(email)
+        return True
+    except ValidationError:
+        return False
 
 def processLogin(request):
     email = request.POST['email']
@@ -82,51 +72,9 @@ def processLogin(request):
 
     # Set logged in cookie
     response = redirect('/')
-    loginUser(response, user.userid)
+    response.set_cookie('userid', user.userid)
 
     return response
-
-def createAccount(request):
-    if isLoggedIn(request):
-        return redirect('/dashboard')
-    context = {}
-    if 'error' in request.GET:
-        context['error'] = request.GET['error']
-    return render(request, 'createaccount.html', context)
-
-def processAccount(request):
-    post = request.POST
-    response = redirect('/')
-    if post['action'] == 'createaccount':
-        email = post['email']
-        if not isValidEmail(email):
-            return redirect('/createaccount?error=Invalid email')
-
-        fname = post['fname']
-        lname = post['lname']
-        if len(fname) == 0 or len(lname) == 0:
-            return redirect('/createaccount?error=Names must not be empty')
-
-        password = post['password']
-        if not isValidPassword(password):
-            return redirect('/createaccount?error=Password must be at least 8 characters long')
-        
-        # User data is valid so create account
-        user = User(email=email, firstname=fname, lastname=lname, password=password)
-        response = redirect('/')
-        try:
-            user.save()
-            loginUser(response, user.userid)
-        except Exception as e:
-            return redirect('/createaccount?error=' + e)
-
-    return response
-
-def logout(request):
-    response = redirect('/')
-    response.delete_cookie('userid')
-    return response
-
 def dashboard(request):
     context = {
         'navigation': navigation_list,
@@ -144,7 +92,6 @@ def deadlines(request):
     u = User.objects.all()[0]
     s = u.activeSemester
     deadlines = s.allAssessments().order_by('deadline')
-    # deadlines.order_by('deadline')
     upcoming = list()
     inprogress = list()
     missed = list()
@@ -153,7 +100,7 @@ def deadlines(request):
         deadline = dl.deadline
         progress = dl.progress()
         p = int(progress*100)
-        item = {'name':dl.name,'date':deadline,'progress':p}
+        item = {'name':dl.name,'date':deadline,'progress':p,'id':dl.uid}
 
         diff_date = deadline - today
         diff_days = diff_date.days
@@ -173,7 +120,7 @@ def deadlines(request):
             # so far on the list (to avoid overwhelming)
             if diff_days<31 or len(upcoming)<4:
                 upcoming.append(item)
-    completed.reverse()
+    completed.reverse() #showing the most recent completed first
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
@@ -184,7 +131,8 @@ def deadlines(request):
     }
     return render(request, 'deadlines.html', context)
 
-def assessment(request):
+def assessment(request, id=None):
+    assessment=Assessment.objects.get(pk=id)
     tasks = [
         {'name' : 'task 1', 'progress' : 80 },
         {'name' : 'task 2', 'progress' : 60 },
@@ -195,9 +143,10 @@ def assessment(request):
     for t in tasks:
         progress += t["progress"]/numTasks
     progress = int(progress)
+    atype = assessment.assessmentType
     assessment = {
-        'name' : 'Software Engineering 1 Coursework',
-        'type' : 'Coursework',
+        'name' : assessment.name,
+        'type' : atype,
         'module' : 'Software Engineering',
         'startdate' : '15/01/2019',
         'deadline' : '13/03/2019',
