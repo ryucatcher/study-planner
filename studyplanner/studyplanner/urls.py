@@ -17,10 +17,28 @@ from django.contrib import admin
 from django.urls import path
 
 from app import views
+from app import api
 
 urlpatterns = [
+    # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
-    path('',views.login),
-    path('dashboard/', views.dashboard)
+    path('', views.login),
+    path('login/', views.login),
+    path('createaccount/', views.createAccount),
+    path('dashboard/', views.dashboard),
+    path('deadlines/',views.deadlines),
+    path('assessment/',views.assessment),
+    path('task/',views.task),
+    path('activity/',views.activity),
+
+    # Forms
+    path('processlogin/', views.processLogin),
+    path('processaccount/', views.processAccount),
+    path('logout/', views.logout),
+    path('uploadhubfile', views.uploadHubFile),
+
+    # API urls
+    path('api/updatedeadlinename', api.updateDeadlineName),
+    path('api/updatetaskprogress', api.updateTaskProgress)
 ]
