@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 
 from app import views
 from app import api
@@ -25,10 +26,11 @@ urlpatterns = [
     path('index/', views.index),
     path('', views.login),
     path('login/', views.login),
-    path('createaccount/', views.createAccount),
+    #path('createaccount/', views.createAccount),
     path('dashboard/', views.dashboard),
     path('deadlines/',views.deadlines),
-    path('assessment/',views.assessment),
+    #path('assessment/',views.assessment),
+    url(r'^assessment/(?P<id>[-@\w]+)/$', views.assessment,name='assessment'),
     path('task/',views.task),
     path('activity/',views.activity),
 
