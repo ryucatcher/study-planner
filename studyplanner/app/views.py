@@ -152,7 +152,6 @@ def _createSemesterStudyProfile(request, content, userid):
         module = Module(name=m['Name'], code=m['Code'], description=m['Description'], semester=profile)
         module.save()
         # Add assessments to modules
-        DTFORMAT = '%d-%m-%Y'
         for a in m['Assessments']:
             assessmentType = AssessmentType.CW if a['Type'] == 'cw' else AssessmentType.EX
             if assessmentType == AssessmentType.CW:    
