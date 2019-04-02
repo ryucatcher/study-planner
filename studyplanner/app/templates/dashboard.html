@@ -26,8 +26,9 @@
         <div class="dashboard-control-container">
             <ul>
                 <li class="dashboard-control-list">
-                    <form id="upload-hubfile-form" type="POST" action="uploadhubfile">
-                        <input type="file" name="hubfile-input" id="hubfile-input" class="nodisplay" />
+                    <form id="upload-hubfile-form" method="POST" action="/uploadhubfile/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="hubfile" id="hubfile-input" class="nodisplay" />
                         <button id="hubinput-button" type="button" onclick="uploadHubfile()">
                             <img src="{% static "/img/icon_open.png" %}" alt="Open File" />
                         </button>
