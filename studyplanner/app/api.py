@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+import datetime
 
 import json
 
@@ -107,3 +108,47 @@ def getUserStudyProfile(request):
     except Exception as e:
         print(e)
         return HttpResponse(json.dumps(result))
+
+def edit_assessment_name(request, id=None):
+    if request.method == 'POST':
+        name = request.POST['name']
+        if name == '':
+            return HttpResponse("You must write a name for the assessment.",status=400)
+        assessment=Assessment.objects.get(pk=id)
+        assessment.name = name
+        assessment.save()
+
+        return HttpResponse('')
+
+def edit_assessment_description(request, id=None):
+    if request.method == 'POST':
+        description = request.POST['description']
+        assessment=Assessment.objects.get(pk=id)
+        assessment.description = description
+        assessment.save()
+
+        return HttpResponse('')
+
+def edit_assessment_startdate(request, id=None):
+    if request.method == 'POST':
+        date_str = request.POST['startdate']
+        date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        assessment=Assessment.objects.get(pk=id)
+        if date > assessment.deadline:
+            return HttpResponse("The start date cannot be after the deadline.",status=400)
+        assessment.startDate = date
+        assessment.save()
+
+        return HttpResponse('')
+
+def edit_assessment_deadline(request, id=None):
+    if request.method == 'POST':
+        date_str = request.POST['deadline']
+        date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        assessment=Assessment.objects.get(pk=id)
+        if date < assessment.startDate:
+            return HttpResponse("The deadline date cannot be before the start date.",status=400)
+        assessment.deadline = date
+        assessment.save()
+
+        return HttpResponse('')

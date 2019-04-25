@@ -232,6 +232,7 @@ def assessment(request, id=None):
         tasks.append(item)
     progress = int(assessment.progress()*100)
     assessment_info = {
+        'uid' : assessment.uid,
         'name' : assessment.name,
         'type' : assessment.get_type_a_display(),
         'module' : assessment.module.name,
