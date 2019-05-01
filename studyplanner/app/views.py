@@ -37,6 +37,9 @@ def isValidEmail(email):
 def isValidPassword(password):
     return len(password) > 7
 
+def getUser(request):
+    return User.objects.get(userid=request.COOKIES['userid'])
+
 def loginUser(response, userid):
     response.set_cookie('userid', userid)
 
@@ -136,7 +139,8 @@ def dashboard(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
-        'csrf': csrf.get_token(request)
+        'csrf': csrf.get_token(request),
+        'user': getUser(request)
     }
     return render(request, 'dashboardtest.html', context)
 
@@ -321,6 +325,7 @@ def activity(request):
 def ganttchart(request):
     context = {
         'navigation': navigation_list,
-        'active': 'Gantt Chart'
+        'active': 'Gantt Chart',
+        'user': getUser(request)
     }
     return render(request, 'ganttchart.html', context)
