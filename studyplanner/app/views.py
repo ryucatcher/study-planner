@@ -317,3 +317,10 @@ def activity(request):
         'activity' : activity
     }
     return render(request, 'activity.html', context)
+
+def ganttchart(request):
+    context = {
+        'navigation': navigation_list,
+        'active': 'Gantt Chart'
+    }
+    return render(request, 'ganttchart.html', context)
