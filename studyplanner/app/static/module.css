@@ -1,23 +1,23 @@
-.card-deck {
+.card-columns {
+    display: flex;
+    flex-wrap: wrap;
     border-color: green;
     border-style: solid;
-    /* align-self: center; */
-    justify-content: center;
-
+    align-items: center;
+    justify-content: space-around; /*Adds margin in between the cards*/
+    height: 100vh;
 }
 
 .card {
-    display: inline-block;
+
     text-align: center;
-    align-content: center;
     background-color: rgb(57, 61, 72);
     color: white;
-    width: 20rem;
-    margin-left: 10px;
-    height: 100%;
-
     border-color: yellow;
     border-style: solid;
+    width: 400px !important;
+    height: 175px !important;
+    
 }
 
 .card-body {

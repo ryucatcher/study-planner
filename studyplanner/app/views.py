@@ -323,8 +323,9 @@ def module(request):
     context = {
         'navigation': navigation_list,
         'active': 'Modules',
-        'modules': ['Software Engineering 1', 'Programming 2', 'Graphics 1', 'Information Retrieval', 'Data Structures and Algorithms'],
-        'description': ['Software Engineering 1 description', 'Programming 2 description', 'Graphics 1 description', 
-            'Information Retrieval description', 'Data Structures and Algorithms description']
+        'modules': [['Software Engineering 1', 'Software Engineering 1 description'],['Programming 2','Programming 2 description'],
+            ['Graphics 1','Graphics 1 description'], ['Information Retrieval','Information Retrieval description'],
+            ['Data Structures and Algorithms','Data Structures and Algorithms description'], 
+            ['Architectures and Operating Systems','Architectures and Operating Systems description']],
     }
     return render(request, 'module.html', context)
