@@ -31,7 +31,8 @@ urlpatterns = [
     path('assessment/',views.assessment),
     path('task/',views.task),
     path('activity/',views.activity),
-    path('module/', views.module),
+    path('modules/', views.module),
+    path('modules/moduleInformation/', views.moduleInformation),
 
     # Forms
     path('processlogin/', views.processLogin),
