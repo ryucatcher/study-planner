@@ -4,12 +4,20 @@
     {% load static %}
     <title>Gantt Chart</title>
     {% include "common_head.html" %}
+    <link rel="stylesheet" href="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" type="text/css"> 
+    <script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+    <script src="{% static "script/ganttchart.js" %}"></script>
 </head>
 <body>
     <div class="content">
         {% include "dashboard.html" %}
         <div class="center-content">
             <h1 class="display-2">Gantt Chart</h1>
+            <div class="gantt-container">
+                <div id="gantt">
+
+                </div>
+            </div>
         </div>
     </div>
 </body>
