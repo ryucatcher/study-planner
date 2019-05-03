@@ -323,9 +323,20 @@ def activity(request):
     return render(request, 'activity.html', context)
 
 def ganttchart(request):
+    user = getUser(request)
+    modules = Module.objects.filter(user=user)
+
+    ganttdata = {}
+    for module in modules:
+        assessments = Assessment.objects.filter(module=module)
+        for assessment in assessments:
+            tasks = StudyTask.objects.filter(assessment=assessment) 
+            
+
     context = {
         'navigation': navigation_list,
         'active': 'Gantt Chart',
-        'user': getUser(request)
+        'user': getUser(request),
+        'ganttdata': json.dumps(ganttdata)
     }
     return render(request, 'ganttchart.html', context)

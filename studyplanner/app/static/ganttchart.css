@@ -1,0 +1,23 @@
+.center-content{
+    display: inline-block;
+    height: 100vh;
+    width: 81%;
+}
+
+.gantt-container{
+    display: inline-block;    
+    width: 100%;
+    height:92%;
+}
+
+#chart{
+    height: 100%;
+}
+
+.gantt_add{
+    display: none;
+}
+
+div[aria-label="New task"]{
+    display: none;
+}
