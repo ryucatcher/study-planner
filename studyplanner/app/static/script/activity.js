@@ -2,18 +2,18 @@ $(document).ready(function(){
     $('#edit-name-form').on('submit', function(event){
         event.preventDefault();
         var uid = $("#uid").html();
-        var url_ = '/task/' + uid + '/editname/';
+        var url_ = '/activity/' + uid + '/editname/';
         $.ajax({
             type:'POST',
             url: url_,
             data:{
-                name:$("#new-task-name").val(),
+                name:$("#new-act-name").val(),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
             success:function(){
                 var titleDisplay = document.getElementsByClassName("assessment-title")[0];
                 var titleEdit = document.getElementById("edit-name");
-                titleDisplay.innerHTML = $("#new-task-name").val();
+                titleDisplay.innerHTML = $("#new-act-name").val();
                 titleDisplay.style.display = "block";
                 titleEdit.style.display = "none";
                 console.log("Success!");
@@ -24,23 +24,26 @@ $(document).ready(function(){
             }
         });
     });
-    $('#edit-description-form').on('submit', function(event){
+    $('#edit-completed-form').on('submit', function(event){
         event.preventDefault();
         var uid = $("#uid").html();
-        var url_ = '/task/' + uid + '/editdescription/';
+        var url_ = '/activity/' + uid + '/editcompleted/';
         $.ajax({
             type:'POST',
             url: url_,
             data:{
-                description:$("#new-description").val(),
+                completed:$("#new-completed").val(),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
-            success:function(){
-                var descDisplay = document.getElementById("description");
-                var descEdit = document.getElementById("edit-description");
-                descDisplay.innerHTML = $("#new-description").val();
-                descDisplay.style.display = "block";
-                descEdit.style.display = "none";
+            success:function(data){
+                var compDisplay = document.getElementById("completed");
+                var compEdit = document.getElementById("edit-completed");
+                compDisplay.innerHTML = $("#new-completed").val();
+                compDisplay.style.display = "block";
+                compEdit.style.display = "none";
+
+                document.getElementById("progress").setAttribute("style", "width:" + data.act_progress + "%;");
+                document.getElementById("progress-txt").innerHTML = data.act_progress + "%";
                 console.log("Success!");
             },
             error: function(request, status, error) { 
@@ -49,23 +52,31 @@ $(document).ready(function(){
             }
         });
     });
-    $('#edit-duration-form').on('submit', function(event){
+    $('#edit-target-form').on('submit', function(event){
         event.preventDefault();
         var uid = $("#uid").html();
-        var url_ = '/task/' + uid + '/editduration/';
+        var url_ = '/activity/' + uid + '/edittarget/';
         $.ajax({
             type:'POST',
             url: url_,
             data:{
-                duration:$("#new-duration").val(),
+                target:$("#new-target").val(),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
-            success:function(){
-                var durDisplay = document.getElementById("duration");
-                var durEdit = document.getElementById("edit-duration");
-                durDisplay.innerHTML = $("#new-duration").val() + " days";
-                durDisplay.style.display = "block";
-                durEdit.style.display = "none";
+            success:function(data){
+                var tarDisplay = document.getElementById("target");
+                var tarUnits = document.getElementById("units");
+                var tarEdit = document.getElementById("edit-target");
+                tarDisplay.innerHTML = $("#new-target").val();
+                var compDisplay = document.getElementById("completed");
+                compDisplay.innerHTML = data.completed;
+                
+                tarDisplay.style.display = "block";
+                tarUnits.style.display = "block";
+                tarEdit.style.display = "none";
+
+                document.getElementById("progress").setAttribute("style", "width:" + data.act_progress + "%;");
+                document.getElementById("progress-txt").innerHTML = data.act_progress + "%";
                 console.log("Success!");
             },
             error: function(request, status, error) { 
@@ -77,36 +88,36 @@ $(document).ready(function(){
     $('#add-task-form').on('submit', function(event){
         event.preventDefault();
         var uid = $("#uid").html();
-        var url_ = '/task/' + uid + '/addreqtask/';
+        var url_ = '/activity/' + uid + '/addtask/';
         $.ajax({
             type:'POST',
             url: url_,
             data:{
-                task_id:$("#new-req-task").val(),
+                task_id:$("#new-task").val(),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
             success:function(){
                 var newtask = document.createElement("div");
                 newtask.setAttribute("class", "ib-text mibt-item");
-                newtask.setAttribute("id", $("#new-req-task").val());
+                newtask.setAttribute("id", $("#new-task").val());
                 var newtask_a = document.createElement("a");
-                newtask_a.setAttribute("href", "/task/" + $("#new-req-task").val());
+                newtask_a.setAttribute("href", "/task/" + $("#new-task").val());
                 var newtask_span = document.createElement("span");
                 newtask_span.setAttribute("class", "ul-hover");
-                newtask_span.innerHTML = $("#new-req-task :selected").text();
+                newtask_span.innerHTML = $("#new-task :selected").text();
                 newtask_a.appendChild(newtask_span);
                 var newtask_img = document.createElement("img");
                 newtask_img.setAttribute("src", "/static/img/icon_delete.png");
                 newtask_img.setAttribute("alt", "icon");
                 newtask_img.setAttribute("class", "delete-icon");
-                newtask_img.setAttribute("onclick", "deleteReqTask('" + $("#new-req-task").val() + "')");
+                newtask_img.setAttribute("onclick", "deleteTask('" + $("#new-task").val() + "')");
                 newtask.appendChild(newtask_a);
                 newtask.appendChild(newtask_img);
-                var list = document.getElementById("reqtask-list");
+                var list = document.getElementById("task-list");
                 var addLink = document.getElementById("add-task-link");
                 list.insertBefore(newtask,addLink);
 
-                var taskOption = document.getElementById("option-" + $("#new-req-task").val());
+                var taskOption = document.getElementById("option-" + $("#new-task").val());
                 taskOption.parentNode.removeChild(taskOption);
                 var addForm = document.getElementById("add-task");
                 addLink.style.display = "block";
@@ -119,58 +130,10 @@ $(document).ready(function(){
             }
         });
     });
-    $('#add-activity-form').on('submit', function(event){
-        event.preventDefault();
-        var uid = $("#uid").html();
-        var url_ = '/task/' + uid + '/addactivity/';
-        $.ajax({
-            type:'POST',
-            url: url_,
-            data:{
-                name:$("#new-activity-name").val(),
-                type:$("#act-type").val(),
-                target:$("#new-activity-target").val(),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success:function(data){
-                var id = data.id;
-                var newact_a = document.createElement("a");
-                newact_a.setAttribute("href", "/activity/" + id);
-                var newact_div = document.createElement("div");
-                newact_div.setAttribute("class", "assessment-table-entry");
-                newact_div.innerHTML = data.name;
-                var type_div = document.createElement("div");
-                type_div.setAttribute("class", "assessment-type");
-                type_div.setAttribute("style", "margin-left: 5px;");
-                type_div.innerHTML = data.type;
-                var space_div = document.createElement("div");
-                space_div.setAttribute("style", "flex: 1 1 auto;");
-                var bar_div = document.createElement("div");
-                bar_div.setAttribute("class", "progress-bar pb-infobox");
-                var barfill_div = document.createElement("div");
-                barfill_div.setAttribute("class", "progress-bar-fill");
-                bar_div.appendChild(barfill_div);
-                newact_div.appendChild(type_div);
-                newact_div.appendChild(space_div);
-                newact_div.appendChild(bar_div);
-                newact_a.appendChild(newact_div);
-                document.getElementById("activities-list").appendChild(newact_a);
-                document.getElementById("progress").setAttribute("style", "width:" + data.task_progress + "%;");
-                document.getElementById("progress-txt").innerHTML = data.task_progress + "%";
-
-                cancelAddActivity();
-                console.log("Success!");
-            },
-            error: function(request, status, error) { 
-                console.log("Fail!");
-                alert(request.responseText);
-            }
-        });
-    });
     $('#add-note-form').on('submit', function(event){
         event.preventDefault();
         var uid = $("#uid").html();
-        var url_ = '/task/' + uid + '/addnote/';
+        var url_ = '/activity/' + uid + '/addnote/';
         $.ajax({
             type:'POST',
             url: url_,
@@ -214,7 +177,7 @@ $(document).ready(function(){
 function editName() {
     var titleDisplay = document.getElementsByClassName("assessment-title")[0];
     var titleEdit = document.getElementById("edit-name");
-    document.getElementById("new-task-name").value = titleDisplay.innerHTML;
+    document.getElementById("new-act-name").value = titleDisplay.innerHTML;
     titleDisplay.style.display = "none";
     titleEdit.style.display = "block";
 }
@@ -227,42 +190,45 @@ function cancelName(){
     console.log("cancelled!")
 }
 
-function editDescription() {
-    var descDisplay = document.getElementById("description");
-    var descEdit = document.getElementById("edit-description");
-    document.getElementById("new-description").value = descDisplay.innerHTML;
-    descDisplay.style.display = "none";
-    descEdit.style.display = "block";
+function editCompleted() {
+    var compDisplay = document.getElementById("completed");
+    var compEdit = document.getElementById("edit-completed");
+    document.getElementById("new-completed").value = compDisplay.innerHTML;
+    compDisplay.style.display = "none";
+    compEdit.style.display = "block";
 }
 
-function cancelDescription(){
-    var descDisplay = document.getElementById("description");
-    var descEdit = document.getElementById("edit-description");
-    descDisplay.style.display = "block";
-    descEdit.style.display = "none";
+function cancelCompleted(){
+    var compDisplay = document.getElementById("completed");
+    var compEdit = document.getElementById("edit-completed");
+    compDisplay.style.display = "block";
+    compEdit.style.display = "none";
     console.log("cancelled!")
 }
 
-function editDuration() {
-    var durDisplay = document.getElementById("duration");
-    var durEdit = document.getElementById("edit-duration");
-    document.getElementById("new-duration").value = durDisplay.innerHTML.replace(' days','');;
-    durDisplay.style.display = "none";
-    durEdit.style.display = "block";
+function editTarget() {
+    var tarDisplay = document.getElementById("target");
+    var tarUnits = document.getElementById("units");
+    var tarEdit = document.getElementById("edit-target");
+    document.getElementById("new-target").value = tarDisplay.innerHTML;
+    tarDisplay.style.display = "none";
+    tarUnits.style.display = "none";
+    tarEdit.style.display = "block";
 }
 
-function cancelDuration(){
-    var durDisplay = document.getElementById("duration");
-    var durEdit = document.getElementById("edit-duration");
-    durDisplay.style.display = "block";
-    durEdit.style.display = "none";
+function cancelTarget(){
+    var tarDisplay = document.getElementById("target");
+    var tarUnits = document.getElementById("units");
+    var tarEdit = document.getElementById("edit-target");
+    tarDisplay.style.display = "block";
+    tarUnits.style.display = "block";
+    tarEdit.style.display = "none";
     console.log("cancelled!")
 }
 
-function addReqTask() {
+function addTask() {
     var addLink = document.getElementById("add-task-link");
     var addForm = document.getElementById("add-task");
-    //document.getElementById("new-duration").value = durDisplay.innerHTML.replace(' days','');;
     addLink.style.display = "none";
     addForm.style.display = "block";
 }
@@ -274,10 +240,10 @@ function cancelAddTask() {
     addForm.style.display = "none";
 }
 
-function deleteReqTask(t_id){
+function deleteTask(t_id){
     event.preventDefault();
     var uid = $("#uid").html();
-    var url_ = '/task/' + uid + '/deletereqtask/';
+    var url_ = '/activity/' + uid + '/deletetask/';
     $.ajax({
         type:'POST',
         url: url_,
@@ -295,7 +261,7 @@ function deleteReqTask(t_id){
             newoption.setAttribute("id","option-" + t_id);
             newoption.value = t_id;
             newoption.innerHTML = taskName;
-            document.getElementById("new-req-task").appendChild(newoption);
+            document.getElementById("new-task").appendChild(newoption);
             console.log("Success!");
         },
         error: function(request, status, error) { 
@@ -303,32 +269,6 @@ function deleteReqTask(t_id){
             alert("Error: " + request.responseText);
         }
     });
-}
-
-function setUnits(){
-    var tag = document.getElementById("act-type").value;
-    var type_units = [{tag: 'RE', units: 'pages'},
-                 {tag: 'WR', units: 'words'},
-                 {tag: 'ST', units: 'hours'},
-                 {tag: 'PR', units: 'requirements'}];
-    var l = type_units.length;
-    for (var i = 0; i < l; i++) {
-        if(tag==type_units[i].tag){
-            document.getElementById("units").innerHTML = type_units[i].units;
-        }
-    }
-}
-
-function addActivity(){
-    var addAct = document.getElementById("new-activity");
-    addAct.style.display = "block";
-}
-
-function cancelAddActivity(){
-    var addAct = document.getElementById("new-activity");
-    document.getElementById("new-activity-name").value="";
-    document.getElementById("new-activity-target").value="";
-    addAct.style.display = "none";
 }
 
 function addNote(){
@@ -345,7 +285,7 @@ function cancelAddNote(){
 function deleteNote(n_id){
     event.preventDefault();
     var uid = $("#uid").html();
-    var url_ = '/task/' + uid + '/deletenote/';
+    var url_ = '/activity/' + uid + '/deletenote/';
     proceed = confirm("Are you sure you want to delete the note?");
     if(!proceed) return;
     $.ajax({
@@ -365,4 +305,27 @@ function deleteNote(n_id){
             alert("Error: " + request.responseText);
         }
     });
+}
+function deleteActivity(){
+    var uid = $("#uid").html();
+    var url_ = '/activity/' + uid + '/delete/';
+    proceed = confirm("Deleting an activity is irreversible."
+    + " The activity will be deleted from all tasks it is associated with."
+    + "\nAre you sure you want to delete the activity?");
+    if(!proceed) return;
+    $.ajax({
+        type:'POST',
+        url: url_,
+        data:{
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success:function(data){
+            window.location = data.url;
+        },
+        error: function(request, status, error) { 
+            console.log("Fail!");
+            alert("Error: " + request.responseText);
+        }
+    });
+
 }

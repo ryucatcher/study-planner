@@ -54,5 +54,13 @@ urlpatterns = [
     url(r'^task/(?P<id>[-@\w]+)/addreqtask/$', api.add_req_task,name='add_req_task'),
     url(r'^task/(?P<id>[-@\w]+)/addactivity/$', api.add_activity,name='add_activity'),
     url(r'^task/(?P<id>[-@\w]+)/addnote/$', api.add_note,name='add_note'),
-    url(r'^task/(?P<id>[-@\w]+)/deletenote/$', api.delete_note,name='delete_note')
+    url(r'^task/(?P<id>[-@\w]+)/deletenote/$', api.delete_note,name='delete_note'),
+    url(r'^activity/(?P<id>[-@\w]+)/editname/$', api.edit_act_name,name='edit_act_name'),
+    url(r'^activity/(?P<id>[-@\w]+)/editcompleted/$', api.edit_act_completed,name='edit_act_completed'),
+    url(r'^activity/(?P<id>[-@\w]+)/edittarget/$', api.edit_act_target,name='edit_act_target'),
+    url(r'^activity/(?P<id>[-@\w]+)/addnote/$', api.add_note_act,name='add_note_act'),
+    url(r'^activity/(?P<id>[-@\w]+)/deletenote/$', api.delete_note_act,name='delete_note_act'),
+    url(r'^activity/(?P<id>[-@\w]+)/addtask/$', api.add_task_to_act,name='add_task_to_act'),
+    url(r'^activity/(?P<id>[-@\w]+)/deletetask/$', api.delete_task_from_act,name='delete_task_from_act'),
+    url(r'^activity/(?P<id>[-@\w]+)/delete/$', api.delete_act,name='delete_act')
 ]

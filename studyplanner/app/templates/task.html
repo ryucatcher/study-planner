@@ -60,7 +60,7 @@
                 <div class="ib-label">Progress:</div>
                 <div class="ib-text">
                     <div class="progress-bar pb-infobox">
-                    <div class="progress-bar-fill" style="width:{{ task.progress }}%;" id="progress"></div>
+                    <div class="progress-bar-fill" id="progress" style="width:{{ task.progress }}%;"></div>
                     </div>
                     <div id="progress-txt">{{ task.progress }}%</div>
                 </div>
@@ -76,7 +76,7 @@
                         <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon" onclick="deleteReqTask('{{ reqtask.id }}')">
                     </div>
                     {% endfor %}
-                    <div id="add-task-link" class="ib-text mibt-item ul-hover" style="font-size:12px" onclick="addReqTask()">(+) Add a required task</div>
+                    <div id="add-task-link" class="ib-text mibt-item ul-hover" onclick="addReqTask()" style="font-size:12px">(+) Add a required task</div>
                     <div id="add-task" style="display: none;">
                         <form method="POST" id="add-task-form">
                             {% csrf_token %}
@@ -170,18 +170,18 @@
             </form>
         </div>
         <div class="obscure-bg" id="new-note" style="display:none;">
-                <form method="POST" id="add-note-form">
-                    {% csrf_token %}
-                    <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new note</div>
-                    <div class="infobox form-info-box">
-                        <div class="ib-label">Task:</div>
-                        <div class="ib-text">{{ task.name }}</div>
-                    </div>
-                    <textarea name="taskdescription" id="new-note-text" style="width: 500px;height: 150px;"></textarea>
-                    <button type="submit" class="save-button">Save</button>
-                    <button type="button" class="cancel-button" onclick="cancelAddNote()">Cancel</button>
-                </form>
-            </div>
+            <form method="POST" id="add-note-form">
+                {% csrf_token %}
+                <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new note</div>
+                <div class="infobox form-info-box">
+                    <div class="ib-label">Task:</div>
+                    <div class="ib-text">{{ task.name }}</div>
+                </div>
+                <textarea name="notetxt" id="new-note-text" style="width: 500px;height: 150px;"></textarea>
+                <button type="submit" class="save-button">Save</button>
+                <button type="button" class="cancel-button" onclick="cancelAddNote()">Cancel</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

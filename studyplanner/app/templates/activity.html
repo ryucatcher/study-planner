@@ -3,17 +3,27 @@
 <head>
     {% load static %}
     <title>Activity: {{ activity.name }}</title>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    {% include "common_head.html" %}
     <link rel="stylesheet" href="{% static "common.css" %}" />
     <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+    <script src="{% static "script/activity.js" %}"></script>
 </head>
 <body>
     {% include "dashboard.html" %}
     <div class="dashboard-content">
+        <div id="uid" style="display: none;">{{ activity.uid }}</div>
         <div class="assessment-container">
             <div class="title-wrap">
-                <div class="assessment-title">{{ activity.name }}</div>
-                <div class="delete-button">Delete</div>
+                <div class="assessment-title" onclick="editName()">{{ activity.name }}</div>
+                <div id="edit-name" style="display: none;">
+                    <form method="POST" id="edit-name-form">
+                        {% csrf_token %}
+                        <input class="title-edit" type="text" name="actname" id="new-act-name" value="{{ task.name }}">
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelName()">Cancel</button>
+                    </form>
+                </div>
+                <div class="delete-button" onclick=deleteActivity()>Delete</div>
             </div>
             <div class="assessment-type" style="margin-bottom: 20px;">{{ activity.type }} Activity</div>
             <div class="infobox">
@@ -31,53 +41,96 @@
                 <div class="multiple-ib-text">
                     <div class="ib-text mibt-item">
                         <div class="progress-bar pb-infobox">
-                        <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
+                        <div class="progress-bar-fill"  id="progress" style="width:{{ activity.progress }}%;"></div>
                         </div>
-                        {{ activity.progress }}%
+                        <div id="progress-txt">{{ activity.progress }}%</div>
                     </div>
                     <div class="ib-text mibt-item">
-                        <span id="completed">{{ activity.completed }}</span>&nbsp;/&nbsp; 
-                        <span id="target">{{ activity.target }}</span>&nbsp;{{ activity.units }}
+                        <span id="completed" onclick="editCompleted()">{{ activity.completed }}</span>
+                        <div id="edit-completed" style="display: none;">
+                            <form method="POST" id="edit-completed-form">
+                                {% csrf_token %}
+                                <input type="number" name="actcompleted" id="new-completed" style="width:50px;" value="{{ activity.completed }}">
+                                <button type="submit" class="save-button">Save</button>
+                                <button type="button" class="cancel-button" onclick="cancelCompleted()">Cancel</button>
+                            </form>
+                        </div>
+                        &nbsp;/&nbsp; 
+                        <span id="target" onclick="editTarget()">{{ activity.target }}</span>
+                        &nbsp;<span id="units">{{ activity.units }}</span>
+                        <div id="edit-target" style="display: none;">
+                            <form method="POST" id="edit-target-form">
+                                {% csrf_token %}
+                                <input type="number" name="acttarget" id="new-target" style="width:50px;" value="{{ activity.completed }}">
+                                &nbsp; {{ activity.units }}
+                                <button type="submit" class="save-button">Save</button>
+                                <button type="button" class="cancel-button" onclick="cancelTarget()">Cancel</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="infobox">
                 <div class="ib-label">Tasks:</div>
-                <div class="multiple-ib-text">
+                <div class="multiple-ib-text" id="task-list">
                     {% for task in activity.tasks %}
-                    <div class="ib-text mibt-item">
+                    <div class="ib-text mibt-item" id="{{ task.id }}">
                         <a href="{% url 'task' id=task.id %}">
                         <span class="ul-hover">{{ task.name }}</span>
                         </a>
-                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon" onclick="deleteTask('{{ task.id }}')">
                     </div>
                     {% endfor %}
-                    <div class="ib-text mibt-item ul-hover" style="font-size:12px">(+) Add a required task</div>
-                    
+                    <div id="add-task-link" class="ib-text mibt-item ul-hover" onclick="addTask()" style="font-size:12px">(+) Add a task</div>
+                    <div id="add-task" style="display: none;">
+                        <form method="POST" id="add-task-form">
+                            {% csrf_token %}
+                            <select name="tasks" id="new-task">
+                            {% for option in activity.options %}
+                                <option value="{{ option.id }}" id="option-{{ option.id }}">{{ option.name }}</option>
+                            {% endfor %}
+                            </select>
+                            <button type="submit" class="save-button">Save</button>
+                            <button type="button" class="cancel-button" onclick="cancelAddTask()">Cancel</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="label-bar">
                 Notes
-                <div class="add-button">
+                <div class="add-button" onclick="addNote()">
                     <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                     Add new note
                 </div>
             </div>
-            <div class="notes-content">
+            <div class="notes-content" id="notes-list">
                 {% for note in activity.notes %}
-                <div class="note-entry"">
+                <div class="note-entry" id="{{ note.id }}">
                     <div class="note-header">
                         <div>{{ note.date }}</div>
-                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon" onclick="deleteNote('{{ note.id }}')">
                     </div>
                     <div>{{ note.note }}</div>
                 </div>
                 {% endfor %}
             </div>
-            <div class="add-button" style="margin-top:10px;">
+            <div class="add-button" onclick="addNote()" style="margin-top:10px;">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                 Add new notes
             </div>
+        </div>
+        <div class="obscure-bg" id="new-note" style="display:none;">
+            <form method="POST" id="add-note-form">
+                {% csrf_token %}
+                <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new note</div>
+                <div class="infobox form-info-box">
+                    <div class="ib-label">Task:</div>
+                    <div class="ib-text">{{ task.name }}</div>
+                </div>
+                <textarea name="notetxt" id="new-note-text" style="width: 500px;height: 150px;"></textarea>
+                <button type="submit" class="save-button">Save</button>
+                <button type="button" class="cancel-button" onclick="cancelAddNote()">Cancel</button>
+            </form>
         </div>
     </div>
 </body>

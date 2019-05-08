@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.shortcuts import redirect
 import datetime
 
 import json
@@ -251,7 +252,7 @@ def add_note(request, id=None):
         data = {
             'id' : str(new_note.uid),
             'note' : new_note.notes,
-            'date' : new_note.date.strftime("%B %-d, %Y"),
+            'date' : new_note.date.strftime("%B %d, %Y"),
         }
         return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -265,3 +266,116 @@ def delete_note(request, id=None):
             return HttpResponse('')
         else:
             return HttpResponse("Could not remove note.",status=400)
+
+def add_note_act(request, id=None):
+    if request.method == 'POST':
+        note_text = request.POST['note']
+        if note_text == '':
+            return HttpResponse("The note must not be empty.",status=400)
+        activity=StudyActivity.objects.get(pk=id)
+        new_note=activity.note_set.create(notes=note_text,date=datetime.datetime.now())
+        data = {
+            'id' : str(new_note.uid),
+            'note' : new_note.notes,
+            'date' : new_note.date.strftime("%B %d, %Y"),
+        }
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
+def delete_note_act(request, id=None):
+    if request.method == 'POST':
+        note_id = request.POST['note_id']
+        activity=StudyActivity.objects.get(pk=id)
+        note=activity.note_set.filter(pk=note_id)
+        if note.exists():
+            activity.note_set.remove(note[0])
+            return HttpResponse('')
+        else:
+            return HttpResponse("Could not remove note.",status=400)
+
+def add_task_to_act(request, id=None):
+    if request.method == 'POST':
+        task_id = request.POST['task_id']
+        activity=StudyActivity.objects.get(pk=id)
+        task=activity.tasks.all()[0].assessment.studytask_set.filter(pk=task_id)
+        if task.exists():
+            activity.tasks.add(task[0])
+            return HttpResponse('')
+        else:
+            return HttpResponse("Could not remove required task.",status=400)
+
+def delete_task_from_act(request, id=None):
+    if request.method == 'POST':
+        task_id = request.POST['task_id']
+        activity=StudyActivity.objects.get(pk=id)
+        task=activity.tasks.all()[0].assessment.studytask_set.filter(pk=task_id)
+        if len(activity.tasks.all())<=1:
+            return HttpResponse("Could not remove task. An activity must be associated with at least one task. Associate with another task, before deleting this one.",status=400)
+        if task.exists():
+            activity.tasks.remove(task[0])
+            return HttpResponse('')
+        else:
+            return HttpResponse("Could not remove required task.",status=400)
+
+def edit_act_name(request, id=None):
+    if request.method == 'POST':
+        name = request.POST['name']
+        if name == '':
+            return HttpResponse("You must write a name for the activity.",status=400)
+        activity=StudyActivity.objects.get(pk=id)
+        activity.name = name
+        activity.save()
+
+        return HttpResponse('')
+
+def edit_act_completed(request, id=None):
+    if request.method == 'POST':
+        completed = request.POST['completed']
+        try: 
+            completed = int(completed)
+        except ValueError:
+            return HttpResponse("Invalid entry: must be a number",status=400)
+        if(completed<0):
+            return HttpResponse("Invalid entry: must enter a number superior or equal to zero.",status=400)
+        activity=StudyActivity.objects.get(pk=id)
+        target=activity.target
+        if completed>target:
+            return HttpResponse("Invalid entry: cannot be superior target.",status=400)
+        activity.completed = completed
+        activity.save()
+        data = {
+            'act_progress' : int(activity.progress()*100),
+        }
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
+def edit_act_target(request, id=None):
+    if request.method == 'POST':
+        target = request.POST['target']
+        try: 
+            target = int(target)
+        except ValueError:
+            return HttpResponse("Invalid entry: must be a number",status=400)
+        if(target<=0):
+            return HttpResponse("Invalid entry: must enter a number superior to zero.",status=400)
+        activity=StudyActivity.objects.get(pk=id)
+        completed=activity.completed
+        if completed>target:
+            activity.completed = target
+        activity.target = target
+        activity.save()
+        data = {
+            'act_progress' : int(activity.progress()*100),
+            'completed' : activity.completed,
+        }
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
+def delete_act(request, id=None):
+    activity = StudyActivity.objects.get(pk=id)
+    task = activity.tasks.all()[0]
+    assessment = activity.tasks.all()[0].assessment
+    activity.delete()
+    data = {
+        'url' : '/task/' + str(task.uid),
+        #'url' : '/assessment/' + str(assessment.uid),
+    }
+    return HttpResponse(json.dumps(data), content_type="application/json")
+    #return redirect('assessment', id=assessment.uid)

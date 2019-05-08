@@ -128,6 +128,8 @@ class Note(models.Model):
     date = models.DateField()
     task = models.ForeignKey(StudyTask, on_delete=models.CASCADE,null=True)
     activity = models.ForeignKey(StudyActivity, on_delete=models.CASCADE,null=True)
+    def __str__(self):
+        return self.notes
 
 class Milestone(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

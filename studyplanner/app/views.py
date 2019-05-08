@@ -302,15 +302,23 @@ def activity(request, id=None):
     activity=StudyActivity.objects.get(pk=id)
     notes = list()
     tasks = list()
+    options = list()
     for n in activity.note_set.all():
         item = {'note' : n.notes, 'date' : n.date, 'id' : n.uid }
         notes.append(item)
     for t in activity.tasks.all():
         item = {'name' : t.name, 'id' : t.uid }
         tasks.append(item)
-    progress = int(activity.progress()*100)
     assessment = activity.tasks.all()[0].assessment
+    alltasks = assessment.studytask_set.all()
+    t1 = activity.tasks.all()
+    task_options = alltasks.difference(t1)
+    for o in task_options:
+        item = {'name' : o.name, 'id' : o.uid }
+        options.append(item)
+    progress = int(activity.progress()*100)
     activity_info = {
+        'uid':activity.uid,
         'name' : activity.name,
         'assessment' : assessment.name,
         'assessment_id' : assessment.uid,
@@ -321,6 +329,7 @@ def activity(request, id=None):
         'units' : 'requirements', #change this later
         'notes' : notes,
         'tasks' : tasks,
+        'options' : options,
     }
     context = {
         'navigation': navigation_list,
