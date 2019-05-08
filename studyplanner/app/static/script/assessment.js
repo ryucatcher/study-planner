@@ -109,6 +109,26 @@ $(document).ready(function(){
             });
         }
     });
+    $('#add-milestone-form').on('submit', function(event){
+        event.preventDefault();
+        var uid = $("#uid").html();
+        var url_ = '/assessment/' + uid + '/addmilestone/';
+        $.ajax({
+            type:'POST',
+            url: url_,
+            data:{
+                name:$("#new-milestone-name").val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                window.location = data.url;
+            },
+            error: function(request, status, error) { 
+                console.log("Fail!");
+                alert("Error: " + request.responseText);
+            }
+        });
+    });
 });
 
 function editName() {
@@ -193,4 +213,15 @@ function formatDate(date) {
   
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
+
+function addMilestone(){
+    var addMilestone = document.getElementById("new-milestone");
+    addMilestone.style.display = "block";
+}
+
+function cancelAddMilestone(){
+    var addMilestone = document.getElementById("new-milestone");
+    document.getElementById("new-milestone-name").value="";
+    addMilestone.style.display = "none";
+}
 

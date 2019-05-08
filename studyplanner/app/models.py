@@ -136,6 +136,15 @@ class Milestone(models.Model):
     name = models.CharField(max_length=320)
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     requiredTasks = models.ManyToManyField(StudyTask)
+    def hasBeenReached(self):
+        tasks = self.requiredTasks.all()
+        reached = True
+        if len(tasks)==0:
+            reached = False
+        for t in tasks:
+            if t.progress()<1.0:
+                reached = False
+        return reached 
 
 #class UserSemesterTable(models.Model):
 #    user = models.ForeignKey(User, on_delete=models.CASCADE)

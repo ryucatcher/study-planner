@@ -327,5 +327,4 @@ function deleteActivity(){
             alert("Error: " + request.responseText);
         }
     });
-
 }

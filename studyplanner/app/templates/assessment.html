@@ -98,6 +98,44 @@
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                 Add new task
             </div>
+            <div class="label-bar">
+                Milestones
+                <div class="add-button" onclick="addMilestone()">
+                    <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                    Add new milestone
+                </div>
+            </div>
+            <div id="activities-list">
+                {% for milestone in assessment.milestones %}
+                <a href="{% url 'milestone' id=milestone.id %}" id="{{ milestone.id }}">
+                <div class="assessment-table-entry">
+                    {{ milestone.name }}
+                    <div style="flex: 1 1 auto;"></div>
+                    <img src="{% static milestone.status %}" alt="icon" class="status-icon">
+                </div>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="add-button" style="margin-top:10px;" onclick="addMilestone()">
+                <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                Add new milestone
+            </div>
+            <div class="obscure-bg" id="new-milestone" style="display:none;">
+                <form method="POST" id="add-milestone-form">
+                    {% csrf_token %}
+                    <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new milestone</div>
+                    <div class="infobox form-info-box">
+                        <div class="ib-label">Assesment:</div>
+                        <div class="ib-text">{{ assessment.name }}</div>
+                    </div>
+                    <div class="infobox form-info-box">
+                        <div class="ib-label">Name:</div>
+                        <input type="text" name="milestonename" id="new-milestone-name" style="width:400px">
+                    </div>
+                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" onclick="cancelAddMilestone()">Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

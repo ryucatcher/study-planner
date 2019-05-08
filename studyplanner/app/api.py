@@ -378,4 +378,80 @@ def delete_act(request, id=None):
         #'url' : '/assessment/' + str(assessment.uid),
     }
     return HttpResponse(json.dumps(data), content_type="application/json")
-    #return redirect('assessment', id=assessment.uid)
+
+def delete_task(request, id=None):
+    task = StudyTask.objects.get(pk=id)
+    assessment = task.assessment
+    for a in task.studyactivity_set.all():
+        if len(a.tasks.all())==1:
+            a.delete()
+    task.delete()
+    data = {
+        'url' : '/assessment/' + str(assessment.uid),
+    }
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+def add_milestone(request,id=None):
+    if request.method == 'POST':
+        name = request.POST['name']
+        if name == '':
+            return HttpResponse("You must write a name for the milestone.",status=400)
+        assessment = Assessment.objects.get(pk=id)
+        new_milestone=assessment.milestone_set.create(name=name)
+        data = {
+            'url' : '/milestone/' + str(new_milestone.uid),
+        }
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
+def edit_ms_name(request, id=None):
+    if request.method == 'POST':
+        name = request.POST['name']
+        if name == '':
+            return HttpResponse("You must write a name for the milestone.",status=400)
+        milestone=Milestone.objects.get(pk=id)
+        milestone.name = name
+        milestone.save()
+        return HttpResponse('')
+
+def delete_ms_req_task(request, id=None):
+    if request.method == 'POST':
+        req_task_id = request.POST['task_id']
+        milestone=Milestone.objects.get(pk=id)
+        req_task=milestone.requiredTasks.filter(pk=req_task_id)
+        if req_task.exists():
+            milestone.requiredTasks.remove(req_task[0])
+            status_img = "img/icon_cross.png"
+            if(milestone.hasBeenReached()):
+                status_img = "img/icon_check.png"
+            data = {
+                'status_img' : status_img,
+            }
+            return HttpResponse(json.dumps(data), content_type="application/json")
+        else:
+            return HttpResponse("Could not remove required task.",status=400)
+
+def add_ms_req_task(request, id=None):
+    if request.method == 'POST':
+        req_task_id = request.POST['task_id']
+        milestone=Milestone.objects.get(pk=id)
+        req_task=milestone.assessment.studytask_set.filter(pk=req_task_id)
+        if req_task.exists():
+            milestone.requiredTasks.add(req_task[0])
+            status_img = "img/icon_cross.png"
+            if(milestone.hasBeenReached()):
+                status_img = "img/icon_check.png"
+            data = {
+                'status_img' : status_img,
+            }
+            return HttpResponse(json.dumps(data), content_type="application/json")
+        else:
+            return HttpResponse("Could not remove required task.",status=400)
+
+def delete_ms(request, id=None):
+    milestone=Milestone.objects.get(pk=id)
+    assessment = milestone.assessment
+    milestone.delete()
+    data = {
+        'url' : '/assessment/' + str(assessment.uid),
+    }
+    return HttpResponse(json.dumps(data), content_type="application/json")

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Milestone: {{ milestone.name }}</title>
+    {% include "common_head.html" %}
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+    <script src="{% static "script/milestone.js" %}"></script>
+</head>
+<body>
+    {% include "dashboard.html" %}
+    <div class="dashboard-content">
+        <div id="uid" style="display: none;">{{ milestone.uid }}</div>
+        <div class="assessment-container">
+            <div class="title-wrap">
+                <div class="assessment-title" onclick="editName()">{{ milestone.name }}</div>
+                <div id="edit-name" style="display: none;">
+                    <form method="POST" id="edit-name-form">
+                        {% csrf_token %}
+                        <input class="title-edit" type="text" name="milestonename" id="new-milestone-name" value="{{ milestone.name }}">
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelName()">Cancel</button>
+                    </form>
+                </div>
+                <div class="delete-button" onclick="deleteMilestone()">Delete</div>
+            </div>
+            <div class="assessment-type" style="margin-bottom: 20px;">Milestone</div>
+            <div class="infobox">
+                <div class="ib-label">Assessment:</div>
+                <a href="{% url 'assessment' id=milestone.assessment_id %}">
+                <div class="ib-text ul-hover">{{ milestone.assessment }}</div>
+                </a>
+            </div>
+            <div class="infobox">
+                <div class="ib-label">Status:</div>
+                <div class="ib-text">
+                    <img src="{% static milestone.status %}" alt="icon" id="status" class="status-icon">
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="ib-label">Required tasks:</div>
+                <div class="multiple-ib-text" id="reqtask-list">
+                    {% for reqtask in milestone.tasks %}
+                    <div class="ib-text mibt-item" id="{{ reqtask.id }}">
+                        <a href="{% url 'task' id=reqtask.id %}">
+                        <span class="ul-hover">{{ reqtask.name }}</span>
+                        </a>
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon" onclick="deleteReqTask('{{ reqtask.id }}')">
+                    </div>
+                    {% endfor %}
+                    <div id="add-task-link" class="ib-text mibt-item ul-hover" onclick="addReqTask()" style="font-size:12px">(+) Add a required task</div>
+                    <div id="add-task" style="display: none;">
+                        <form method="POST" id="add-task-form">
+                            {% csrf_token %}
+                            <select name="reqtasks" id="new-req-task">
+                            {% for option in milestone.options %}
+                                <option value="{{ option.id }}" id="option-{{ option.id }}">{{ option.name }}</option>
+                            {% endfor %}
+                            </select>
+                            <button type="submit" class="save-button">Save</button>
+                            <button type="button" class="cancel-button" onclick="cancelAddTask()">Cancel</button>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

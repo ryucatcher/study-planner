@@ -226,10 +226,17 @@ def deadlines(request):
 def assessment(request, id=None):
     assessment=Assessment.objects.get(pk=id)
     tasks = list()
+    milestones = list()
     for t in assessment.studytask_set.all():
         p = int(t.progress()*100)
         item = {'name' : t.name, 'progress' : p, 'id' : t.uid }
         tasks.append(item)
+    for m in Milestone.objects.filter(assessment=assessment):
+        status_img = "img/icon_cross.png"
+        if(m.hasBeenReached()):
+            status_img = "img/icon_check.png"
+        item = {'name' : m.name, 'status' : status_img, 'id' : m.uid }
+        milestones.append(item)
     progress = int(assessment.progress()*100)
     assessment_info = {
         'uid' : assessment.uid,
@@ -242,7 +249,8 @@ def assessment(request, id=None):
         'weight' : assessment.weight,
         'description' : assessment.description,
         'progress' : progress,
-        'tasks' : tasks
+        'tasks' : tasks,
+        'milestones' : milestones
     }
     context = {
         'navigation': navigation_list,
@@ -337,3 +345,36 @@ def activity(request, id=None):
         'activity' : activity_info
     }
     return render(request, 'activity.html', context)
+
+def milestone(request, id=None):
+    milestone=Milestone.objects.get(pk=id)
+    tasks = list()
+    options = list()
+    for t in milestone.requiredTasks.all():
+        item = {'name' : t.name, 'id' : t.uid }
+        tasks.append(item)
+    assessment = milestone.assessment
+    alltasks = assessment.studytask_set.all()
+    t1 = milestone.requiredTasks.all()
+    task_options = alltasks.difference(t1)
+    for o in task_options:
+        item = {'name' : o.name, 'id' : o.uid }
+        options.append(item)
+    status_img = "img/icon_cross.png"
+    if(milestone.hasBeenReached()):
+        status_img = "img/icon_check.png"
+    milestone_info = {
+        'uid':milestone.uid,
+        'name' : milestone.name,
+        'assessment' : assessment.name,
+        'assessment_id' : assessment.uid,
+        'status': status_img,
+        'tasks' : tasks,
+        'options' : options,
+    }
+    context = {
+        'navigation': navigation_list,
+        'active': 'Deadlines',
+        'milestone' : milestone_info
+    }
+    return render(request, 'milestone.html', context)

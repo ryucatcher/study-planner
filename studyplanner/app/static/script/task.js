@@ -366,3 +366,25 @@ function deleteNote(n_id){
         }
     });
 }
+function deleteTask(){
+    var uid = $("#uid").html();
+    var url_ = '/task/' + uid + '/delete/';
+    proceed = confirm("Deleting a task is irreversible."
+    + " All activities that are solely associated with this task will also be deleted."
+    + "\nAre you sure you want to delete the task?");
+    if(!proceed) return;
+    $.ajax({
+        type:'POST',
+        url: url_,
+        data:{
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success:function(data){
+            window.location = data.url;
+        },
+        error: function(request, status, error) { 
+            console.log("Fail!");
+            alert("Error: " + request.responseText);
+        }
+    });
+}

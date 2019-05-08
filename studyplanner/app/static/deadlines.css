@@ -273,8 +273,8 @@ a:hover {
 /* Create activity box */
 .obscure-bg{
     background-color: rgba(0, 0, 0, 0.80);
-    width:inherit;
-    height: inherit;
+    /*width:inherit;
+    height: inherit;*/
     position: fixed;
     top:0px;
     left: 0px;
@@ -308,4 +308,22 @@ a:hover {
 .form-info-box{
     margin-bottom: 20px;
     /*border: 1px solid blue;*/
+}
+
+.status-icon{
+    height: 20px;
+    /*margin-left: 5px;
+    opacity: 0.5;*/
+}
+
+#add-milestone-form{
+    position: fixed;
+    width: 600px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px; /* Negative half of height. */
+    margin-left: -300px; /* Negative half of width. */
+    background-color: rgb(220, 220, 220);
+    padding:10px 30px;
 }
