@@ -256,6 +256,7 @@ def task(request, id=None):
     activities = list()
     notes = list()
     requiredTasks = list()
+    required_options = list()
     for a in task.studyactivity_set.all():
         p = int(a.progress()*100)
         item = {'name' : a.name, 'type' : a.get_type_act_display(),
@@ -268,8 +269,16 @@ def task(request, id=None):
     for t in task.requiredTasks.all():
         item = {'name' : t.name, 'id' : t.uid }
         requiredTasks.append(item)
+    alltasks = task.assessment.studytask_set.all()
+    t1 = task.requiredTasks.all()
+    t2 = StudyTask.objects.filter(uid=id)
+    task_options = alltasks.difference(t1,t2)
+    for o in task_options:
+        item = {'name' : o.name, 'id' : o.uid }
+        required_options.append(item)
     progress = int(task.progress()*100)
     task_info = {
+        'uid' : task.uid,
         'name' : task.name,
         'assessment' : task.assessment,
         'assessment_id' : task.assessment.uid,
@@ -279,6 +288,8 @@ def task(request, id=None):
         'activities' : activities,
         'notes' : notes,
         'tasks' : requiredTasks,
+        'options' : required_options,
+        'act_type_options' : StudyActivity.getActTypes(),
     }
     context = {
         'navigation': navigation_list,

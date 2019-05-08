@@ -106,6 +106,19 @@ class StudyActivity(models.Model):
     tasks = models.ManyToManyField(StudyTask)
     def progress(self):
         return self.completed/float(self.target)
+    @staticmethod
+    def getActTypes():
+        ACTIVITY_TYPES = (
+            ('RE', 'Reading', 'pages'),
+            ('WR', 'Writing', 'words'),
+            ('ST', 'Studying', 'hours'),
+            ('PR', 'Programming', 'requirements')
+        )
+        act_type_options = list()
+        for t in ACTIVITY_TYPES:
+            item = {'tag' : t[0], 'name' : t[1], 'units' : t[2]}
+            act_type_options.append(item)
+        return act_type_options
     def __str__(self):
         return self.name
 

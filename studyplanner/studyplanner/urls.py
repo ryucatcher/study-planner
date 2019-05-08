@@ -46,5 +46,13 @@ urlpatterns = [
     url(r'^assessment/(?P<id>[-@\w]+)/editname/$', api.edit_assessment_name,name='edit_assessment_name'),
     url(r'^assessment/(?P<id>[-@\w]+)/editdescription/$', api.edit_assessment_description,name='edit_assessment_description'),
     url(r'^assessment/(?P<id>[-@\w]+)/editstartdate/$', api.edit_assessment_startdate,name='edit_assessment_startdate'),
-    url(r'^assessment/(?P<id>[-@\w]+)/editdeadline/$', api.edit_assessment_deadline,name='edit_assessment_deadline')        
+    url(r'^assessment/(?P<id>[-@\w]+)/editdeadline/$', api.edit_assessment_deadline,name='edit_assessment_deadline'),
+    url(r'^task/(?P<id>[-@\w]+)/editname/$', api.edit_task_name,name='edit_task_name'),
+    url(r'^task/(?P<id>[-@\w]+)/editdescription/$', api.edit_task_description,name='edit_task_description'),
+    url(r'^task/(?P<id>[-@\w]+)/editduration/$', api.edit_task_duration,name='edit_task_duration'),
+    url(r'^task/(?P<id>[-@\w]+)/deletereqtask/$', api.delete_req_task,name='delete_req_task'),
+    url(r'^task/(?P<id>[-@\w]+)/addreqtask/$', api.add_req_task,name='add_req_task'),
+    url(r'^task/(?P<id>[-@\w]+)/addactivity/$', api.add_activity,name='add_activity'),
+    url(r'^task/(?P<id>[-@\w]+)/addnote/$', api.add_note,name='add_note'),
+    url(r'^task/(?P<id>[-@\w]+)/deletenote/$', api.delete_note,name='delete_note')
 ]

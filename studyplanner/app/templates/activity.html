@@ -16,43 +16,43 @@
                 <div class="delete-button">Delete</div>
             </div>
             <div class="assessment-type" style="margin-bottom: 20px;">{{ activity.type }} Activity</div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Assessment:</div>
+            <div class="infobox">
+                <div class="ib-label">Assessment:</div>
                 <a href="{% url 'assessment' id=activity.assessment_id %}">
-                <div class="assessment-ib-text ul-hover">{{ activity.assessment }}</div>
+                <div class="ib-text ul-hover">{{ activity.assessment }}</div>
                 </a>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Type:</div>
-                <div class="assessment-ib-text">{{ activity.type }}</div>
+            <div class="infobox">
+                <div class="ib-label">Type:</div>
+                <div class="ib-text">{{ activity.type }}</div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Progress:</div>
+            <div class="infobox">
+                <div class="ib-label">Progress:</div>
                 <div class="multiple-ib-text">
-                    <div class="assessment-ib-text mibt-item">
+                    <div class="ib-text mibt-item">
                         <div class="progress-bar pb-infobox">
                         <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
                         </div>
                         {{ activity.progress }}%
                     </div>
-                    <div class="assessment-ib-text mibt-item">
+                    <div class="ib-text mibt-item">
                         <span id="completed">{{ activity.completed }}</span>&nbsp;/&nbsp; 
                         <span id="target">{{ activity.target }}</span>&nbsp;{{ activity.units }}
                     </div>
                 </div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Tasks:</div>
+            <div class="infobox">
+                <div class="ib-label">Tasks:</div>
                 <div class="multiple-ib-text">
                     {% for task in activity.tasks %}
-                    <div class="assessment-ib-text mibt-item">
+                    <div class="ib-text mibt-item">
                         <a href="{% url 'task' id=task.id %}">
                         <span class="ul-hover">{{ task.name }}</span>
                         </a>
                         <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
                     </div>
                     {% endfor %}
-                    <div class="assessment-ib-text mibt-item ul-hover" style="font-size:12px">(+) Add a required task</div>
+                    <div class="ib-text mibt-item ul-hover" style="font-size:12px">(+) Add a required task</div>
                     
                 </div>
             </div>

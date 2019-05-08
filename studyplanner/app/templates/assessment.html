@@ -58,16 +58,14 @@
             </div>
             <div class="infobox">
                 <div class="ib-label">Description:</div>
-                <div id="name-placeholder">
-                    <div class="ib-text" id="description" onclick="editDescription()">{{ assessment.description }}</div>
-                    <div id="edit-description" style="display: none;">
-                        <form method="POST" id="edit-description-form">
-                            {% csrf_token %}
-                            <textarea name="assessmentdescription" id="new-description" rows="4" cols="50">{{ assessment.description }}</textarea>
-                            <button type="submit" class="save-button">Save</button>
-                            <button type="button" class="cancel-button" onclick="cancelDescription()">Cancel</button>
-                        </form>
-                    </div>
+                <div class="ib-text" id="description" onclick="editDescription()">{{ assessment.description }}</div>
+                <div id="edit-description" style="display: none;">
+                    <form method="POST" id="edit-description-form">
+                        {% csrf_token %}
+                        <textarea name="assessmentdescription" id="new-description" rows="4" cols="50">{{ assessment.description }}</textarea>
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelDescription()">Cancel</button>
+                    </form>
                 </div>
             </div>
             <div class="infobox">

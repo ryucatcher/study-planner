@@ -3,99 +3,185 @@
 <head>
     {% load static %}
     <title>Task: {{ task.name }}</title>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    {% include "common_head.html" %}
     <link rel="stylesheet" href="{% static "common.css" %}" />
     <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+    <script src="{% static "script/task.js" %}"></script>
 </head>
 <body>
     {% include "dashboard.html" %}
     <div class="dashboard-content">
+        <div id="uid" style="display: none;">{{ task.uid }}</div>
         <div class="assessment-container">
             <div class="title-wrap">
-                <div class="assessment-title">{{ task.name }}</div>
+                <div class="assessment-title" onclick="editName()">{{ task.name }}</div>
+                <div id="edit-name" style="display: none;">
+                    <form method="POST" id="edit-name-form">
+                        {% csrf_token %}
+                        <input class="title-edit" type="text" name="taskname" id="new-task-name" value="{{ task.name }}">
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelName()">Cancel</button>
+                    </form>
+                </div>
                 <div class="delete-button">Delete</div>
             </div>
             <div class="assessment-type" style="margin-bottom: 20px;">Task</div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Assessment:</div>
+            <div class="infobox">
+                <div class="ib-label">Assessment:</div>
                 <a href="{% url 'assessment' id=task.assessment_id %}">
-                <div class="assessment-ib-text ul-hover">{{ task.assessment }}</div>
+                <div class="ib-text ul-hover">{{ task.assessment }}</div>
                 </a>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Description:</div>
-                <div class="assessment-ib-text">{{ task.description }}</div>
-            </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Progress:</div>
-                <div class="assessment-ib-text">
-                    <div class="progress-bar pb-infobox">
-                    <div class="progress-bar-fill" style="width:{{ task.progress }}%;"></div>
-                    </div>
-                    {{ task.progress }}%
+            <div class="infobox">
+                <div class="ib-label">Description:</div>
+                <div class="ib-text" id="description" onclick="editDescription()">{{ task.description }}</div>
+                <div id="edit-description" style="display: none;">
+                    <form method="POST" id="edit-description-form">
+                        {% csrf_token %}
+                        <textarea name="taskdescription" id="new-description" rows="4" cols="50">{{ task.description }}</textarea>
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelDescription()">Cancel</button>
+                    </form>
                 </div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Required tasks:</div>
-                <div class="multiple-ib-text">
+            <div class="infobox">
+                <div class="ib-label">Duration:</div>
+                <div class="ib-text" id="duration" onclick="editDuration()">{{ task.duration }} days</div>
+                <div id="edit-duration" style="display: none;">
+                    <form method="POST" id="edit-duration-form">
+                        {% csrf_token %}
+                        <input type="number" name="taskduration" id="new-duration" style="width:50px;" value="{{ task.duration }}"> days
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelDuration()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="ib-label">Progress:</div>
+                <div class="ib-text">
+                    <div class="progress-bar pb-infobox">
+                    <div class="progress-bar-fill" style="width:{{ task.progress }}%;" id="progress"></div>
+                    </div>
+                    <div id="progress-txt">{{ task.progress }}%</div>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="ib-label">Required tasks:</div>
+                <div class="multiple-ib-text" id="reqtask-list">
                     {% for reqtask in task.tasks %}
-                    <div class="assessment-ib-text mibt-item">
+                    <div class="ib-text mibt-item" id="{{ reqtask.id }}">
                         <a href="{% url 'task' id=reqtask.id %}">
                         <span class="ul-hover">{{ reqtask.name }}</span>
                         </a>
-                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon" onclick="deleteReqTask('{{ reqtask.id }}')">
                     </div>
                     {% endfor %}
-                    <div class="assessment-ib-text mibt-item ul-hover" style="font-size:12px">(+) Add a required task</div>
+                    <div id="add-task-link" class="ib-text mibt-item ul-hover" style="font-size:12px" onclick="addReqTask()">(+) Add a required task</div>
+                    <div id="add-task" style="display: none;">
+                        <form method="POST" id="add-task-form">
+                            {% csrf_token %}
+                            <select name="reqtasks" id="new-req-task">
+                            {% for option in task.options %}
+                                <option value="{{ option.id }}" id="option-{{ option.id }}">{{ option.name }}</option>
+                            {% endfor %}
+                            </select>
+                            <button type="submit" class="save-button">Save</button>
+                            <button type="button" class="cancel-button" onclick="cancelAddTask()">Cancel</button>
+                        </form>
+                    </div>
                     
                 </div>
             </div>
             <div class="label-bar">
                 Activities
-                <div class="add-button">
+                <div class="add-button" onclick="addActivity()">
                     <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                     Add new activity
                 </div>
             </div>
-            {% for activity in task.activities %}
-            <a href="{% url 'activity' id=activity.id %}">
-            <div class="assessment-table-entry">
-                {{ activity.name }}
-                <div class="assessment-type" style="margin-left: 5px;">{{ activity.type }}</div>
-                <div style="flex: 1 1 auto;"></div>
-                <div class="progress-bar pb-infobox">
-                <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
+            <div id="activities-list">
+                {% for activity in task.activities %}
+                <a href="{% url 'activity' id=activity.id %}">
+                <div class="assessment-table-entry">
+                    {{ activity.name }}
+                    <div class="assessment-type" style="margin-left: 5px;">{{ activity.type }}</div>
+                    <div style="flex: 1 1 auto;"></div>
+                    <div class="progress-bar pb-infobox">
+                    <div class="progress-bar-fill" style="width:{{ activity.progress }}%;"></div>
+                    </div>
                 </div>
+                </a>
+                {% endfor %}
             </div>
-            </a>
-            {% endfor %}
-            <div class="add-button" style="margin-top:10px;">
+            <div class="add-button" style="margin-top:10px;" onclick="addActivity()">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                 Add new activity
             </div>
             <div class="label-bar">
                 Notes
-                <div class="add-button">
+                <div class="add-button" onclick="addNote()">
                     <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                     Add new note
                 </div>
             </div>
-            <div class="notes-content">
+            <div class="notes-content" id="notes-list">
                 {% for note in task.notes %}
-                <div class="note-entry"">
+                <div class="note-entry" id="{{ note.id }}">
                     <div class="note-header">
                         <div>{{ note.date }}</div>
-                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon">
+                        <img src="{% static "img/icon_delete.png" %}" alt="icon" class="delete-icon" onclick="deleteNote('{{ note.id }}')">
                     </div>
                     <div>{{ note.note }}</div>
                 </div>
                 {% endfor %}
             </div>
-            <div class="add-button" style="margin-top:10px;">
+            <div class="add-button" style="margin-top:10px;" onclick="addNote()">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                 Add new notes
             </div>
         </div>
+        <div class="obscure-bg" id="new-activity" style="display:none;">
+            <form method="POST" id="add-activity-form">
+                {% csrf_token %}
+                <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new activity</div>
+                <div class="infobox form-info-box">
+                    <div class="ib-label">Task:</div>
+                    <div class="ib-text">{{ task.name }}</div>
+                </div>
+                <div class="infobox form-info-box">
+                    <div class="ib-label">Name:</div>
+                    <input type="text" name="activityname" id="new-activity-name" style="width:400px">
+                </div>
+                <div class="infobox form-info-box">
+                    <div class="ib-label">Type:</div>
+                    <select name="acttype" id="act-type" onchange="setUnits()">
+                        {% for option in task.act_type_options %}
+                            <option value="{{ option.tag }}" id="option-{{ option.tag }}">{{ option.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="infobox form-info-box">
+                    <div class="ib-label">Target:</div>
+                    <input type="number" name="activitytarget" id="new-activity-target" style="width:50px;margin-right: 10px;">
+                    <div class="ib-text" id="units">pages</div>
+                </div>
+                <button type="submit" class="save-button">Save</button>
+                <button type="button" class="cancel-button" onclick="cancelAddActivity()">Cancel</button>
+            </form>
+        </div>
+        <div class="obscure-bg" id="new-note" style="display:none;">
+                <form method="POST" id="add-note-form">
+                    {% csrf_token %}
+                    <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new note</div>
+                    <div class="infobox form-info-box">
+                        <div class="ib-label">Task:</div>
+                        <div class="ib-text">{{ task.name }}</div>
+                    </div>
+                    <textarea name="taskdescription" id="new-note-text" style="width: 500px;height: 150px;"></textarea>
+                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" onclick="cancelAddNote()">Cancel</button>
+                </form>
+            </div>
     </div>
 </body>
 </html>
