@@ -324,13 +324,31 @@ def activity(request):
 
 def ganttchart(request):
     user = getUser(request)
-    modules = Module.objects.filter(user=user)
+    modules = Module.objects.filter(semester=SemesterStudyProfile.objects.get(user=user))
 
     ganttdata = {}
     for module in modules:
         assessments = Assessment.objects.filter(module=module)
         for assessment in assessments:
+            ganttdata[str(assessment.uid)] = {}
+            ganttdata[str(assessment.uid)]['name'] = assessment.name
+            ganttdata[str(assessment.uid)]['description'] = assessment.description
+            ganttdata[str(assessment.uid)]['weight'] = assessment.weight
+            ganttdata[str(assessment.uid)]['startDate'] = str(assessment.startDate)
+            ganttdata[str(assessment.uid)]['deadline'] = str(assessment.deadline)
+            ganttdata[str(assessment.uid)]['assessmentType'] = assessment.assessmentType
+            ganttdata[str(assessment.uid)]['tasks'] = []
             tasks = StudyTask.objects.filter(assessment=assessment) 
+            for task in tasks:
+                t = {}
+                t['id'] = str(task.uid)
+                t['name'] = task.name
+                t['description'] = task.description
+                t['duration'] = str(task.duration)
+                t['dependencies'] = []
+                for dependency in task.requiredTasks.all():
+                    t['dependency'].append(str(dependency))
+                ganttdata[str(assessment.uid)]['tasks'].append(t)
             
 
     context = {
