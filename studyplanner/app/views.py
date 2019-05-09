@@ -328,27 +328,32 @@ def ganttchart(request):
 
     ganttdata = {}
     for module in modules:
+        ganttdata[str(module.code)] = {}
+        ganttdata[str(module.code)]['name'] = module.name
+        ganttdata[str(module.code)]['description'] = module.description
+        ganttdata[str(module.code)]['assessments'] = []
         assessments = Assessment.objects.filter(module=module)
         for assessment in assessments:
-            ganttdata[str(assessment.uid)] = {}
-            ganttdata[str(assessment.uid)]['name'] = assessment.name
-            ganttdata[str(assessment.uid)]['description'] = assessment.description
-            ganttdata[str(assessment.uid)]['weight'] = assessment.weight
-            ganttdata[str(assessment.uid)]['startDate'] = str(assessment.startDate)
-            ganttdata[str(assessment.uid)]['deadline'] = str(assessment.deadline)
-            ganttdata[str(assessment.uid)]['assessmentType'] = assessment.assessmentType
-            ganttdata[str(assessment.uid)]['tasks'] = []
+            a = {}
+            a['name'] = assessment.name
+            a['description'] = assessment.description
+            a['weight'] = assessment.weight
+            a['startDate'] = str(assessment.startDate)
+            a['deadline'] = str(assessment.deadline)
+            a['assessmentType'] = assessment.assessmentType
+            a['tasks'] = []
             tasks = StudyTask.objects.filter(assessment=assessment) 
             for task in tasks:
                 t = {}
                 t['id'] = str(task.uid)
                 t['name'] = task.name
                 t['description'] = task.description
-                t['duration'] = str(task.duration)
+                t['duration'] = task.duration.days
                 t['dependencies'] = []
                 for dependency in task.requiredTasks.all():
                     t['dependency'].append(str(dependency))
-                ganttdata[str(assessment.uid)]['tasks'].append(t)
+                a['tasks'].append(t)
+            ganttdata[str(module.code)]['assessments'].append(a)
             
 
     context = {
