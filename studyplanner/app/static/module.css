@@ -2,10 +2,10 @@
     display: flex;
     flex-wrap: wrap;
     /* border-color: green; */
-    border-style: solid;
+    /* border-style: solid; */
     align-items: center;
     justify-content: space-around; /*Adds margin in between the cards*/
-    height: 100vh;
+    height: 80vh;
 }
 
 .card {
@@ -14,10 +14,14 @@
     background-color: rgb(57, 61, 72);
     color: white;
     /* border-color: yellow; */
-    border-style: solid;
+    /* border-style: solid; */
     width: 400px !important;
     height: 175px !important;
     
+}
+
+#title {
+    text-align: center;
 }
 
 .card-body {
