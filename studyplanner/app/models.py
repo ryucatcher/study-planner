@@ -41,18 +41,23 @@ class Module(models.Model):
     def __str__(self):
         return self.name
 
-class AssessmentType(Enum):
-    EX = "Exam"
-    CW = "Coursework"
+#class AssessmentType(Enum):
+#    EX = "Exam"
+#    CW = "Coursework"
 
 class Assessment(models.Model):
+    ASSESSMENT_TYPES = (
+        ('EX', 'Exam'),
+        ('CW', 'Coursework')
+    )
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=320)
     description = models.CharField(max_length=1000)
     weight = models.IntegerField()
     startDate = models.DateField()
     deadline = models.DateField()
-    assessmentType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in AssessmentType])
+    #assessmentType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in AssessmentType])
+    type_a = models.CharField(max_length=11, choices=ASSESSMENT_TYPES)
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     def progress(self):
         #tasks = StudyTask.objects.filter(assessment=self)
@@ -61,7 +66,6 @@ class Assessment(models.Model):
         progress = 0.0
         for t in tasks:
             progress += t.progress()/size
-            print(progress)
         return progress
     def __str__(self):
         return self.name
@@ -79,26 +83,44 @@ class StudyTask(models.Model):
         progress = 0.0
         for a in activities:
             progress += a.progress()/size
-            print(progress)
         return progress
     def __str__(self):
         return self.name
 
-class Type(Enum):
-    RE = "Reading"
-    WR = "Writing"
-    ST = "Studying"
-    PR = "Programming"
+#class Type(Enum):
+#    RE = "Reading"
+#    WR = "Writing"
+#    ST = "Studying"
+#    PR = "Programming"
 
 class StudyActivity(models.Model):
+    ACTIVITY_TYPES = (
+        ('RE', 'Reading'),
+        ('WR', 'Writing'),
+        ('ST', 'Studying'),
+        ('PR', 'Programming')
+    )
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=320)
     target = models.IntegerField()
     completed = models.IntegerField(default=0)
-    actType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in Type])
+    type_act = models.CharField(max_length=11, choices=ACTIVITY_TYPES)
     tasks = models.ManyToManyField(StudyTask)
     def progress(self):
         return self.completed/float(self.target)
+    @staticmethod
+    def getActTypes():
+        ACTIVITY_TYPES = (
+            ('RE', 'Reading', 'pages'),
+            ('WR', 'Writing', 'words'),
+            ('ST', 'Studying', 'hours'),
+            ('PR', 'Programming', 'requirements')
+        )
+        act_type_options = list()
+        for t in ACTIVITY_TYPES:
+            item = {'tag' : t[0], 'name' : t[1], 'units' : t[2]}
+            act_type_options.append(item)
+        return act_type_options
     def __str__(self):
         return self.name
 
@@ -108,12 +130,23 @@ class Note(models.Model):
     date = models.DateField()
     task = models.ForeignKey(StudyTask, on_delete=models.CASCADE,null=True)
     activity = models.ForeignKey(StudyActivity, on_delete=models.CASCADE,null=True)
+    def __str__(self):
+        return self.notes
 
 class Milestone(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=320)
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     requiredTasks = models.ManyToManyField(StudyTask)
+    def hasBeenReached(self):
+        tasks = self.requiredTasks.all()
+        reached = True
+        if len(tasks)==0:
+            reached = False
+        for t in tasks:
+            if t.progress()<1.0:
+                reached = False
+        return reached 
 
 #class UserSemesterTable(models.Model):
 #    user = models.ForeignKey(User, on_delete=models.CASCADE)
