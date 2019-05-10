@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
     
     <link rel="stylesheet" href="{% static "createTask.css" %}" />
+    <script type="text/javascript">
+    var modelData = {{modelData|safe}};
+    </script>
     <script src="{% static "script/createTask.js" %}"></script>
 </head>
 <body>
@@ -35,16 +38,12 @@
                     <div class="dropdown">
                         <label for="module">Module</label>
                         <select id="module" class="form-control" name = "module" required>
-                            
-                            <option>...</option>
                         </select>
                     </div>
         
                     <div class="dropdown">
                         <label for="assessment">Assessment</label>
                         <select id="assessment" class="form-control" name = "assessment" required>
-                            
-                            <option>...</option>
                         </select>
                     </div><br>
                 </div>
@@ -68,27 +67,7 @@
         </div>
     </div>  
 
-    <script>
-        (function() {
-    'use strict';
-    window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-    form.addEventListener('submit', function(event) {
-    if (form.checkValidity() === false) {
-    event.preventDefault();
-    event.stopPropagation();
-    }
-    form.classList.add('was-validated');
-    }, false);
-    });
-    }, false);
-    })();
-
    
-    </script>
     
 </body>
 </html>

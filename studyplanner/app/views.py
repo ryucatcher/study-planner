@@ -18,7 +18,7 @@ navigation_list = [
     {'icon': 'img/icon_deadlines.png', 'title': 'Deadlines', 'url': '/deadlines'},
     {'icon': 'img/icon_modules.png', 'title': 'Modules', 'url': '/modules'},
     {'icon': 'img/icon_gantt.png', 'title': 'Gantt Chart', 'url': '/ganttchart'},
-    {'icon': 'img/icon_add.png', 'title': 'Add Task', 'url': '/addtask'},
+    {'icon': 'img/icon_add.png', 'title': 'Add Task', 'url': '/createTask'},
     {'icon': 'img/icon_logout.png', 'title': 'Logout', 'url': '/logout'}
 ]
 
@@ -48,9 +48,50 @@ def index(request):
     return render(request, 'index.html', context)
 
 def createTask(request):
+    if not isLoggedIn(request):
+        return redirect('/')
+
+    userid = request.COOKIES['userid']
+    user = User.objects.get(userid=userid)
+
+    semester = SemesterStudyProfile.objects.get(user=user)
+
+    modules = Module.objects.filter(semester=semester)
+
+    jsonModules = {}
+    for module in modules:
+        jsonModules[module.code] = {}
+        jsonModules[module.code]['name'] = module.name
+        jsonModules[module.code]['description']= module.description
+        jsonModules[module.code]['assessments'] = []
+        assessments = Assessment.objects.filter(module=module)
+        for assessment in assessments:
+            jsonAssessment = {}
+            jsonAssessment['name'] = assessment.name
+            jsonAssessment['description'] = assessment.description
+            jsonAssessment['weight'] = assessment.weight
+            jsonAssessment['startDate'] = str(assessment.startDate)
+            jsonAssessment['deadline'] = str(assessment.deadline)
+            jsonAssessment['assessmentType'] = assessment.assessmentType
+            jsonAssessment['tasks'] = []
+            tasks = StudyTask.objects.filter(assessment = assessment)
+            for task in tasks:
+                jsonTask = {}
+                jsonTask['name'] = task.name
+                jsonTask['description'] = task.description
+                jsonTask['duration'] = task.duration
+                jsonTask['dependencies'] = []
+                for dependency in task.requiredTasks:
+                    jsonTask['dependencies'].append(dependency.uid)
+                    jsonAssessment['tasks'].append(jsonTask)
+            jsonModules[module.code]['assessments'].append(jsonAssessment)
+    
+
+
     context = {
         'navigation': navigation_list,
-        'active': 'Add Task'
+        'active': 'Add Task',
+        'modelData': json.dumps(jsonModules)
     }
     return render(request, 'createTask.html', context)
 
