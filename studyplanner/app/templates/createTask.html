@@ -16,8 +16,8 @@
     {% include "dashboard.html" %}
     <div class = "background" >
             <div id= "forms">
-            <form class="needs-validation" action="processtask" onclick="return submitFunction()" method="POST" novalidate>
-                   
+            <form class="needs-validation" action="/processtask/" method="POST">
+                {% csrf_token %}
                 
                 <div class="textfield">
                     <label for id ="validationCustom01">Task name:</label> 
@@ -50,8 +50,7 @@
                     <div class="dropdown">
                         <label for="dependances">Dependances</label>
                         <select id="dependances" class="form-control" name = "dependances">
-                            <option selected>Choose...</option>
-                            <option>...</option>
+                            <option value="null" selected>Choose...</option>
                         </select>
                     </div>
                          

@@ -55,9 +55,7 @@ def createTask(request):
     userid = request.COOKIES['userid']
     user = User.objects.get(userid=userid)
 
-    semester = SemesterStudyProfile.objects.get(user=user)
-
-    modules = Module.objects.filter(semester=semester)
+    modules = Module.objects.filter(semester=user.activeSemester)
 
     jsonModules = {}
     for module in modules:
@@ -68,23 +66,25 @@ def createTask(request):
         assessments = Assessment.objects.filter(module=module)
         for assessment in assessments:
             jsonAssessment = {}
+            jsonAssessment['id'] = str(assessment.uid)
             jsonAssessment['name'] = assessment.name
             jsonAssessment['description'] = assessment.description
             jsonAssessment['weight'] = assessment.weight
             jsonAssessment['startDate'] = str(assessment.startDate)
             jsonAssessment['deadline'] = str(assessment.deadline)
-            jsonAssessment['assessmentType'] = assessment.assessmentType
+            jsonAssessment['assessmentType'] = assessment.type_a
             jsonAssessment['tasks'] = []
             tasks = StudyTask.objects.filter(assessment = assessment)
             for task in tasks:
                 jsonTask = {}
+                jsonTask['id'] = str(task.uid)
                 jsonTask['name'] = task.name
                 jsonTask['description'] = task.description
-                jsonTask['duration'] = task.duration
+                jsonTask['duration'] = str(task.duration)
                 jsonTask['dependencies'] = []
-                for dependency in task.requiredTasks:
-                    jsonTask['dependencies'].append(dependency.uid)
-                    jsonAssessment['tasks'].append(jsonTask)
+                for dependency in task.requiredTasks.all():
+                    jsonTask['dependencies'].append(str(dependency.uid))
+                jsonAssessment['tasks'].append(jsonTask)
             jsonModules[module.code]['assessments'].append(jsonAssessment)
     
 
@@ -96,7 +96,15 @@ def createTask(request):
     }
     return render(request, 'createTask.html', context)
 
-
+def processTask(request):
+    assessmentid = request.POST['assessment']
+    name = request.POST['name']
+    desc = request.POST['description']
+    duration = timedelta(days=int(request.POST['duration']))
+    dependency = request.POST['dependances']
+    task = StudyTask(name=name, description=desc, duration=duration, assessment=Assessment.objects.get(uid=assessmentid))
+    task.save()
+    return redirect('/createTask?msg=Successful')
 
 def login(request):
     # If user already logged in

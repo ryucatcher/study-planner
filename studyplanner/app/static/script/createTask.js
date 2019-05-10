@@ -9,6 +9,7 @@ function removeOptions(selectbox)
 
 window.onload = function(){
     var moduleSelector = document.getElementById("module");
+    var dSelector = document.getElementById('dependances');
     for(code in modelData){
         if(!modelData.hasOwnProperty(code)) continue;
         moduleSelector.options[moduleSelector.options.length] = new Option(modelData[code].name, code);
@@ -17,28 +18,39 @@ window.onload = function(){
     var firstCode = Object.keys(modelData)[0];
     var aSelector = document.getElementById('assessment');
     for(i in modelData[firstCode].assessments){
-        aSelector.options[aSelector.options.length] = new Option(code + ":" + modelData[firstCode].assessments[i].assessmentType, i);
+        var a = modelData[firstCode].assessments[i];
+        aSelector.options[aSelector.options.length] = new Option(a.name, a.id);
     }
+    modelData[firstCode].assessments[0].tasks.forEach((task)=>{
+        dSelector.options[dSelector.options.length] = new Option(task.name, task.id);
+    });
 
     moduleSelector.onchange = function(e){
         removeOptions(aSelector);
+        removeOptions(dSelector);
+        dSelector.options[0] = new Option("Choose...", null);
         var code = moduleSelector.options[moduleSelector.selectedIndex].value;
 
         for(i in modelData[code].assessments){
-            aSelector.options[aSelector.options.length] = new Option(code + ":" + modelData[code].assessments[i].assessmentType, i);
+            var a = modelData[code].assessments[i];
+            aSelector.options[aSelector.options.length] = new Option(a.name, a.id);
         }
+
+        modelData[code].assessments[0].tasks.forEach((task)=>{
+            dSelector.options[dSelector.options.length] = new Option(task.name, task.id);
+        });
     }
 
-    var dSelector = document.getElementById('tasks');
     aSelector.onchange = function(e){
         removeOptions(dSelector);
-        var code = aSelector.options[aSelector.selectedIndex].value;
+        dSelector.options[0] = new Option("Choose...", null);
+        var aid = aSelector.options[aSelector.selectedIndex].value;
 
-        for(i in modelData[code].assessments){
-            for(j in modelData[code].assessments[i].tasks){
+        var code = moduleSelector.options[moduleSelector.selectedIndex].value;
+        var assessment = modelData[code].assessments.filter((as)=>as.id==aid)[0];
 
-            aSelector.options[aSelector.options.length] = new Option(code + ":" + modelData[code].assessments[i].tasks[j], i);
-            }
-        }
+        assessment.tasks.forEach((task)=>{
+            dSelector.options[dSelector.options.length] = new Option(task.name, task.id);
+        });
     }
 }
