@@ -3,12 +3,15 @@
     display: flex;
     flex-wrap: wrap;
     margin: auto;
-    
-    padding:auto;
-    
-
 }
 
+
+
+#dropdown-container
+{
+    padding: 10px;
+    display: flex;
+}
 .background
 {
     justify-content: space-around;
@@ -20,14 +23,25 @@
 
 .textfield
 {
-    width: 100%;
+    width: 50%;
     text-align: left;
 }
   .dropdown {
-    width: 100%;
+   
+    width: 350px;
     text-align: left;
+    margin-right: 30px;
+}
 
+#submit-btn
+{
+   margin-top: 30px;
+   margin-right: 600px;
+}
 
+#outputText
+{
+    margin-right: 600px;
 }
   
   

@@ -23,14 +23,10 @@ urlpatterns = [
     # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
-<<<<<<< HEAD
-
-    path('createTask',views.createTask),
-=======
+    path('createTask/',views.createTask),
     path('', views.login),
     path('login/', views.login),
     path('createaccount/', views.createAccount),
->>>>>>> master
     path('dashboard/', views.dashboard),
     path('deadlines/',views.deadlines),
     path('assessment/',views.assessment),

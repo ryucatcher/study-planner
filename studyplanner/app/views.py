@@ -184,10 +184,7 @@ def deadlines(request):
     }
     return render(request, 'deadlines.html', context)
 
-<<<<<<< HEAD
-    return redirect('/dashboard')
 
-=======
 def assessment(request):
     tasks = [
         {'name' : 'task 1', 'progress' : 80 },
@@ -281,4 +278,3 @@ def activity(request):
         'activity' : activity
     }
     return render(request, 'activity.html', context)
->>>>>>> master

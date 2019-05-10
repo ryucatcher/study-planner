@@ -12,50 +12,83 @@
 <body>
     {% include "dashboard.html" %}
     <div class = "background" >
-        <div id= "forms">
-        <form action="processtask" method="POST">
+            <div id= "forms">
+            <form class="needs-validation" action="processtask" onclick="return submitFunction()" method="POST" novalidate>
+                   
+                
+                <div class="textfield">
+                    <label for id ="validationCustom01">Task name:</label> 
+                    <input type="text" class="form-control" name="name" id= "validationCustom01" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="textfield">
+                                <label for id ="validationCustom02">Duration:</label> 
+                                <input type="number" class="form-control" name="duration" id ="validationCustom02" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>   
+                    
+            <div id = "dropdown-container">
+                    <div class="dropdown">
+                        <label for="module">Module</label>
+                        <select id="module" class="form-control" name = "module" required>
+                            
+                            <option>...</option>
+                        </select>
+                    </div>
+        
+                    <div class="dropdown">
+                        <label for="assessment">Assessment</label>
+                        <select id="assessment" class="form-control" name = "assessment" required>
+                            
+                            <option>...</option>
+                        </select>
+                    </div><br>
+                </div>
+                    <div class="dropdown">
+                        <label for="dependances">Dependances</label>
+                        <select id="dependances" class="form-control" name = "dependances">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                         
+                    
             <div class="textfield">
-                <label for id ="name">Task name:</label> 
-                <input type="text" class="form-control" name="taskName" id= "name">
-            </div>
-            <div class="textfield">
-                <label for id ="duration">Duration:</label> 
-                <input type="text" class="form-control" name="duration" id ="duration">
-            </div>
-
-
-            <div class="dropdown">
-                <label for="module">Module</label>
-                <select id="module" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                </select>
-            </div>
-
-            <div class="dropdown">
-                <label for="assessment">Assessment</label>
-                <select id="assessment" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                </select>
-            </div><br>
-
-            <div class="dropdown">
-                <label for="dependances">Dependances</label>
-                <select id="dependances" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                </select>
-            </div>
-
-            <div class="textfield">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" rows="3"></textarea>
-            </div>
-            
-          </form>
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="3" name = "description"></textarea>
+    
+                </div>
+                <div id = "submit-btn"><button class="btn btn-secondary" type="submit">Create Task</button></div>
+                        </form>
           
         </div>
-    </div>
+    </div>  
+
+    <script>
+        (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+    form.addEventListener('submit', function(event) {
+    if (form.checkValidity() === false) {
+    event.preventDefault();
+    event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+    }, false);
+    });
+    }, false);
+    })();
+
+   
+    </script>
+    
 </body>
 </html>
