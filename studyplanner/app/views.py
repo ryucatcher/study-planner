@@ -6,6 +6,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.middleware import csrf
 from django.shortcuts import redirect
+import uuid
 
 import json
 from datetime import datetime
@@ -154,15 +155,19 @@ def _createSemesterStudyProfile(request, content, userid):
         module.save()
         # Add assessments to modules
         for a in m['Assessments']:
-            assessmentType = AssessmentType.CW if a['Type'] == 'cw' else AssessmentType.EX
-            if assessmentType == AssessmentType.CW:    
+            assessmentType = 'CW' if a['Type'] == 'cw' else 'EX'
+            if assessmentType == 'CW':    
                 startdate = datetime.strptime(a['startdate'], DTFORMAT).date()
                 enddate = datetime.strptime(a['enddate'], DTFORMAT).date()
-                assessment = Assessment(weight=a['weight'], startDate=startdate, deadline=enddate, assessmentType=assessmentType, module=module)
+                name = module.name + ' Coursework (due ' + enddate.strftime("%B") + ')'
+                assessment = Assessment(name=name,weight=a['weight'], startDate=startdate, deadline=enddate, type_a=assessmentType, module=module)
             else:
                 date = datetime.strptime(a['date'], DTFORMAT).date()
-                assessment = Assessment(weight=a['weight'], startDate=date, deadline=date, assessmentType=assessmentType, module=module)
+                name = module.name + ' Exam'
+                assessment = Assessment(name=name,weight=a['weight'], startDate=date, deadline=date, type_a=assessmentType, module=module)
             assessment.save()
+    user.activeSemester = profile
+    user.save()
             
 def uploadHubFile(request):
     # If user is not logged in, redirect to login page
@@ -180,8 +185,12 @@ def uploadHubFile(request):
 
 
 def deadlines(request):
+    if not isLoggedIn(request):
+        return redirect('/')
     today = date.today()
-    u = User.objects.all()[0]
+    userid = request.COOKIES['userid']
+    u = User.objects.get(userid=userid)
+    #u = User.objects.all()[0]
     s = u.activeSemester
     deadlines = s.allAssessments().order_by('deadline')
     upcoming = list()
@@ -224,7 +233,29 @@ def deadlines(request):
     return render(request, 'deadlines.html', context)
 
 def assessment(request, id=None):
-    assessment=Assessment.objects.get(pk=id)
+    if not isLoggedIn(request):
+        return redirect('/')
+    userid = request.COOKIES['userid']
+    user = User.objects.get(userid=userid)
+    try:
+        uuid.UUID(id)
+    except:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    try:
+        assessment=Assessment.objects.get(pk=id)
+    except Assessment.DoesNotExist:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    if assessment.module.semester.user != user:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "You don't have permission to view this page" }
+        return render(request, 'badrequest.html', context)
     tasks = list()
     milestones = list()
     for t in assessment.studytask_set.all():
@@ -260,7 +291,29 @@ def assessment(request, id=None):
     return render(request, 'assessment.html', context)
 
 def task(request, id=None):
-    task=StudyTask.objects.get(pk=id)
+    if not isLoggedIn(request):
+        return redirect('/')
+    userid = request.COOKIES['userid']
+    user = User.objects.get(userid=userid)
+    try:
+        uuid.UUID(id)
+    except:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    try:
+        task=StudyTask.objects.get(pk=id)
+    except StudyTask.DoesNotExist:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    if task.assessment.module.semester.user != user:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "You don't have permission to view this page" }
+        return render(request, 'badrequest.html', context)
     activities = list()
     notes = list()
     requiredTasks = list()
@@ -307,7 +360,29 @@ def task(request, id=None):
     return render(request, 'task.html', context)
 
 def activity(request, id=None):
-    activity=StudyActivity.objects.get(pk=id)
+    if not isLoggedIn(request):
+        return redirect('/')
+    userid = request.COOKIES['userid']
+    user = User.objects.get(userid=userid)
+    try:
+        uuid.UUID(id)
+    except:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    try:
+        activity=StudyActivity.objects.get(pk=id)
+    except StudyActivity.DoesNotExist:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    if activity.tasks.all()[0].assessment.module.semester.user != user:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "You don't have permission to view this page" }
+        return render(request, 'badrequest.html', context)
     notes = list()
     tasks = list()
     options = list()
@@ -347,7 +422,29 @@ def activity(request, id=None):
     return render(request, 'activity.html', context)
 
 def milestone(request, id=None):
-    milestone=Milestone.objects.get(pk=id)
+    if not isLoggedIn(request):
+        return redirect('/')
+    userid = request.COOKIES['userid']
+    user = User.objects.get(userid=userid)
+    try:
+        uuid.UUID(id)
+    except:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    try:
+        milestone=Milestone.objects.get(pk=id)
+    except Milestone.DoesNotExist:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    if milestone.assessment.module.semester.user != user:
+        context = { 'navigation': navigation_list,
+            'active': 'Deadlines',
+            'message': "You don't have permission to view this page" }
+        return render(request, 'badrequest.html', context)
     tasks = list()
     options = list()
     for t in milestone.requiredTasks.all():
