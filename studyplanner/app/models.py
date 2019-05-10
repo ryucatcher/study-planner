@@ -2,12 +2,15 @@ import uuid
 from django.db import models
 from enum import Enum
 
+DTFORMAT = '%d-%m-%Y'
+
 class User(models.Model):
     userid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=320)
     firstname = models.CharField(max_length=24)
     lastname = models.CharField(max_length=24)
     password = models.CharField(max_length=128)
+    activeSemester = models.ForeignKey("SemesterStudyProfile", on_delete=models.SET_NULL,null=True,related_name="activeSemester")
     def hasSemesterStudyProfile(self):
         semesters = SemesterStudyProfile.filter(user=self)
         if semesters.count() == 0:
@@ -73,7 +76,7 @@ class StudyTask(models.Model):
         size = activities.count()
         progress = 0.0
         for a in activities:
-            progress += t.progress/size
+            progress += a.progress()/size
             print(progress)
         return progress
     def __str__(self):
@@ -93,7 +96,7 @@ class StudyActivity(models.Model):
     actType = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in Type])
     tasks = models.ManyToManyField(StudyTask)
     def progress(self):
-        return completed/float(target)
+        return self.completed/float(self.target)
     def __str__(self):
         return self.name
 
