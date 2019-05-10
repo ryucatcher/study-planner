@@ -31,6 +31,8 @@ urlpatterns = [
     path('assessment/',views.assessment),
     path('task/',views.task),
     path('activity/',views.activity),
+    path('modules/', views.module),
+    path('modules/moduleInformation/', views.moduleInformation),
 
     # Forms
     path('processlogin/', views.processLogin),
@@ -42,4 +44,5 @@ urlpatterns = [
     path('api/updatedeadlinename', api.updateDeadlineName),
     path('api/updatetaskprogress', api.updateTaskProgress),
     path('api/getstudyprofile', api.getUserStudyProfile)
+    
 ]
