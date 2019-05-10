@@ -145,7 +145,7 @@ def _createSemesterStudyProfile(request, content, userid):
     user = User.objects.get(userid=userid)
 
     # Delete existing profile with the same year
-    SemesterStudyProfile.objects.filter(user=user, year=content['Year']).delete()
+    # SemesterStudyProfile.objects.filter(user=user, year=content['Year']).delete()
     
     profile = SemesterStudyProfile(year=content['Year'], semester=content['Semester'], user=user)
     profile.save()
@@ -478,7 +478,8 @@ def milestone(request, id=None):
 
 def module(request):
     user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
-    semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
+    # semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
+    semester = user.activeSemester
     modules = semester.allModules() #Gets all modules
     completeList = list()
 
@@ -506,21 +507,22 @@ def moduleInformation(request):
     desc = request.GET['desc']
 
     user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
-    semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
+    # semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
+    semester = user.activeSemester
     assessments = semester.allAssessments()
     completeList = list()
 
     for assessment in assessments:
         if(assessment.module.code == code):
 
-            assessmentType = assessment.assessmentType
-            assessmentName = name + " " + assessmentType
+            assessmentType = assessment.get_type_a_display()
+            assessmentName = assessment.name
             assessmentWeight = assessment.weight
             assessmentStart = assessment.startDate
             assessmentDeadline = assessment.deadline
 
             items = {'assessmentName': assessmentName, 'assessmentWeight': assessmentWeight, 
-                    'assessmentStart': assessmentStart, 'assessmentDeadline': assessmentDeadline}
+                    'assessmentStart': assessmentStart, 'assessmentDeadline': assessmentDeadline, 'assessmentid' : assessment.uid}
             print(assessmentDeadline)
             completeList.append(items)
 
