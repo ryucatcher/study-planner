@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^task/(?P<id>[-@\w]+)/$', views.task,name='task'),
     url(r'^activity/(?P<id>[-@\w]+)/$', views.activity,name='activity'),
     url(r'^milestone/(?P<id>[-@\w]+)/$', views.milestone,name='milestone'),
+    path('modules/', views.module),
+    path('modules/moduleInformation/', views.moduleInformation),
 
     # Forms
     path('processlogin/', views.processLogin),

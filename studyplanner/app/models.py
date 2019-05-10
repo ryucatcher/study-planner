@@ -27,6 +27,8 @@ class SemesterStudyProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def allAssessments(self):
         return Assessment.objects.filter(module__semester=self)
+    def allModules(self):
+        return Module.objects.filter(semester=self)
     def __str__(self):
         return self.semester
 
