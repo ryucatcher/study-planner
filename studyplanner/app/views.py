@@ -520,8 +520,10 @@ def moduleInformation(request):
             assessmentDeadline = assessment.deadline
 
             items = {'assessmentName': assessmentName, 'assessmentWeight': assessmentWeight, 
-                    'assessmentStart': assessmentStart, 'asssessmentEnd': assessmentDeadline}
+                    'assessmentStart': assessmentStart, 'assessmentDeadline': assessmentDeadline}
+            print(assessmentDeadline)
             completeList.append(items)
+
     
     context = {
         'navigation': navigation_list,
