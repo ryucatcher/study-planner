@@ -28,7 +28,7 @@ class SemesterStudyProfile(models.Model):
     def allAssessments(self):
         return Assessment.objects.filter(module__semester=self)
     def allModules(self):
-        return Module.objects.filter(module_semester=self)
+        return Module.objects.filter(semester=self)
     def __str__(self):
         return self.semester
 

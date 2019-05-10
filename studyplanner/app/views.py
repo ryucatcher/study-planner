@@ -121,7 +121,7 @@ def processAccount(request):
             user.save()
             loginUser(response, user.userid)
         except Exception as e:
-            return redirect('/createaccount?error=' + e)
+            return redirect('/createaccount?error=' + str(e))
 
     return response
 
@@ -319,35 +319,58 @@ def activity(request):
     return render(request, 'activity.html', context)
 
 def module(request):
-    user = User.objects.get(userid=request.COOKIES['userid'])
-    semester = user.activeSemester
-    modules = semester.allModules().order_by('code')
+    user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
+    semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
+    modules = semester.allModules() #Gets all modules
     completeList = list()
 
-    for mod in modules:
-        moduleName = mod.name
-        moduleCode = mod.code
-        moduleDesc = mod.description
+    #Iterates through each module
+    for module in modules:
+        moduleName = module.name
+        moduleCode = module.code
+        moduleDesc = module.description
 
+        #Appends each module into completeList
         items = [moduleName, moduleCode, moduleDesc]
         completeList.append(items)
-
-
 
     context = {
         'navigation': navigation_list,
         'active': 'Modules',
         'modules': completeList
-        # 'modules': [['Software Engineering 1', 'Software Engineering 1 description'],['Programming 2','Programming 2 description'],
-        #     ['Graphics 1','Graphics 1 description'], ['Information Retrieval','Information Retrieval description'],
-        #     ['Data Structures and Algorithms','Data Structures and Algorithms description'], 
-        #     ['Architectures and Operating Systems','Architectures and Operating Systems description']],
     }
     return render(request, 'module.html', context)
 
 def moduleInformation(request):
+    #Used to get module name, code and description from URL parameter
+    name = request.GET['name']
+    code = request.GET['code']
+    desc = request.GET['desc']
+
+    user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
+    semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
+    assessments = semester.allAssessments()
+    completeList = list()
+
+    for assessment in assessments:
+        if(assessment.module.code == code):
+
+            assessmentType = assessment.assessmentType
+            assessmentName = name + " " + assessmentType
+            assessmentWeight = assessment.weight
+            assessmentStart = assessment.startDate
+            assessmentDeadline = assessment.deadline
+
+            items = {'assessmentName': assessmentName, 'assessmentWeight': assessmentWeight, 
+                    'assessmentStart': assessmentStart, 'asssessmentEnd': assessmentDeadline}
+            completeList.append(items)
+    
     context = {
         'navigation': navigation_list,
         'active': 'ModuleInformation',
+        'name': name,
+        'code': code,
+        'desc': desc,
+        'assessments': completeList
     }
     return render(request, 'moduleInformation.html', context)
