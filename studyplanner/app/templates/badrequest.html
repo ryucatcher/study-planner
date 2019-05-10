@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Bad request</title>
+    {% include "common_head.html" %}
+    <link rel="stylesheet" href="{% static "common.css" %}" />
+    <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+</head>
+<body>
+    {% include "dashboard.html" %}
+    <div class="dashboard-content">{{ message }}</div>
+</body>
