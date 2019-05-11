@@ -1,7 +1,6 @@
 
 .form-align-center{
-    position:fixed;
-    background-color: #191819;
+    background-color:#191819;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,11 +15,9 @@
     align-items: center;
     justify-content: center;
     width:35%;
-    height:87%;
-    border:1px solid black;
+    height:88%;
     padding:50px 60px;
     position: relative;
-    top: -1em;
     -webkit-box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 23px 10px rgba(0,0,0,0.75);
@@ -47,7 +44,6 @@ h1{
 
 .text-danger{
    margin-top:10px;
-    margin-left: 33%;
 }
 
 .back{
