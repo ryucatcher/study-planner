@@ -1,11 +1,11 @@
 .card-columns {
     display: flex;
     flex-wrap: wrap;
-    /* border-color: green; */
-    /* border-style: solid; */
-    align-items: center;
+    /* border-color: green;
+    border-style: solid; */
+    align-items: flex-start; /*Was "center"*/
     justify-content: space-around; /*Adds margin in between the cards*/
-    height: 100vh;
+    height: 60vh;
 }
 
 .card {
@@ -16,16 +16,8 @@
     /* border-color: yellow;
     border-style: solid; */
     width: 400px !important;
-    height: 175px !important;
+    height: 230px !important;
     
-}
-
-.card-columns > h1 {
-    
-}
-
-#box{
-
 }
 
 #summary{
