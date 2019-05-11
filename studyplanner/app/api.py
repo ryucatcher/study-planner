@@ -111,12 +111,26 @@ def getUserStudyProfile(request):
         print(e)
         return HttpResponse(json.dumps(result))
 
+def changeSemester(request):
+    if not isLoggedIn(request):
+            return HttpResponse("You are not logged in.",status=400)
+    if request.method == 'POST':
+        semester_id = request.POST['semester']
+        semester=SemesterStudyProfile.objects.get(pk=semester_id)
+        userid = request.COOKIES['userid']
+        user = User.objects.get(userid=userid)
+        if semester.user != user:
+            return HttpResponse("You do not have permission.",status=400)
+        user.activeSemester = semester
+        user.save()
+        return HttpResponse('')
+
 # **************** ASSESSMENT ************************
 
 def edit_assessment_name(request, id=None):
+    if not isLoggedIn(request):
+        return HttpResponse("You are not logged in.",status=400)
     if request.method == 'POST':
-        if not isLoggedIn(request):
-            return HttpResponse("You are not logged in.",status=400)
         name = request.POST['name']
         if name == '':
             return HttpResponse("You must write a name for the assessment.",status=400)

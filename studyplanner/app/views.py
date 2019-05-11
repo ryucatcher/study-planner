@@ -183,6 +183,15 @@ def uploadHubFile(request):
 
     return redirect('/dashboard')
 
+def _getAllSemesters(userid):
+    user = User.objects.get(userid=userid)
+    allSemesters = user.semesterstudyprofile_set.all()
+    semesters = list()
+    for sem in allSemesters:
+        item = {'name':sem.semester,'id':sem.uid}
+        semesters.append(item)
+    return semesters
+
 
 def deadlines(request):
     if not isLoggedIn(request):
@@ -225,6 +234,7 @@ def deadlines(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(userid),
         'upcoming' : upcoming,
         'inprogress' : inprogress,
         'missed' : missed,

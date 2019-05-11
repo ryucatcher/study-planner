@@ -121,3 +121,24 @@
 .dashboard-control-list img{
     height: 32px;
 }
+
+.obscure-bg{
+    background-color: rgba(0, 0, 0, 0.80);
+    position: fixed;
+    top:0px;
+    left: 0px;
+    right:0px;
+    bottom: 0px;
+    z-index: 100;
+}
+#change-semester-form{
+    position: fixed;
+    width: 500px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px; /* Negative half of height. */
+    margin-left: -250px; /* Negative half of width. */
+    background-color: rgb(220, 220, 220);
+    padding:10px 30px;
+}
