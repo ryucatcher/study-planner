@@ -43,12 +43,16 @@
     <form method="POST" id="change-semester-form">
         {% csrf_token %}
         <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Change semester</div>
-        <select name="semester" id="semester">
-            {% for option in semesters %}
+        <div style="margin-bottom: 10px;">Current semester: {{ semesters.current }}</div>
+        <select name="semester" id="semester" style="margin-bottom: 10px;">
+            {% for option in semesters.semesters %}
                 <option value="{{ option.id }}" id="option-{{ option.id }}">{{ option.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit" class="save-button">Save</button>
-        <button type="button" class="cancel-button" onclick="cancelChangeSemester()">Cancel</button>
+        <div>
+            <button type="submit" class="save-button">Save</button>
+            <button type="button" class="cancel-button" onclick="cancelChangeSemester()">Cancel</button>
+        </div>
+        
     </form>
 </div>

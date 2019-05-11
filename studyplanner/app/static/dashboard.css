@@ -122,6 +122,8 @@
     height: 32px;
 }
 
+
+/* Change semester */
 .obscure-bg{
     background-color: rgba(0, 0, 0, 0.80);
     position: fixed;
@@ -133,12 +135,36 @@
 }
 #change-semester-form{
     position: fixed;
-    width: 500px;
-    height: 200px;
+    width: 400px;
+    height: 180px;
     top: 50%;
     left: 50%;
-    margin-top: -100px; /* Negative half of height. */
-    margin-left: -250px; /* Negative half of width. */
+    margin-top: -90px; /* Negative half of height. */
+    margin-left: -200px; /* Negative half of width. */
     background-color: rgb(220, 220, 220);
     padding:10px 30px;
+}
+.save-button{
+    font-size: 14px;
+    background-color: #0066ff;
+    padding: 0px 4px 0px 4px;
+    margin: 0px 5px 0px 2px;
+    border: none;
+    border-radius: 5px;
+    color:white;
+}
+.save-button:hover{
+    background-color: #003d99;
+}
+
+.cancel-button{
+    font-size: 14px;
+    background-color: #cc0000;
+    padding: 0px 4px 0px 4px;
+    border: none;
+    border-radius: 5px;
+    color:white;
+}
+.cancel-button:hover{
+    background-color: #660000;
 }

@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#change-semester-form').on('submit', function(event){
         event.preventDefault();
-        var url_ = 'api/changesemester';
+        var url_ = '/api/changesemester';
         $.ajax({
             type:'POST',
             url: url_,

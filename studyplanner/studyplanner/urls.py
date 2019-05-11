@@ -46,7 +46,7 @@ urlpatterns = [
     path('api/updatedeadlinename', api.updateDeadlineName),
     path('api/updatetaskprogress', api.updateTaskProgress),
     path('api/getstudyprofile', api.getUserStudyProfile),
-    path('deadlines/api/changesemester', api.changeSemester),
+    path('api/changesemester', api.changeSemester),
     url(r'^assessment/(?P<id>[-@\w]+)/editname/$', api.edit_assessment_name,name='edit_assessment_name'),
     url(r'^assessment/(?P<id>[-@\w]+)/editdescription/$', api.edit_assessment_description,name='edit_assessment_description'),
     url(r'^assessment/(?P<id>[-@\w]+)/editstartdate/$', api.edit_assessment_startdate,name='edit_assessment_startdate'),
