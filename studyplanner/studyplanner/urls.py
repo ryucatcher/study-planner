@@ -24,6 +24,7 @@ urlpatterns = [
     # View urls
     path('admin/', admin.site.urls),
     path('index/', views.index),
+    path('createTask/',views.createTask),
     path('', views.login),
     path('login/', views.login),
     path('createaccount/', views.createAccount),
@@ -36,11 +37,15 @@ urlpatterns = [
     path('modules/', views.module),
     path('modules/moduleInformation/', views.moduleInformation),
 
+   
+
     # Forms
     path('processlogin/', views.processLogin),
     path('processaccount/', views.processAccount),
     path('logout/', views.logout),
     path('uploadhubfile/', views.uploadHubFile),
+    path('processtask/', views.processTask),
+
 
     # API urls
     path('api/updatedeadlinename', api.updateDeadlineName),

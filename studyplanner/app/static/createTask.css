@@ -1,0 +1,49 @@
+#forms
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+
+
+#dropdown-container
+{
+    padding: 10px;
+    display: flex;
+}
+.background
+{
+    justify-content: space-around;
+    text-align:center;
+    display: flex;
+    height: 100vh;
+    flex-wrap: wrap;
+}
+
+.textfield
+{
+    width: 50%;
+    text-align: left;
+}
+  .dropdown {
+   
+    width: 350px;
+    text-align: left;
+    margin-right: 30px;
+}
+
+#submit-btn
+{
+   margin-top: 30px;
+   margin-right: 600px;
+}
+
+#outputText
+{
+    margin-right: 600px;
+}
+  
+  
+  
+  
