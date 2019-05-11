@@ -101,7 +101,7 @@ def processTask(request):
     name = request.POST['name']
     desc = request.POST['description']
     duration = timedelta(days=int(request.POST['duration']))
-    dependency = request.POST['dependances']
+   
     task = StudyTask(name=name, description=desc, duration=duration, assessment=Assessment.objects.get(uid=assessmentid))
     task.save()
     return redirect('/createTask?msg=Successful')
