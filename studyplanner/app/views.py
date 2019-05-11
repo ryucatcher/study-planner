@@ -197,7 +197,7 @@ def dashboard(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
-        'user': getUser(request)
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'csrf': csrf.get_token(request)
     }
@@ -250,6 +250,8 @@ def _getAllSemesters(request):
     user = User.objects.get(userid=userid)
     allSemesters = user.semesterstudyprofile_set.all()
     current = user.activeSemester
+    if current is None:
+        return {'current': None, 'semesters': []}
     to_exclude = SemesterStudyProfile.objects.filter(uid=current.uid)
     semester_options = allSemesters.difference(to_exclude)
     semesters_list = list()
@@ -503,7 +505,7 @@ def activity(request, id=None):
 
 def ganttchart(request):
     user = getUser(request)
-    modules = Module.objects.filter(semester=SemesterStudyProfile.objects.get(user=user))
+    modules = Module.objects.filter(semester=user.activeSemester)
 
     ganttdata = {}
     for module in modules:
@@ -519,8 +521,9 @@ def ganttchart(request):
             a['weight'] = assessment.weight
             a['startDate'] = str(assessment.startDate)
             a['deadline'] = str(assessment.deadline)
-            a['assessmentType'] = assessment.assessmentType
+            a['assessmentType'] = assessment.type_a
             a['tasks'] = []
+            a['milestones'] = []
             tasks = StudyTask.objects.filter(assessment=assessment) 
             for task in tasks:
                 t = {}
@@ -532,6 +535,14 @@ def ganttchart(request):
                 for dependency in task.requiredTasks.all():
                     t['dependency'].append(str(dependency))
                 a['tasks'].append(t)
+            milestones = Milestone.objects.filter(assessment=assessment)
+            for milestone in milestones:
+                m = {}
+                m['name'] = milestone.name
+                m['tasks'] = []
+                for mt in milestone.requiredTasks.all():
+                    m['tasks'].append(str(mt.uid))
+                a['milestones'].append(m)
             ganttdata[str(module.code)]['assessments'].append(a)
             
 
@@ -542,7 +553,7 @@ def ganttchart(request):
         'ganttdata': json.dumps(ganttdata)
     }
     return render(request, 'ganttchart.html', context)
-    
+
 def milestone(request, id=None):
     if not isLoggedIn(request):
         return redirect('/')
