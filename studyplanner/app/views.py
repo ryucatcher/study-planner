@@ -137,6 +137,7 @@ def dashboard(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(request),
         'csrf': csrf.get_token(request)
     }
     return render(request, 'dashboardtest.html', context)
@@ -183,6 +184,20 @@ def uploadHubFile(request):
 
     return redirect('/dashboard')
 
+def _getAllSemesters(request):
+    userid = request.COOKIES['userid']
+    user = User.objects.get(userid=userid)
+    allSemesters = user.semesterstudyprofile_set.all()
+    current = user.activeSemester
+    to_exclude = SemesterStudyProfile.objects.filter(uid=current.uid)
+    semester_options = allSemesters.difference(to_exclude)
+    semesters_list = list()
+    for sem in semester_options:
+        item = {'name':sem.semester,'id':sem.uid}
+        semesters_list.append(item)
+    semesters = {'current':current.semester,'semesters':semesters_list}
+    return semesters
+
 
 def deadlines(request):
     if not isLoggedIn(request):
@@ -225,6 +240,7 @@ def deadlines(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(request),
         'upcoming' : upcoming,
         'inprogress' : inprogress,
         'missed' : missed,
@@ -286,6 +302,7 @@ def assessment(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(request),
         'assessment' : assessment_info
     }
     return render(request, 'assessment.html', context)
@@ -355,6 +372,7 @@ def task(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(request),
         'task' : task_info
     }
     return render(request, 'task.html', context)
@@ -417,6 +435,7 @@ def activity(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(request),
         'activity' : activity_info
     }
     return render(request, 'activity.html', context)
@@ -472,6 +491,7 @@ def milestone(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'semesters': _getAllSemesters(request),
         'milestone' : milestone_info
     }
     return render(request, 'milestone.html', context)
@@ -496,6 +516,7 @@ def module(request):
     context = {
         'navigation': navigation_list,
         'active': 'Modules',
+        'semesters': _getAllSemesters(request),
         'modules': completeList
     }
     return render(request, 'module.html', context)
@@ -530,6 +551,7 @@ def moduleInformation(request):
     context = {
         'navigation': navigation_list,
         'active': 'ModuleInformation',
+        'semesters': _getAllSemesters(request),
         'name': name,
         'code': code,
         'desc': desc,
