@@ -34,7 +34,7 @@ window.onload = function(){
         id++;
         var moduleID = id;
         ganttdata.push({
-            id: moduleID, text: m.name, start: '', duration: 0, deadline: '', progress: 0, open: true, readonly: true
+            id: moduleID, _data:m, text: m.name, start: '', duration: 0, deadline: '', progress: 0, open: true, readonly: true
         });
 
         m.assessments.forEach((a) => {
@@ -48,7 +48,7 @@ window.onload = function(){
             var startDate = a.startDate.toLocaleDateString('en-GB');
             var deadline = a.deadline.toLocaleDateString('en-GB');
             ganttdata.push({
-                id: assessmentID, text: a.name + ": " + a.assessmentType, start_date: startDate, start: startDate, deadline: deadline, duration: a.duration, parent: moduleID, progress: 0, open: true, readonly: true
+                id: assessmentID, _data: a, text: a.name + ": " + a.assessmentType, start_date: startDate, start: startDate, deadline: deadline, duration: a.duration, parent: moduleID, progress: 0, open: true, readonly: true
             });
 
             var dateOffset = 0;
@@ -61,7 +61,7 @@ window.onload = function(){
                 var deadline = new Date(start)
                 deadline.setDate(deadline.getDate() + t.duration);
                 ganttdata.push({
-                    id: taskID, text: t.name, start_date: start, start: start.toLocaleDateString('en-GB'), deadline: deadline.toLocaleDateString('en-GB'), duration: t.duration, parent: assessmentID, progress: 0, open: true, readonly: true
+                    id: taskID, _data:t, text: t.name, start_date: start, start: start.toLocaleDateString('en-GB'), deadline: deadline.toLocaleDateString('en-GB'), duration: t.duration, parent: assessmentID, progress: 0, open: true, readonly: true
                 });
                 dateOffset += t.duration;
             });
@@ -74,7 +74,12 @@ window.onload = function(){
     });
 
     // Add milestones
-
-    
+    ganttdata.filter((entry) => Array.isArray(entry._data.milestones)).filter((entry)=>entry._data.milestones.length > 0).forEach((entry)=>{
+        entry._data.milestones.forEach((milestone)=>{
+            var taskid = milestone.tasks[milestone.tasks.length-1];
+            // Add element style for milestone
+            $('div[task_id="'+ ganttdata.filter(entry => entry._data.id == taskid)[0].id +'"').addClass('milestone-task');
+        });
+    });
 
 }

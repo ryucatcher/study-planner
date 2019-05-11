@@ -21,3 +21,15 @@
 div[aria-label="New task"]{
     display: none;
 }
+
+.milestone-task::after{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: gold;
+    position: relative;
+    left: calc(100% - 8px);
+    top: -2em;
+    transform: rotateZ(45deg);
+}
