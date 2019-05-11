@@ -30,6 +30,7 @@ urlpatterns = [
     path('createaccount/', views.createAccount),
     path('dashboard/', views.dashboard),
     path('deadlines/',views.deadlines),
+    path('ganttchart/', views.ganttchart),
     url(r'^assessment/(?P<id>[-@\w]+)/$', views.assessment,name='assessment'),
     url(r'^task/(?P<id>[-@\w]+)/$', views.task,name='task'),
     url(r'^activity/(?P<id>[-@\w]+)/$', views.activity,name='activity'),
