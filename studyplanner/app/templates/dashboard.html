@@ -22,6 +22,7 @@
             {% endfor %}
         </ul>
     </div>
+    <div onclick="changeSemester()">Change Semester</div>
     <div class="dashboard-sub dashboard-control">
         <div class="dashboard-control-container">
             <ul>
@@ -37,4 +38,21 @@
             </ul>
         </div>
     </div>
+</div>
+<div class="obscure-bg" id="change-semester" style="display:none;">
+    <form method="POST" id="change-semester-form">
+        {% csrf_token %}
+        <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Change semester</div>
+        <div style="margin-bottom: 10px;">Current semester: {{ semesters.current }}</div>
+        <select name="semester" id="semester" style="margin-bottom: 10px;">
+            {% for option in semesters.semesters %}
+                <option value="{{ option.id }}" id="option-{{ option.id }}">{{ option.name }}</option>
+            {% endfor %}
+        </select>
+        <div>
+            <button type="submit" class="save-button">Save</button>
+            <button type="button" class="cancel-button" onclick="cancelChangeSemester()">Cancel</button>
+        </div>
+        
+    </form>
 </div>

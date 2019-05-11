@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+        {% load static %}
+    <title>Study Planner</title>
+    {% include "common_head.html" %}
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static "createTask.css" %}" />
+    <script type="text/javascript">
+    var modelData = {{modelData|safe}};
+    </script>
+    <script src="{% static "script/createTask.js" %}"></script>
+</head>
+<body>
+    {% include "dashboard.html" %}
+    <div class = "background" >
+            <div id= "forms">
+            <form class="needs-validation" action="/processtask/" method="POST">
+                {% csrf_token %}
+                
+                <div class="textfield">
+                    <label for id ="validationCustom01">Task name:</label> 
+                    <input type="text" class="form-control" name="name" id= "validationCustom01" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="textfield">
+                                <label for id ="validationCustom02">Duration:</label> 
+                                <input type="number" class="form-control" name="duration" id ="validationCustom02" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>   
+                    
+            <div id = "dropdown-container">
+                    <div class="dropdown">
+                        <label for="module">Module</label>
+                        <select id="module" class="form-control" name = "module" required>
+                        </select>
+                    </div>
+        
+                    <div class="dropdown">
+                        <label for="assessment">Assessment</label>
+                        <select id="assessment" class="form-control" name = "assessment" required>
+                        </select>
+                    </div><br>
+                </div>
+                         
+                    
+            <div class="textfield">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="3" name = "description"></textarea>
+    
+                </div>
+                <div id = "submit-btn"><button class="btn btn-secondary" type="submit">Create Task</button></div>
+                        </form>
+          
+        </div>
+    </div>  
+
+   
+    
+</body>
+</html>

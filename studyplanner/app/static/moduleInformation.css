@@ -1,0 +1,38 @@
+.card-columns {
+    display: flex;
+    flex-wrap: wrap;
+    /* border-color: green;
+    border-style: solid; */
+    align-items: flex-start; /*Was "center"*/
+    justify-content: space-around; /*Adds margin in between the cards*/
+    height: 60vh;
+}
+
+.card {
+
+    text-align: center;
+    background-color: rgb(57, 61, 72);
+    color: white;
+    /* border-color: yellow;
+    border-style: solid; */
+    width: 400px !important;
+    height: 230px !important;
+    
+}
+
+#summary{
+    text-align: center;
+}
+
+.card-body {
+}
+
+.card-title {
+}
+
+.card-text {
+}
+
+.btn btn-primary button {
+}
+

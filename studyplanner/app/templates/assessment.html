@@ -3,39 +3,74 @@
 <head>
     {% load static %}
     <title>Assessment: {{ assessment.name }}</title>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    {% include "common_head.html" %}
     <link rel="stylesheet" href="{% static "common.css" %}" />
     <link rel="stylesheet" href="{% static "deadlines.css" %}" />
+    <script src="{% static "script/assessment.js" %}"></script>
 </head>
 <body>
     {% include "dashboard.html" %}
     <div class="dashboard-content">
+        <div id="uid" style="display: none;">{{ assessment.uid }}</div>
         <div class="assessment-container">
-            <div class="assessment-title">{{ assessment.name }}</div>
+            <div class="assessment-title" onclick="editName()">{{ assessment.name }}</div>
+            <div id="edit-name" style="display: none;">
+                <form method="POST" id="edit-name-form">
+                    {% csrf_token %}
+                    <input class="title-edit" type="text" name="assessmentname" id="new-assessment-name" value="{{ assessment.name }}">
+                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" onclick="cancelName()">Cancel</button>
+                </form>
+            </div>
             <div class="assessment-type" style="margin-bottom: 20px;">{{ assessment.type }}</div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Module:</div>
-                <div class="assessment-ib-text ul-hover">{{ assessment.module }}</div>
+            <div class="infobox">
+                <div class="ib-label">Module:</div>
+                <!--link to module-->
+                <div class="ib-text ul-hover">{{ assessment.module }}</div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Start Date:</div>
-                <div class="assessment-ib-text">{{ assessment.startdate }}</div>
+            <div class="infobox">
+                <div class="ib-label">Start Date:</div>
+                <div class="ib-text" id="startdate" onclick="editStartDate()">{{ assessment.startdate }}</div>
+                <div id="edit-startdate" style="display: none;">
+                    <form method="POST" id="edit-startdate-form">
+                        {% csrf_token %}
+                        <input type="date" name="assessmentstartdate" id="new-startdate">
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelStartDate()">Cancel</button>
+                    </form>
+                </div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Deadline:</div>
-                <div class="assessment-ib-text">{{ assessment.deadline }}</div>
+            <div class="infobox">
+                <div class="ib-label">Deadline:</div>
+                <div class="ib-text" id="deadline" onclick="editDealine()">{{ assessment.deadline }}</div>
+                <div id="edit-deadline" style="display: none;">
+                    <form method="POST" id="edit-deadline-form">
+                        {% csrf_token %}
+                        <input type="date" name="assessmentdeadline" id="new-deadline">
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelDeadline()">Cancel</button>
+                    </form>
+                </div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Weight:</div>
-                <div class="assessment-ib-text">{{ assessment.weight }}%</div>
+            <div class="infobox">
+                <div class="ib-label">Weight:</div>
+                <div class="ib-text">{{ assessment.weight }}%</div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Description:</div>
-                <div class="assessment-ib-text">{{ assessment.description }}</div>
+            <div class="infobox">
+                <div class="ib-label">Description:</div>
+                <div class="ib-text" id="description" onclick="editDescription()">{{ assessment.description }}</div>
+                <div id="edit-description" style="display: none;">
+                    <form method="POST" id="edit-description-form">
+                        {% csrf_token %}
+                        <textarea name="assessmentdescription" id="new-description" rows="4" cols="50">{{ assessment.description }}</textarea>
+                        <button type="submit" class="save-button">Save</button>
+                        <button type="button" class="cancel-button" onclick="cancelDescription()">Cancel</button>
+                    </form>
+                </div>
             </div>
-            <div class="assessment-infobox">
-                <div class="assessment-ib-label">Progress:</div>
-                <div class="assessment-ib-text">
+            <div class="infobox">
+                <div class="ib-label">Progress:</div>
+                <div class="ib-text">
                     <div class="progress-bar pb-infobox">
                     <div class="progress-bar-fill" style="width:{{ assessment.progress }}%;"></div>
                     </div>
@@ -50,16 +85,56 @@
                 </div>
             </div>
             {% for task in assessment.tasks %}
+            <a href="{% url 'task' id=task.id %}">
             <div class="assessment-table-entry">
                 {{ task.name }}
                 <div class="progress-bar pb-infobox">
                 <div class="progress-bar-fill" style="width:{{ task.progress }}%;"></div>
                 </div>
             </div>
+            </a>
             {% endfor %}
             <div class="add-button" style="margin-top:10px;">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                 Add new task
+            </div>
+            <div class="label-bar">
+                Milestones
+                <div class="add-button" onclick="addMilestone()">
+                    <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                    Add new milestone
+                </div>
+            </div>
+            <div id="activities-list">
+                {% for milestone in assessment.milestones %}
+                <a href="{% url 'milestone' id=milestone.id %}" id="{{ milestone.id }}">
+                <div class="assessment-table-entry">
+                    {{ milestone.name }}
+                    <div style="flex: 1 1 auto;"></div>
+                    <img src="{% static milestone.status %}" alt="icon" class="status-icon">
+                </div>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="add-button" style="margin-top:10px;" onclick="addMilestone()">
+                <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
+                Add new milestone
+            </div>
+            <div class="obscure-bg" id="new-milestone" style="display:none;">
+                <form method="POST" id="add-milestone-form">
+                    {% csrf_token %}
+                    <div style="font-size: 20px; font-weight: bold;margin-bottom: 20px;">Add new milestone</div>
+                    <div class="infobox form-info-box">
+                        <div class="ib-label">Assesment:</div>
+                        <div class="ib-text">{{ assessment.name }}</div>
+                    </div>
+                    <div class="infobox form-info-box">
+                        <div class="ib-label">Name:</div>
+                        <input type="text" name="milestonename" id="new-milestone-name" style="width:400px">
+                    </div>
+                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" onclick="cancelAddMilestone()">Cancel</button>
+                </form>
             </div>
         </div>
     </div>

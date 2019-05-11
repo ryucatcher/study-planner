@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,23 +14,28 @@
 
 	<body>
 		<div class="vertically-center">
+
 		<div class ="loginContainer">
+			
 			<h1>Study Planner</h1>
 			<p class="text-danger">{{ error }}</p>
 			<form action="/processlogin" method="POST">
 				{% csrf_token %}
 				<div class="form-group">
-					
+					<label for="exampleInputEmail1">Email address</label>
 					<input type="email" name ="email" class="form-control form-control-lg" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
 			
 				<div class="form-group">
-					
+					<label for="exampleInputPassword1">Password</label>
 					<input type="password" name="password"class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
 				</div>
-				
-				<input type="submit" class="btn btn-success"></input>
+				<div class="form-group form-check">
+					<input type="checkbox" class="form-check-input" id="exampleCheck1">
+					<label class="form-check-label" for="exampleCheck1">Check me out</label>
+				</div>
+				<button type="submit" class="btn btn-success">Submit</button>
 			</form>
-			<a href="/createaccount"><u>SIGN UP</u></a>
+			<a href=""><u>SIGN UP</u></a>
         </div>
 			</div>
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Module Information</title>
+        {% include "common_head.html" %}
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static "moduleInformation.css" %}" />
+    </head>
+
+    <body>
+        {% include "dashboard.html" %} <!-- Includes the side panel within the modules page -->
+            <div id="box">
+                <div id="summary">
+                    <h2>{{name}}</h2>
+                    <h3>{{code}}<br></h3> 
+                    <p><br>{{desc}} <br><br><br></p>
+                    <h2>Assessments: <br><br></h2>
+                </div>
+    
+                <div class="card-columns">
+                    {% for assessment in assessments %}
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{assessment.assessmentName}}</h5>
+                                <p class="card-text">
+                                    Weight : {{assessment.assessmentWeight}}%<br>
+                                    Start Date : {{assessment.assessmentStart}} <br>
+                                    Deadline : {{assessment.assessmentDeadline}}
+                                </p>
+                                <a href="{% url 'assessment' id=assessment.assessmentid %}" class="btn btn-primary button">More Information</a>
+                            </div>
+                        </div>
+                    
+                    {% endfor %}
+                </div>
+            </div>
+        
+            
+    </body>
+</html>

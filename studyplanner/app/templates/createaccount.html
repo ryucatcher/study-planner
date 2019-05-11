@@ -11,8 +11,8 @@
 <body>
     <div class="form-align-center">
         <div class="form-container">
-            <h1 class="display-4">Create your account</h1>
-            <p class="text-danger">{{ error }}</p>
+            <a href="/login" class="back">< BACK TO LOGIN</a>
+            <h1>Create your account</h1>
             <form action="/processaccount/" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="createaccount" />
@@ -40,9 +40,10 @@
                     <small id="password-error" class="form-text text-danger hide">Password must be at least 8 characters long.</small>
                 </div>
 
-                <input type="submit" class="btn btn-primary" />
+                <input type="submit" class="btn btn-success" />
 
             </form>
+            <p class="text-danger">{{ error }}</p>
         </div>
     </div>
 </body>
