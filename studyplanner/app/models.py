@@ -4,6 +4,31 @@ from enum import Enum
 
 DTFORMAT = '%d-%m-%Y'
 
+#### UNIT TESTS #####
+def run_unit_tests():
+    print('Running create user test...')
+    result = _ut_create_user()
+    if result:
+        print('Success')
+    else:
+        print('Test failed.')
+
+def _ut_create_user():
+    u = User(email="usertest@gmail.com", firstname="firstname", lastname="lastname", password="testpassword")
+    oldUserCount = len(User.objects.all())
+    u.save()
+    newUserCount = len(User.objects.all())
+    success = True
+    if newUserCount != oldUserCount + 1:
+        print('User was not added to database.')
+        success = False
+    if u.email != "usertest@gmail.com" or u.firstname != "firstname" or u.lastname != "lastname" or u.password != "testpassword":
+        print('User details do not match.')
+        success = False
+    u.delete()
+    return success
+
+
 class User(models.Model):
     userid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=320)
