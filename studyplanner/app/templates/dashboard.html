@@ -6,7 +6,7 @@
             <img src="{% static "/img/display.png" %}" alt="User Profile Picture" />
         </div>
         <div class="user-info-container">
-            <p class="user-name">{{ user.name|default:"Your Name" }}</p>
+            <p class="user-name">{{ user.firstname|default:"Your" }}&nbsp;{{ user.lastname|default:"Name" }}</p>
             <p class="user-email">{{ user.email|default:"email@domain.com" }}</p>
         </div>
     </div>

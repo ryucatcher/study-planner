@@ -56,7 +56,7 @@ def createTask(request):
         return redirect('/')
 
     userid = request.COOKIES['userid']
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
 
     modules = Module.objects.filter(semester=user.activeSemester)
 
@@ -95,6 +95,7 @@ def createTask(request):
     context = {
         'navigation': navigation_list,
         'active': 'Add Task',
+        'user': getUser(request),
         'modelData': json.dumps(jsonModules)
     }
     return render(request, 'createTask.html', context)
@@ -107,7 +108,7 @@ def processTask(request):
    
     task = StudyTask(name=name, description=desc, duration=duration, assessment=Assessment.objects.get(uid=assessmentid))
     task.save()
-    return redirect('/createTask?msg=Successful')
+    return redirect('/task/' + str(task.uid) + '/')
 
 def login(request):
     # If user already logged in
@@ -204,7 +205,7 @@ def dashboard(request):
     return render(request, 'dashboardtest.html', context)
 
 def _createSemesterStudyProfile(request, content, userid):
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
 
     # Delete existing profile with the same year
     # SemesterStudyProfile.objects.filter(user=user, year=content['Year']).delete()
@@ -247,7 +248,7 @@ def uploadHubFile(request):
 
 def _getAllSemesters(request):
     userid = request.COOKIES['userid']
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
     allSemesters = user.semesterstudyprofile_set.all()
     current = user.activeSemester
     if current is None:
@@ -267,7 +268,7 @@ def deadlines(request):
         return redirect('/')
     today = date.today()
     userid = request.COOKIES['userid']
-    u = User.objects.get(userid=userid)
+    u = getUser(request)
     #u = User.objects.all()[0]
     s = u.activeSemester
     deadlines = s.allAssessments().order_by('deadline')
@@ -303,6 +304,7 @@ def deadlines(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'upcoming' : upcoming,
         'inprogress' : inprogress,
@@ -315,7 +317,7 @@ def assessment(request, id=None):
     if not isLoggedIn(request):
         return redirect('/')
     userid = request.COOKIES['userid']
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
     try:
         uuid.UUID(id)
     except:
@@ -365,6 +367,7 @@ def assessment(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'assessment' : assessment_info
     }
@@ -374,7 +377,7 @@ def task(request, id=None):
     if not isLoggedIn(request):
         return redirect('/')
     userid = request.COOKIES['userid']
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
     try:
         uuid.UUID(id)
     except:
@@ -435,6 +438,7 @@ def task(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'task' : task_info
     }
@@ -444,7 +448,7 @@ def activity(request, id=None):
     if not isLoggedIn(request):
         return redirect('/')
     userid = request.COOKIES['userid']
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
     try:
         uuid.UUID(id)
     except:
@@ -498,6 +502,7 @@ def activity(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'activity' : activity_info
     }
@@ -558,7 +563,7 @@ def milestone(request, id=None):
     if not isLoggedIn(request):
         return redirect('/')
     userid = request.COOKIES['userid']
-    user = User.objects.get(userid=userid)
+    user = getUser(request)
     try:
         uuid.UUID(id)
     except:
@@ -605,6 +610,7 @@ def milestone(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'milestone' : milestone_info
     }
@@ -630,6 +636,7 @@ def module(request):
     context = {
         'navigation': navigation_list,
         'active': 'Modules',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'modules': completeList
     }
