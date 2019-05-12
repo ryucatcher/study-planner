@@ -1,8 +1,11 @@
 import uuid
 from django.db import models
 from enum import Enum
+from datetime import datetime,timedelta
 
 DTFORMAT = '%d-%m-%Y'
+
+#### MODEL ####
 
 class User(models.Model):
     userid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
