@@ -95,6 +95,7 @@ def createTask(request):
     context = {
         'navigation': navigation_list,
         'active': 'Add Task',
+        'user': getUser(request),
         'modelData': json.dumps(jsonModules)
     }
     return render(request, 'createTask.html', context)
@@ -107,7 +108,7 @@ def processTask(request):
    
     task = StudyTask(name=name, description=desc, duration=duration, assessment=Assessment.objects.get(uid=assessmentid))
     task.save()
-    return redirect('/createTask?msg=Successful')
+    return redirect('/task/' + str(task.uid) + '/')
 
 def login(request):
     # If user already logged in
@@ -303,6 +304,7 @@ def deadlines(request):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'upcoming' : upcoming,
         'inprogress' : inprogress,
@@ -365,6 +367,7 @@ def assessment(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'assessment' : assessment_info
     }
@@ -435,6 +438,7 @@ def task(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'task' : task_info
     }
@@ -498,6 +502,7 @@ def activity(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'activity' : activity_info
     }
@@ -605,6 +610,7 @@ def milestone(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Deadlines',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'milestone' : milestone_info
     }
@@ -630,6 +636,7 @@ def module(request):
     context = {
         'navigation': navigation_list,
         'active': 'Modules',
+        'user': getUser(request),
         'semesters': _getAllSemesters(request),
         'modules': completeList
     }
