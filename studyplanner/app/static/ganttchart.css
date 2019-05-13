@@ -33,3 +33,16 @@ div[aria-label="New task"]{
     top: -2em;
     transform: rotateZ(45deg);
 }
+
+.milestone-task:hover::after{
+    content: attr(data-content);
+    display: inline-block;
+    background-color: gold;
+    width: auto;
+    height: auto;
+    padding: 0 8px;
+    position: relative;
+    left: calc(100% - 8px);
+    top: -2em;
+    transform: rotateZ(0deg);
+}

@@ -116,7 +116,9 @@ window.onload = function(){
                 return aid - bid;
             })[milestone.tasks.length-1];
             // Add element style for milestone
-            $('div[task_id="'+ ganttdata.filter(entry => entry._data.id == taskid)[0].id +'"').addClass('milestone-task');
+            var el = $('div[task_id="'+ ganttdata.filter(entry => entry._data.id == taskid)[0].id +'"');
+            el.addClass('milestone-task');
+            el.attr('data-content', milestone.name);
         });
     });
 
