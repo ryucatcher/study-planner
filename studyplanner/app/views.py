@@ -108,6 +108,7 @@ def createTask(request, id=None):
     context = {
         'navigation': navigation_list,
         'active': 'Add Task',
+        'semesters': _getAllSemesters(request),
         'user': getUser(request),
         'modelData': json.dumps(jsonModules),
         'predefinedData':json.dumps(jsonPredefined),
@@ -541,6 +542,7 @@ def ganttchart(request):
     context = {
         'navigation': navigation_list,
         'active': 'Gantt Chart',
+        'semesters': _getAllSemesters(request),
         'user': getUser(request),
         'ganttdata': json.dumps(ganttdata)
     }
