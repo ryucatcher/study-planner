@@ -94,10 +94,10 @@
             </div>
             </a>
             {% endfor %}
-            <div class="add-button" style="margin-top:10px;">
+            <a href="{% url 'createTask-assessment' id=assessment.uid %}"  class="add-button" style="margin-top:10px;">
                 <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                 Add new task
-            </div>
+            </a>
             <div class="label-bar">
                 Milestones
                 <div class="add-button" onclick="addMilestone()">

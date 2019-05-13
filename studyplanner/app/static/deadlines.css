@@ -159,6 +159,7 @@ a:hover {
 }
 .add-button:hover{
     background-color: rgb(57, 61, 72);
+    color: white;
 }
 .add-icon{
     height: 24px;
