@@ -30,7 +30,7 @@ window.onload = function(){
             aSelector.options[aSelector.options.length] = new Option(a.name, a.id);
         }
     }
-
+// If creating task from an assessment -> preselecting the option and disabling the select box
     if(predefinedData.assessmentid !='none'){
         for(i = moduleSelector.options.length - 1 ; i >= 0 ; i--)
         {
