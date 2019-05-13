@@ -95,13 +95,13 @@ def createTask(request, id=None):
         try:
             uuid.UUID(id)
         except:
-            return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+            return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
         try:
             assessment=Assessment.objects.get(pk=id)
         except Assessment.DoesNotExist:
-            return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+            return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
         if assessment.module.semester.user != user:
-            return render(request, 'badrequest.html', _badRequestContext("You don't have permission to view this page."))
+            return render(request, 'badrequest.html', _badRequestContext(request,"You don't have permission to view this page."))
         jsonPredefined = {'modulecode':assessment.module.code,'assessmentid':str(assessment.uid)}
 
 
@@ -336,13 +336,13 @@ def assessment(request, id=None):
     try:
         uuid.UUID(id)
     except:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     try:
         assessment=Assessment.objects.get(pk=id)
     except Assessment.DoesNotExist:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     if assessment.module.semester.user != user:
-        return render(request, 'badrequest.html', _badRequestContext("You don't have permission to view this page."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"You don't have permission to view this page."))
     tasks = list()
     milestones = list()
     for t in assessment.studytask_set.all():
@@ -387,13 +387,13 @@ def task(request, id=None):
     try:
         uuid.UUID(id)
     except:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     try:
         task=StudyTask.objects.get(pk=id)
     except StudyTask.DoesNotExist:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     if task.assessment.module.semester.user != user:
-        return render(request, 'badrequest.html', _badRequestContext("You don't have permission to view this page."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"You don't have permission to view this page."))
     activities = list()
     notes = list()
     requiredTasks = list()
@@ -449,13 +449,13 @@ def activity(request, id=None):
     try:
         uuid.UUID(id)
     except:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     try:
         activity=StudyActivity.objects.get(pk=id)
     except StudyActivity.DoesNotExist:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     if activity.tasks.all()[0].assessment.module.semester.user != user:
-        return render(request, 'badrequest.html', _badRequestContext("You don't have permission to view this page."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"You don't have permission to view this page."))
     notes = list()
     tasks = list()
     options = list()
@@ -556,13 +556,13 @@ def milestone(request, id=None):
     try:
         uuid.UUID(id)
     except:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     try:
         milestone=Milestone.objects.get(pk=id)
     except Milestone.DoesNotExist:
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     if milestone.assessment.module.semester.user != user:
-        return render(request, 'badrequest.html', _badRequestContext("You don't have permission to view this page."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"You don't have permission to view this page."))
     tasks = list()
     options = list()
     for t in milestone.requiredTasks.all():
@@ -634,7 +634,7 @@ def moduleInformation(request):
     # semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
     semester = user.activeSemester
     if not Module.objects.filter(code=code,semester=semester).exists():
-        return render(request, 'badrequest.html', _badRequestContext("The page does not exist."))
+        return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
     module = Module.objects.filter(code=code,semester=semester)[0]
     name = module.name
     desc = module.description
@@ -667,8 +667,9 @@ def moduleInformation(request):
     }
     return render(request, 'moduleInformation.html', context)
 
-def _badRequestContext(message):
+def _badRequestContext(request,message):
     context = { 'navigation': navigation_list,
                 'active': 'Deadlines',
+                'semesters': _getAllSemesters(request),
                 'message': message }
     return context

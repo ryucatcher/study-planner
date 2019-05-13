@@ -67,6 +67,8 @@ function cancelChangeSemester(){
 }
 
 function openSettings(){
-    var CSdisplay = document.getElementById("settings-menu");
-    CSdisplay.style.display = "block";
+    var settingsMenu = document.getElementById("settings-menu");
+    if(settingsMenu.style.display == "none")
+        settingsMenu.style.display = "block";
+    else settingsMenu.style.display = "none";
 }
