@@ -12,7 +12,7 @@
     <body>
         {% include "dashboard.html" %} <!-- Includes the side panel within the modules page -->
         <div class="dashboard-content">
-            <h1 id="title">Modules<br><br></h1>
+            <h1 class="display-4" id="title">Modules<br><br></h1>
             <div class="card-columns">
                 <!-- Iterates through the modules list in views.py and creates a card for each one -->
                 {% for module in modules %}
