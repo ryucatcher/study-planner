@@ -15,7 +15,8 @@
 </head>
 <body>
     {% include "dashboard.html" %}
-    <div class = "background" >
+    <div class="dashboard-content">
+        <div class = "background" >
             <div id= "forms">
             <form class="needs-validation" action="/processtask/" method="POST">
                 {% csrf_token %}
@@ -59,9 +60,7 @@
                         </form>
           
         </div>
-    </div>  
-
-   
-    
+    </div>
+    </div>
 </body>
 </html>

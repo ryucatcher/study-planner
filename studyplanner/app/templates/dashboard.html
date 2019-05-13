@@ -22,20 +22,33 @@
             {% endfor %}
         </ul>
     </div>
-    <div onclick="changeSemester()">Change Semester</div>
     <div class="dashboard-sub dashboard-control">
         <div class="dashboard-control-container">
             <ul>
                 <li class="dashboard-control-list">
-                    <form id="upload-hubfile-form" method="POST" action="/uploadhubfile/" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="hubfile" id="hubfile-input" class="nodisplay" />
-                        <button id="hubinput-button" type="button" onclick="uploadHubfile()">
-                            <img src="{% static "/img/icon_open.png" %}" alt="Open File" />
-                        </button>
-                    </form>
+                    <button id="settings-button" type="button" onclick="openSettings()">
+                        <img id="set-img" src="{% static "/img/icon_settings.png" %}" alt="Settings"/>
+                    </button>
                 </li>
             </ul>
+            <div id="settings-menu">
+                <ul>
+                    <li class="settings-menu-list">
+                        <button id="change-button" type="button" onclick="changeSemester()">
+                            <img src="{% static "/img/icon_change.png" %}" alt="Change" /> Change Semester
+                        </button>
+                    </li>
+                    <li class="settings-menu-list">
+                        <form id="upload-hubfile-form" method="POST" action="/uploadhubfile/" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" name="hubfile" id="hubfile-input" class="nodisplay" />
+                            <button id="hubinput-button" type="button" onclick="uploadHubfile()">
+                                <img src="{% static "/img/icon_open.png" %}" alt="Open File" /> Upload new semester
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

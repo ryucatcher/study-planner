@@ -8,3 +8,12 @@
 .nodisplay{
     display: none;
 }
+
+.dashboard-content {
+    width: auto;
+    background-color: rgb(230, 230, 230);
+    overflow: auto;
+    height: 100vh;
+    position: relative;
+    overflow-y: auto;
+}

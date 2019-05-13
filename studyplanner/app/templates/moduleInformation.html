@@ -11,6 +11,7 @@
 
     <body>
         {% include "dashboard.html" %} <!-- Includes the side panel within the modules page -->
+        <div class="dashboard-content">
             <div id="box">
                 <div id="summary">
                     <h2>{{name}}</h2>
@@ -36,7 +37,6 @@
                     {% endfor %}
                 </div>
             </div>
-        
-            
+        </div>
     </body>
 </html>

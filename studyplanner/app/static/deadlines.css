@@ -11,8 +11,9 @@ a:hover {
     width: auto;
     background-color: rgb(230, 230, 230);
     overflow: auto;
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
+    overflow-y: auto;
 }
 
 /* Deadlines View */
