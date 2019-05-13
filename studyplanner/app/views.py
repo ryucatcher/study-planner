@@ -225,7 +225,10 @@ def dashboard(request):
         'semesters': _getAllSemesters(request),
         'csrf': csrf.get_token(request)
     }
-    return render(request, 'dashboardtest.html', context)
+    if len(SemesterStudyProfile.objects.filter(user=getUser(request))) == 0:
+        return render(request, 'uploadssp.html', context)
+    else:
+        return redirect('/deadlines')
 
 def _createSemesterStudyProfile(request, content, userid):
     user = getUser(request)

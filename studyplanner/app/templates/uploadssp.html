@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Dashboard</title>
+    {% include "common_head.html" %}
+</head>
+<body>
+    <div class="content">
+        {% include "dashboard.html" %}
+        <div class="center-content">
+            <h2 class="display-3"> There's nothing here...</h2>
+            <form id="upload-hubfile-form" method="POST" action="/uploadhubfile/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="hubfile" id="hubfile-input" class="nodisplay" />
+                <button id="hubinput-button" type="button" onclick="uploadHubfile()" class="btn btn-primary">
+                    Upload Hub File
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
