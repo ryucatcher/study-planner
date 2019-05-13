@@ -74,7 +74,7 @@ def _ut_create_studytask():
         print('StudyTask was not added to database.')
         success = False
     if t.duration.days != 3:
-        print('StudyTask duration is ' + t.duration.days + '. Expected 3.')
+        print('StudyTask duration is ' + str(t.duration.days) + '. Expected 3.')
         success = False
     t.delete()
     return success
