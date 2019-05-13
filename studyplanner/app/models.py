@@ -13,6 +13,7 @@ class User(models.Model):
     firstname = models.CharField(max_length=24)
     lastname = models.CharField(max_length=24)
     password = models.CharField(max_length=128)
+    displaypic = models.CharField(max_length=128,default='display.png')
     activeSemester = models.ForeignKey("SemesterStudyProfile", on_delete=models.SET_NULL,null=True,related_name="activeSemester")
     def hasSemesterStudyProfile(self):
         semesters = SemesterStudyProfile.filter(user=self)

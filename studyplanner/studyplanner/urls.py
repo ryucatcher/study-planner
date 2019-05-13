@@ -47,6 +47,7 @@ urlpatterns = [
     path('logout/', views.logout),
     path('uploadhubfile/', views.uploadHubFile),
     path('processtask/', views.processTask),
+    path('uploaddisplaypic/',views.uploadDisplayPic),
 
 
     # API urls
