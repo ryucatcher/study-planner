@@ -530,7 +530,7 @@ def ganttchart(request):
                 t['duration'] = task.duration.days
                 t['dependencies'] = []
                 for dependency in task.requiredTasks.all():
-                    t['dependencies'].append(str(dependency))
+                    t['dependencies'].append(str(dependency.uid))
                 a['tasks'].append(t)
             milestones = Milestone.objects.filter(assessment=assessment)
             for milestone in milestones:

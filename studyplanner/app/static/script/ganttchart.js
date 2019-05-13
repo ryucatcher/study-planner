@@ -1,6 +1,7 @@
 const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 var ganttdata;
+var ganttlinks;
 
 function daysBetween(a, b) {
   const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
@@ -24,6 +25,9 @@ window.onload = function(){
     gantt.init('chart');
 
     ganttdata = [];
+    ganttlinks = [];
+    linkid = 0;
+    linkdata = [];
 
     // Convert gantt model data
     var id = 0;
@@ -53,13 +57,31 @@ window.onload = function(){
 
             var dateOffset = 0;
 
-            a.tasks.forEach((t)=>{
+            var sorted = a.tasks.sort((a, b)=>{
+                if(a.dependencies.includes(b.id)){
+                    return -1;
+                }else if(b.dependencies.includes(a.id)){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            });
+
+            sorted = sorted.reverse()
+
+            sorted.forEach((t)=>{
                 id++;
                 var taskID = id;
                 var start = new Date(a.startDate);
                 start.setDate(start.getDate() + dateOffset);
                 var deadline = new Date(start)
                 deadline.setDate(deadline.getDate() + t.duration);
+                t.dependencies.forEach((d)=>{
+                    linkdata.push({
+                        source: taskID,
+                        targetUID: d
+                    });
+                });
                 ganttdata.push({
                     id: taskID, _data:t, text: t.name, start_date: start, start: start.toLocaleDateString('en-GB'), deadline: deadline.toLocaleDateString('en-GB'), duration: t.duration, parent: assessmentID, progress: 0, open: true, readonly: true
                 });
@@ -69,14 +91,30 @@ window.onload = function(){
 
     }
 
+    linkdata.forEach((data)=>{
+        linkid++;
+        var targetid = ganttdata.filter((entry)=> entry._data.id == data.targetUID)[0].id;
+        ganttlinks.push({
+            id: linkid,
+            source: targetid,
+            target: data.source,
+            type: "0"
+        });
+    });
+
     gantt.parse({
-        data: ganttdata
+        data: ganttdata,
+        links: ganttlinks
     });
 
     // Add milestones
     ganttdata.filter((entry) => Array.isArray(entry._data.milestones)).filter((entry)=>entry._data.milestones.length > 0).forEach((entry)=>{
         entry._data.milestones.forEach((milestone)=>{
-            var taskid = milestone.tasks[milestone.tasks.length-1];
+            var taskid = milestone.tasks.sort((a,b) => {
+                var aid = ganttdata.filter((e)=>e._data.id == a)[0].id;
+                var bid = ganttdata.filter((e)=>e._data.id == b)[0].id;
+                return aid - bid;
+            })[milestone.tasks.length-1];
             // Add element style for milestone
             $('div[task_id="'+ ganttdata.filter(entry => entry._data.id == taskid)[0].id +'"').addClass('milestone-task');
         });
