@@ -51,7 +51,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def createTask(request):
+def createTask(request, id=None):
     if not isLoggedIn(request):
         return redirect('/')
 
@@ -90,13 +90,36 @@ def createTask(request):
                 jsonAssessment['tasks'].append(jsonTask)
             jsonModules[module.code]['assessments'].append(jsonAssessment)
     
+    jsonPredefined = {'modulecode':'none','assessmentid':'none'}
+    if id!=None:
+        try:
+            uuid.UUID(id)
+        except:
+            context = { 'navigation': navigation_list,
+                'active': 'Deadlines',
+                'message': "The page does not exist." }
+            return render(request, 'badrequest.html', context)
+        try:
+            assessment=Assessment.objects.get(pk=id)
+        except Assessment.DoesNotExist:
+            context = { 'navigation': navigation_list,
+                'active': 'Deadlines',
+                'message': "The page does not exist." }
+            return render(request, 'badrequest.html', context)
+        if assessment.module.semester.user != user:
+            context = { 'navigation': navigation_list,
+                'active': 'Deadlines',
+                'message': "You don't have permission to view this page" }
+            return render(request, 'badrequest.html', context)
+        jsonPredefined = {'modulecode':assessment.module.code,'assessmentid':str(assessment.uid)}
 
 
     context = {
         'navigation': navigation_list,
         'active': 'Add Task',
         'user': getUser(request),
-        'modelData': json.dumps(jsonModules)
+        'modelData': json.dumps(jsonModules),
+        'predefinedData':json.dumps(jsonPredefined),
     }
     return render(request, 'createTask.html', context)
 
@@ -644,29 +667,39 @@ def module(request):
 
 def moduleInformation(request):
     #Used to get module name, code and description from URL parameter
-    name = request.GET['name']
+    #name = request.GET['name']
     code = request.GET['code']
-    desc = request.GET['desc']
+    #desc = request.GET['desc']
+
+    
 
     user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
     # semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
     semester = user.activeSemester
-    assessments = semester.allAssessments()
+    if not Module.objects.filter(code=code,semester=semester).exists():
+        context = { 'navigation': navigation_list,
+                'active': 'Deadlines',
+                'message': "The page does not exist." }
+        return render(request, 'badrequest.html', context)
+    module = Module.objects.filter(code=code,semester=semester)[0]
+    name = module.name
+    desc = module.description
+    assessments = module.assessment_set.all()
     completeList = list()
 
     for assessment in assessments:
-        if(assessment.module.code == code):
+        # if(assessment.module.code == code):
 
-            assessmentType = assessment.get_type_a_display()
-            assessmentName = assessment.name
-            assessmentWeight = assessment.weight
-            assessmentStart = assessment.startDate
-            assessmentDeadline = assessment.deadline
+        assessmentType = assessment.get_type_a_display()
+        assessmentName = assessment.name
+        assessmentWeight = assessment.weight
+        assessmentStart = assessment.startDate
+        assessmentDeadline = assessment.deadline
 
-            items = {'assessmentName': assessmentName, 'assessmentWeight': assessmentWeight, 
-                    'assessmentStart': assessmentStart, 'assessmentDeadline': assessmentDeadline, 'assessmentid' : assessment.uid}
-            print(assessmentDeadline)
-            completeList.append(items)
+        items = {'assessmentName': assessmentName, 'assessmentWeight': assessmentWeight, 
+                'assessmentStart': assessmentStart, 'assessmentDeadline': assessmentDeadline, 'assessmentid' : assessment.uid}
+        print(assessmentDeadline)
+        completeList.append(items)
 
     
     context = {
