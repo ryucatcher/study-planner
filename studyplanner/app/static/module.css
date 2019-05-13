@@ -5,7 +5,9 @@
     /* border-style: solid; */
     align-items: center;
     justify-content: space-around; /*Adds margin in between the cards*/
+    margin: auto;
     height: 80vh;
+    width: 70vw;
 }
 
 .card {
