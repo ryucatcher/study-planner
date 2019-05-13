@@ -56,6 +56,22 @@ function uploadHubfile(){
     fileinput.click();
 }
 
+function uploadDisplay(){
+    var fileinput = $('#displaypic-input');
+    fileinput.change(e => {
+        var file = e.target.files[0];
+        if(file.type !== "image/png" && file.type !== "image/jpeg"){
+            console.log('Wrong file format.');
+            $('#change-button').tooltip('show');
+            setTimeout(()=>{$('#change-button').tooltip('hide');}, 5000);
+        }else{
+            $('#change-button').tooltip('hide');
+            $('#change-diplay-pic').submit();
+        }
+    });
+    fileinput.click();
+}
+
 function changeSemester(){
     var CSdisplay = document.getElementById("change-semester");
     CSdisplay.style.display = "block";

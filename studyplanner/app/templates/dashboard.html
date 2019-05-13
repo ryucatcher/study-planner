@@ -3,7 +3,7 @@
 <div class="dashboard-container">
     <div class="user-panel dashboard-sub">
         <div class="user-picture-container">
-            <img src="{% static "/img/display.png" %}" alt="User Profile Picture" />
+            <img src="{% static "/img/user/"|add:user.displaypic %}" alt="User Profile Picture" />
         </div>
         <div class="user-info-container">
             <p class="user-name">{{ user.firstname|default:"Your" }}&nbsp;{{ user.lastname|default:"Name" }}</p>
@@ -37,6 +37,17 @@
             </ul>
             <div id="settings-menu">
                 <ul>
+                    <li class="settings-menu-list">
+                            <form method = "POST" id="change-diplay-pic" action= "/uploaddisplaypic/" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="file" name="displaypic" id="displaypic-input" class="nodisplay" />
+                                <button id="change-button" type="button" onclick="uploadDisplay()">
+                                        <img src="{% static "/img/icon_image.png" %}" alt="Display"/> Change Display Pic
+                                </button>
+                               
+                            </form>
+                            
+                    </li>
                     <li class="settings-menu-list">
                         <button id="change-button" type="button" onclick="changeSemester()">
                             <img src="{% static "/img/icon_change.png" %}" alt="Change" /> Change Semester

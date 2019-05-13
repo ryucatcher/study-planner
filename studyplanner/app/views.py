@@ -6,8 +6,9 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.middleware import csrf
 from django.shortcuts import redirect
+from django.core.files.storage import default_storage
 import uuid
-
+from studyplanner.settings import *
 import json
 from datetime import datetime
 
@@ -264,6 +265,22 @@ def uploadHubFile(request):
         _createSemesterStudyProfile(request, contentJSON, userid)
 
     return redirect('/dashboard')
+    
+def uploadDisplayPic(request):
+    # If user is not logged in, redirect to login page
+    if not isLoggedIn(request):
+        return redirect('/')
+    userid = request.COOKIES['userid']
+    if request.method == 'POST':
+        file = request.FILES['displaypic']
+        filename = default_storage.save('app/static/img/user/' + file.name, file)
+        u = getUser(request)
+        u.displaypic = file.name
+        u.save()
+        print(filename)
+
+    return redirect('/dashboard')
+    
 
 def _getAllSemesters(request):
     userid = request.COOKIES['userid']
