@@ -11,22 +11,23 @@
 
     <body>
         {% include "dashboard.html" %} <!-- Includes the side panel within the modules page -->
-
-        <h1 id="title">Modules<br><br></h1>
-        <div class="card-columns">
-            <!-- Iterates through the modules list in views.py and creates a card for each one -->
-            {% for module in modules %}
-                    <div class="card">
-                        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                        <div class="card-body">
-                            <h5 class="card-title">{{module.0}}</h5>
-                            <p class="card-text">{{module.1}}</p>
-                            <a href="moduleInformation/?code={{ module.1 }}" 
-                                class="btn btn-primary button">More Information</a>
+        <div class="dashboard-content">
+            <h1 id="title">Modules<br><br></h1>
+            <div class="card-columns">
+                <!-- Iterates through the modules list in views.py and creates a card for each one -->
+                {% for module in modules %}
+                        <div class="card">
+                            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                            <div class="card-body">
+                                <h5 class="card-title">{{module.0}}</h5>
+                                <p class="card-text">{{module.1}}</p>
+                                <a href="moduleInformation/?code={{ module.1 }}" 
+                                    class="btn btn-primary button">More Information</a>
+                            </div>
                         </div>
-                    </div>
-                
-            {% endfor %}
+                    
+                {% endfor %}
+            </div>
         </div>
     </body>
 </html>

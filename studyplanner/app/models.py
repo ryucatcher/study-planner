@@ -79,7 +79,7 @@ class StudyTask(models.Model):
     description = models.CharField(max_length=1000)
     duration = models.DurationField()
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-    requiredTasks = models.ManyToManyField("self")
+    requiredTasks = models.ManyToManyField("self", symmetrical=False)
     def progress(self):
         activities = self.studyactivity_set.all()
         size = activities.count()

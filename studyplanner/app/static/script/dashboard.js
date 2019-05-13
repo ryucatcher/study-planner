@@ -20,8 +20,17 @@ $(document).ready(function(){
             }
         });
     });
-
+    $(document).on('click', function(e) {
+        if (e.target.id != 'settings-menu' && e.target.id != 'settings-button'
+        && e.target.id != 'set-img' /*&& e.target.id != 'hubinput-button'
+        && e.target.id != 'change-button'*/) {
+            $('#settings-menu').hide();
+            console.log("hideee " + e.target.id)
+        }
+    });
 });
+
+
 
 window.onload = function(){
     $('#hubinput-button').tooltip({
@@ -55,4 +64,11 @@ function changeSemester(){
 function cancelChangeSemester(){
     var CSdisplay = document.getElementById("change-semester");
     CSdisplay.style.display = "none";
+}
+
+function openSettings(){
+    var settingsMenu = document.getElementById("settings-menu");
+    if(settingsMenu.style.display == "none")
+        settingsMenu.style.display = "block";
+    else settingsMenu.style.display = "none";
 }

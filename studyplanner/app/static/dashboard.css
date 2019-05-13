@@ -97,6 +97,7 @@
     margin-top: auto;
     display: flex;
     justify-content: flex-end;
+    position:relative;
 }
 
 .dashboard-control-container ul{
@@ -109,13 +110,46 @@
 
 .dashboard-control-list button{
     background: transparent;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     border: none;
     transition: 0.1s;
 }
 
 .dashboard-control-list button:hover{
-    border: 1px solid white;
+    /* border: 1px solid white; */
+    background-color: rgba(30, 30, 30, 0.1);
+}
+
+#settings-menu{
+    display:none;
+    position: absolute;
+    bottom: 32px;
+    right:0px;
+
+}
+
+.settings-menu-list{
+    width:220px;
+    background-color: rgb(39, 42, 51);
+    color:white;
+}
+
+.settings-menu-list button{
+    background: transparent;
+    border: none;
+    width:100%;
+    color:white;
+    padding: 10px 5px 10px 5px;
+    text-align: left;
+}
+
+.settings-menu-list button:hover{
+    background-color: rgba(30, 30, 30, 0.6);
+}
+
+.settings-menu-list img{
+    height: 32px;
+    padding: 0px 0px 0px 3px;
 }
 
 .dashboard-control-list img{
@@ -135,15 +169,19 @@
 }
 #change-semester-form{
     position: fixed;
-    width: 400px;
+    width: 500px;
     height: 180px;
     top: 50%;
     left: 50%;
     margin-top: -90px; /* Negative half of height. */
-    margin-left: -200px; /* Negative half of width. */
+    margin-left: -250px; /* Negative half of width. */
     background-color: rgb(220, 220, 220);
     padding:10px 30px;
 }
+#change-semester-form select{
+    min-width: 200px;
+}
+
 .save-button{
     font-size: 14px;
     background-color: #0066ff;
