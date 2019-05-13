@@ -14,7 +14,11 @@
         <ul>
             {% for nav in navigation %}
             <li>
+                {% if disable_nav and nav.title != 'Logout' %}
+                <a href="#" {% if active == nav.title %} class="active" {% endif %}>
+                {% else %}
                 <a href="{{ nav.url }}" {% if active == nav.title %} class="active" {% endif %}>
+                {% endif %}
                     <img src="{% static nav.icon %}" alt="Icon">
                     <h2>{{ nav.title }}</h2>
                 </a>

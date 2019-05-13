@@ -220,10 +220,11 @@ def dashboard(request):
         return redirect('/')
     context = {
         'navigation': navigation_list,
-        'active': 'Deadlines',
+        'active': '',
         'user': getUser(request),
         'semesters': _getAllSemesters(request),
-        'csrf': csrf.get_token(request)
+        'csrf': csrf.get_token(request),
+        'disable_nav': True
     }
     if len(SemesterStudyProfile.objects.filter(user=getUser(request))) == 0:
         return render(request, 'uploadssp.html', context)
