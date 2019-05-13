@@ -164,7 +164,7 @@ def edit_assessment_startdate(request, id=None):
         return HttpResponse("You are not logged in.",status=400)
     if request.method == 'POST':
         date_str = request.POST['startdate']
-        date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
         assessment=Assessment.objects.get(pk=id)
         userid = request.COOKIES['userid']
         user = User.objects.get(userid=userid)
@@ -182,7 +182,7 @@ def edit_assessment_deadline(request, id=None):
         return HttpResponse("You are not logged in.",status=400)
     if request.method == 'POST':
         date_str = request.POST['deadline']
-        date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
         assessment=Assessment.objects.get(pk=id)
         userid = request.COOKIES['userid']
         user = User.objects.get(userid=userid)
@@ -333,7 +333,7 @@ def add_note(request, id=None):
         user = User.objects.get(userid=userid)
         if task.assessment.module.semester.user != user:
             return HttpResponse("You do not have permission.",status=400)
-        new_note=task.note_set.create(notes=note_text,date=datetime.datetime.now())
+        new_note=task.note_set.create(notes=note_text,date=datetime.now())
         data = {
             'id' : str(new_note.uid),
             'note' : new_note.notes,
@@ -372,7 +372,7 @@ def add_note_act(request, id=None):
         user = User.objects.get(userid=userid)
         if activity.tasks.all()[0].assessment.module.semester.user != user:
             return HttpResponse("You do not have permission.",status=400)
-        new_note=activity.note_set.create(notes=note_text,date=datetime.datetime.now())
+        new_note=activity.note_set.create(notes=note_text,date=datetime.now())
         data = {
             'id' : str(new_note.uid),
             'note' : new_note.notes,

@@ -32,6 +32,7 @@ urlpatterns = [
     path('deadlines/',views.deadlines),
     path('ganttchart/', views.ganttchart),
     url(r'^assessment/(?P<id>[-@\w]+)/$', views.assessment,name='assessment'),
+    url(r'^assessment/(?P<id>[-@\w]+)/createTask/$', views.createTask,name='createTask-assessment'),
     url(r'^task/(?P<id>[-@\w]+)/$', views.task,name='task'),
     url(r'^activity/(?P<id>[-@\w]+)/$', views.activity,name='activity'),
     url(r'^milestone/(?P<id>[-@\w]+)/$', views.milestone,name='milestone'),

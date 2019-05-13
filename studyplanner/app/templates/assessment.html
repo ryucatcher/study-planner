@@ -79,10 +79,10 @@
             </div>
             <div class="label-bar">
                 Tasks
-                <div class="add-button">
+                <a href="{% url 'createTask-assessment' id=assessment.uid %}" class="add-button">
                     <img src="{% static "img/icon_add.png" %}" alt="icon" class="add-icon">
                     Add new task
-                </div>
+                </a>
             </div>
             {% for task in assessment.tasks %}
             <a href="{% url 'task' id=task.id %}">

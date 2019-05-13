@@ -30,4 +30,34 @@ window.onload = function(){
             aSelector.options[aSelector.options.length] = new Option(a.name, a.id);
         }
     }
+
+    if(predefinedData.assessmentid !='none'){
+        for(i = moduleSelector.options.length - 1 ; i >= 0 ; i--)
+        {
+            if(moduleSelector.options[i].value == predefinedData.modulecode){
+                moduleSelector.options[i].setAttribute("selected", "selected");
+            }
+        }
+        moduleSelector.disabled = true;
+        removeOptions(aSelector);
+        var code = moduleSelector.options[moduleSelector.selectedIndex].value;
+
+        for(i in modelData[code].assessments){
+            var a = modelData[code].assessments[i];
+            aSelector.options[aSelector.options.length] = new Option(a.name, a.id);
+        }
+        for(i = aSelector.options.length - 1 ; i >= 0 ; i--)
+        {
+            if(aSelector.options[i].value == predefinedData.assessmentid){
+                aSelector.options[i].setAttribute("selected", "selected");
+            }
+        }
+        aSelector.disabled = true;
+    }
 }
+
+jQuery(function ($) {        
+    $('form').bind('submit', function () {
+      $(this).find(':input').prop('disabled', false);
+    });
+  });
