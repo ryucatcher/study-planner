@@ -250,7 +250,7 @@ def edit_task_duration(request, id=None):
         diff=deadline-start
         if duration_days>diff.days:
             return HttpResponse("Invalid entry: The number of days must not be superior the number of days between the start date and the deadline (" + str(diff.days) + ").",status=400)
-        task.duration = datetime.timedelta(days=duration_days)
+        task.duration = timedelta(days=duration_days)
         task.save()
         return HttpResponse('')
 
