@@ -295,10 +295,18 @@ def deadlines(request):
         deadline = dl.deadline
         progress = dl.progress()
         p = int(progress*100)
-        item = {'name':dl.name,'date':deadline,'progress':p,'id':dl.uid}
-
         diff_date = deadline - today
         diff_days = diff_date.days
+        if diff_days > 7:
+            weeks = int(diff_days/7)
+            dur = str(weeks) + ' w'
+            days = diff_days - weeks*7
+            if days>0:
+                dur = dur + ' ' + str(days) + ' d'
+        else:
+            dur = str(diff_days) + ' d'
+        item = {'name':dl.name,'date':deadline,'progress':p,'id':dl.uid,'duration':dur}
+
         # Deadline has passed and has not been completed yet -> missed
         if deadline < today and progress<1.0:
             missed.append(item)
