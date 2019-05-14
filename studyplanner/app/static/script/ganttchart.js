@@ -108,18 +108,20 @@ window.onload = function(){
     });
 
     // Add milestones
-    ganttdata.filter((entry) => Array.isArray(entry._data.milestones)).filter((entry)=>entry._data.milestones.length > 0).forEach((entry)=>{
-        entry._data.milestones.forEach((milestone)=>{
-            var taskid = milestone.tasks.sort((a,b) => {
-                var aid = ganttdata.filter((e)=>e._data.id == a)[0].id;
-                var bid = ganttdata.filter((e)=>e._data.id == b)[0].id;
-                return aid - bid;
-            })[milestone.tasks.length-1];
-            // Add element style for milestone
-            var el = $('div[task_id="'+ ganttdata.filter(entry => entry._data.id == taskid)[0].id +'"');
-            el.addClass('milestone-task');
-            el.attr('data-content', milestone.name);
+    setInterval(()=>{
+        ganttdata.filter((entry) => Array.isArray(entry._data.milestones)).filter((entry)=>entry._data.milestones.length > 0).forEach((entry)=>{
+            entry._data.milestones.forEach((milestone)=>{
+                var taskid = milestone.tasks.sort((a,b) => {
+                    var aid = ganttdata.filter((e)=>e._data.id == a)[0].id;
+                    var bid = ganttdata.filter((e)=>e._data.id == b)[0].id;
+                    return aid - bid;
+                })[milestone.tasks.length-1];
+                // Add element style for milestone
+                var el = $('div[task_id="'+ ganttdata.filter(entry => entry._data.id == taskid)[0].id +'"');
+                el.addClass('milestone-task');
+                el.attr('data-content', milestone.name);
+            });
         });
-    });
+    }, 1000);
 
 }
