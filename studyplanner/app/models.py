@@ -45,10 +45,6 @@ class Module(models.Model):
     def __str__(self):
         return self.name
 
-#class AssessmentType(Enum):
-#    EX = "Exam"
-#    CW = "Coursework"
-
 class Assessment(models.Model):
     ASSESSMENT_TYPES = (
         ('EX', 'Exam'),
@@ -90,12 +86,6 @@ class StudyTask(models.Model):
         return progress
     def __str__(self):
         return self.name
-
-#class Type(Enum):
-#    RE = "Reading"
-#    WR = "Writing"
-#    ST = "Studying"
-#    PR = "Programming"
 
 class StudyActivity(models.Model):
     ACTIVITY_TYPES = (
@@ -150,44 +140,4 @@ class Milestone(models.Model):
         for t in tasks:
             if t.progress()<1.0:
                 reached = False
-        return reached 
-
-#class UserSemesterTable(models.Model):
-#    user = models.ForeignKey(User, on_delete=models.CASCADE)
-#    semester = models.OneToOneField(SemesterStudyProfile, on_delete=models.CASCADE)
-
-#class SemesterModuleTable(models.Model):
-#    semester = models.ForeignKey(SemesterStudyProfile, on_delete=models.CASCADE)
-#    module = models.ForeignKey(Module, on_delete=models.CASCADE)
-
-#class AssessmentTaskTable(models.Model):
-#    assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-#    task = models.OneToOneField(StudyTask, on_delete=models.CASCADE)
-
-#class TaskRequiresTaskTable(models.Model):
-#    task = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
-#    requiredTask = models.ForeignKey(StudyTask, on_delete=models.CASCADE,related_name="requiredTask")
-
-#class TaskActivityTable(models.Model):
-#    task = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
-#    activity = models.ForeignKey(StudyActivity, on_delete=models.CASCADE)
-
-#class TaskNoteTable(models.Model):
-#    task = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
-#    note = models.OneToOneField(Note, on_delete=models.CASCADE)
-
-#class ActivityNoteTable(models.Model):
-#    activity = models.ForeignKey(StudyActivity, on_delete=models.CASCADE)
-#    note = models.OneToOneField(Note, on_delete=models.CASCADE)
-
-#class MilestoneRequiresTaskTable(models.Model):
-#    milestone = models.ForeignKey(Milestone, on_delete=models.CASCADE)
-#    requiredTask = models.ForeignKey(StudyTask, on_delete=models.CASCADE)
-
-#class AssessmentMilestoneTable(models.Model):
-#    assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-#    milestone = models.OneToOneField(Milestone, on_delete=models.CASCADE)
-
-#class ModuleAssessmentTable(models.Model):
-#    module = models.ForeignKey(Module, on_delete=models.CASCADE)
-#    assessment = models.OneToOneField(Assessment, on_delete=models.CASCADE)
+        return reached

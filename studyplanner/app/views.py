@@ -227,9 +227,6 @@ def dashboard(request):
 def _createSemesterStudyProfile(request, content, userid):
     user = getUser(request)
 
-    # Delete existing profile with the same year
-    # SemesterStudyProfile.objects.filter(user=user, year=content['Year']).delete()
-    
     profile = SemesterStudyProfile(year=content['Year'], semester=content['Semester'], user=user)
     profile.save()
     # Add modules to study profile
@@ -626,8 +623,9 @@ def milestone(request, id=None):
     return render(request, 'milestone.html', context)
 
 def module(request):
+    if not isLoggedIn(request):
+        return redirect('/')
     user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
-    # semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
     semester = user.activeSemester
     modules = semester.allModules() #Gets all modules
     completeList = list()
@@ -652,15 +650,12 @@ def module(request):
     return render(request, 'module.html', context)
 
 def moduleInformation(request):
-    #Used to get module name, code and description from URL parameter
-    #name = request.GET['name']
+    if not isLoggedIn(request):
+        return redirect('/')
+    #Used to get module code from URL parameter
     code = request.GET['code']
-    #desc = request.GET['desc']
-
-    
 
     user = User.objects.get(userid=request.COOKIES['userid']) #Gets current user
-    # semester = SemesterStudyProfile.objects.get(user=user) #Gets current semester study profile
     semester = user.activeSemester
     if not Module.objects.filter(code=code,semester=semester).exists():
         return render(request, 'badrequest.html', _badRequestContext(request,"The page does not exist."))
@@ -671,8 +666,6 @@ def moduleInformation(request):
     completeList = list()
 
     for assessment in assessments:
-        # if(assessment.module.code == code):
-
         assessmentType = assessment.get_type_a_display()
         assessmentName = assessment.name
         assessmentWeight = assessment.weight
