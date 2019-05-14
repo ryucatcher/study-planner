@@ -21,9 +21,12 @@
                 {% for deadline in upcoming %}
                     <a href="{% url 'assessment' id=deadline.id %}">
                     <div class="deadlines-entry">
-                    {{ deadline.name }}
+                    <div class="deadlines-first-line">
+                        <div>{{ deadline.name }}</div>
+                        <div>[{{ deadline.duration }}]</div>
+                    </div>
                         <div class="deadlines-date-progress-container">
-                        {{ deadline.date }}
+                        {{ deadline.date }} 
                             <div class="progress-bar">
                             <div class="progress-bar-fill" style="width:{{ deadline.progress }}%"></div>
                             </div>

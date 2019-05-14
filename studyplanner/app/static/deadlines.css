@@ -67,6 +67,12 @@ a:hover {
 .deadlines-entry:hover{
     background-color: rgba(0, 0, 0, 0.1);
 }
+.deadlines-first-line{
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 0px 15px 0px 0px;
+}
 .deadlines-date-progress-container{
     padding: 4px 15px 0px 25px;
     display: flex;
