@@ -38,6 +38,11 @@ window.onload = function(){
         title: 'Error! You must select a study profile file in JSON format.',
         trigger: 'manual'
     })
+    $('#change-button').tooltip({
+        placement: 'top',
+        title: 'Error! You must select an image as your display picture.',
+        trigger: 'manual'
+    })
 }
 
 function uploadHubfile(){
