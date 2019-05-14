@@ -689,6 +689,7 @@ def moduleInformation(request):
         'navigation': navigation_list,
         'active': 'ModuleInformation',
         'semesters': _getAllSemesters(request),
+        'user' : getUser(request),
         'name': name,
         'code': code,
         'desc': desc,
