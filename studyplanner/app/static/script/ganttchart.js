@@ -59,15 +59,13 @@ window.onload = function(){
 
             var sorted = a.tasks.sort((a, b)=>{
                 if(a.dependencies.includes(b.id)){
-                    return -1;
-                }else if(b.dependencies.includes(a.id)){
                     return 1;
+                }else if(b.dependencies.includes(a.id)){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
-
-            sorted = sorted.reverse()
 
             sorted.forEach((t)=>{
                 id++;
