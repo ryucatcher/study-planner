@@ -701,5 +701,6 @@ def _badRequestContext(request,message):
     context = { 'navigation': navigation_list,
                 'active': 'Deadlines',
                 'semesters': _getAllSemesters(request),
+                'user': getUser(request),
                 'message': message }
     return context
